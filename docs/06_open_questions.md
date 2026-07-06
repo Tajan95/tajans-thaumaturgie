@@ -50,6 +50,18 @@ Fehlerfälle sollen bevorzugt emergent entstehen:
 **Noch offen:**  
 Ob zusätzlich abstrakte Misslingen-Modifier für bestimmte Gameplay- oder Simulationssituationen nötig sind.
 
+### OQ-012 — Können Zauber rein vokal oder somatisch gewirkt werden?
+
+**Kategorie:** Syntax / Gameplay / Lore  
+**Status:** Teilweise geklärt durch DD-007
+
+Rein vokale oder rein somatische Zauber ohne physische visuelle Repräsentation sind nicht vorgesehen.
+
+Vokalisierung und Gestik können aber Trigger, Zielhilfe, Timing oder Laufzeitparameter eines bereits physisch repräsentierten Zaubers sein.
+
+**Noch offen:**  
+Wie nah die physische Repräsentation am Zauberer oder Ziel sein muss.
+
 ## Offene Fragen
 
 ### OQ-002 — Welche Form hat ein Zauber intern?
@@ -114,3 +126,31 @@ Jeder ausführbare Zauber braucht eine physische visuelle Repräsentation. Offen
 **Status:** Offen
 
 Ein abstrakt programmierter Zauber muss in eine visuelle Repräsentation übersetzbar sein. Eine visuelle Repräsentation muss in Programm-Logik übersetzbar sein. Offen ist, welche Mindestbedingungen ein Zauber erfüllen muss, um als ausführbar zu gelten.
+
+### OQ-013 — Wo befinden sich Zauberbibliotheken?
+
+**Kategorie:** Syntax / Semantik / Gameplay / Lore  
+**Status:** Offen
+
+Sind Zauberbibliotheken global verfügbar, lokal auf physischen Trägern gespeichert, vom Zauberer gelernt/internalisiert oder hybrid organisiert?
+
+### OQ-014 — Was ist ein Grundprimitive und was ist importpflichtig?
+
+**Kategorie:** Syntax / Semantik  
+**Status:** Offen
+
+Das System muss unterscheiden, welche semantischen Bausteine immer verfügbar sind und welche als Bibliothek, Makro oder Objektdefinition importiert werden müssen.
+
+### OQ-015 — Wie funktionieren Objektdefinitions-Bibliotheken?
+
+**Kategorie:** Semantik / Zielauswahl / Simulation  
+**Status:** Offen
+
+Bibliotheken könnten definieren, was ein Objekt wie „Tür“, „Stein“, „Wasser“ oder „Klinge“ bedeutet. Offen ist, wer entscheidet, ob ein konkretes Ziel zu einer solchen Definition passt.
+
+### OQ-016 — Wie lesbar ist ein Zauber für erfahrene Zauberer?
+
+**Kategorie:** Semantik / Gameplay / Visuelle Sprache  
+**Status:** Offen
+
+Erfahrene Zauberer sollen aus der visuellen Struktur grob erkennen können, was ein Zauber bewirkt. Offen ist, wie viel ohne Analyse sofort erkennbar ist und was Fachwissen oder Tools erfordert.

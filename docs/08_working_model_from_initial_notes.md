@@ -1,9 +1,9 @@
 # 08 — Working Model from Initial Notes
 
-Dieses Dokument fasst das erste mögliche Arbeitsmodell zusammen, das aus den Rohnotizen vom 06.07.2026 ableitbar ist.
+Dieses Dokument fasst das erste Arbeitsmodell zusammen, das aus den Rohnotizen und der ersten Klärung vom 06.07.2026 ableitbar ist.
 
-**Status:** Hypothese / Arbeitsmodell  
-**Nicht endgültig festgelegt.**
+**Status:** Arbeitsmodell  
+**Teilweise durch Designentscheidungen DD-003 bis DD-007 stabilisiert.**
 
 ---
 
@@ -11,7 +11,7 @@ Dieses Dokument fasst das erste mögliche Arbeitsmodell zusammen, das aus den Ro
 
 Magie ist eine regelgebundene Form von Zustandsveränderung.
 
-Sie kann physische, chemische, thermische, räumliche, kognitive oder relationale Zustände verändern, aber nicht kostenlos und nicht beliebig.
+Sie kann physische, chemische, thermische, räumliche, optische, kognitive oder relationale Zustände verändern, aber nicht kostenlos und nicht beliebig.
 
 Vorläufige Form:
 
@@ -23,9 +23,21 @@ Magische Operation = kontrollierte Zustandsänderung unter Energie-, Information
 
 ## 2. Vorläufige Zauberformel
 
+Ein ausführbarer Zauber benötigt mindestens:
+
 ```text
-Zauber = Zielauswahl + Wirkung + Struktur + Modifier + Energiequelle + Kontrollaufwand + Nebenprodukte + Fehlerlogik
+Zauber = Zielauswahl
+       + Wirkung
+       + Struktur
+       + Modifier
+       + Mana-/Energiequelle
+       + Kontrollaufwand
+       + Nebenprodukte
+       + Fehlerlogik
+       + physische visuelle Repräsentation
 ```
+
+Die visuelle Repräsentation kann z. B. eine Schriftrolle, Gravur, Zeichnung, Buchseite, ein Ritualkreis oder ein magisches Tattoo sein.
 
 ## 3. Vorläufiges Kostenmodell
 
@@ -39,22 +51,28 @@ Gesamtkosten = physikalische Mindestarbeit
              + Sicherheits-/Stabilisierungskosten
 ```
 
+Kontrollaufwand ist keine eigene Energiequelle. Er beschreibt mentale, motorische oder syntaktische Belastung bei Konstruktion, Ausführung und Stabilisierung eines Zaubers.
+
 ## 4. Mana als Arbeitsbegriff
 
-Mana wird vorläufig nicht als einfacher Fantasy-Balken behandelt, sondern als Sammelbegriff für bezahlbaren Änderungsaufwand.
+Mana wird als abstrakter Energie-/Arbeitsbegriff verstanden.
 
-Mögliche Untertypen:
+```text
+Mana ≈ magische Arbeitswährung / Mana-Joule
+```
 
-| Typ | Bedeutung | Status |
+Mana ist keine konkrete Substanz. Quellen und Speicher können jedoch sehr konkret sein.
+
+| Begriff | Bedeutung | Status |
 |---|---|---|
-| Bio-Mana | körperliche Leistungsfähigkeit / ATP-nahe Energiequelle | Hypothese |
-| Kognitives Mana | mentale Kontroll- und Verstehensleistung | Hypothese |
-| Externes Mana | gespeicherte Energie in Kristallen, Artefakten oder Ritualen | Hypothese |
-| System-Mana | abstrakte Simulationsressource für Kostenrechnung | Offene Frage |
+| Mana | Abstrakte Einheit magischer Arbeit/Energie | Festgelegt |
+| Bio-Mana-Quelle | Biologische oder chemisch gebundene Energie, die magisch nutzbar gemacht wird | Festgelegt |
+| Externer Mana-Speicher | Nicht-biologisches Medium, z. B. Kristall oder Artefakt | Hypothese |
+| Kognitive Kontrolle | Konzentration, Verständnis und Ausführungsfähigkeit; keine Mana-Art | Festgelegt |
 
 ## 5. Erhaltung und Verluste
 
-Vorläufig gilt:
+Es gilt:
 
 - Energie wird nicht erschaffen oder vernichtet.
 - Masse wird nicht erschaffen oder vernichtet, außer ein expliziter Umwandlungsprozess ist definiert.
@@ -62,9 +80,24 @@ Vorläufig gilt:
 - Jeder Prozess erzeugt Verluste.
 - Abwärme entsteht standardmäßig und muss aktiv gelenkt werden, wenn sie nicht frei/radial abfließen soll.
 
-## 6. Fokusmedien
+Magie darf ungewöhnliche Transformationen durchführen, aber sie muss Quellen, Senken, Kosten und Nebenprodukte berücksichtigen.
 
-Zauberstäbe und ähnliche Werkzeuge wirken vorläufig als Fokusmedien.
+## 6. Unintuitive, aber erlaubte Effekte
+
+Das System verbietet nicht alles, was im Alltag unmöglich wirkt. Entscheidend ist, ob ein Effekt innerhalb der Erhaltungsgesetze formulierbar und bezahlbar ist.
+
+Beispiele:
+
+| Effekt | Vorläufige Interpretation |
+|---|---|
+| Illusion | Lichtprojektion oder Wahrnehmungs-/Signalmanipulation ohne Massenänderung |
+| Blei zu Gold | Nukleare Transformation mit extrem hohen Kosten und Nebenprodukten |
+| Zeitumkehrung | Spekulativ: präzise Umkehrung relevanter Zustands-/Bewegungsvektoren |
+| Zeitverlangsamung | Spekulativ: Manipulation lokaler Prozessraten oder Dynamiken |
+
+## 7. Fokusmedien
+
+Zauberstäbe und ähnliche Werkzeuge wirken als Fokusmedien.
 
 Sie können:
 
@@ -74,7 +107,7 @@ Sie können:
 - externe Mana-Speicher einbinden
 - komplexe Zaubersyntax leichter kontrollierbar machen
 
-## 7. LLM-Interface
+## 8. LLM-Interface
 
 Ein LLM kann als Zauber-Compiler oder Assistent dienen:
 
@@ -84,7 +117,21 @@ Natürlichsprachige Beschreibung → semantische Bausteine → Validierung → a
 
 Das LLM darf keine Grundregeln überschreiben. Die Regelengine bleibt autoritativ.
 
-## 8. Prototypische Umsetzung
+Ein falsch erzeugter oder falsch interpretierter Zauber verhält sich wie fehlerhafter Code: Er kompiliert nicht, läuft nicht, bricht ab oder erzeugt nicht den gewünschten Effekt.
+
+## 9. Makros und Effizienz
+
+Zauber können granular selbst geschrieben oder über Makros bzw. Bibliothekskomponenten erstellt werden.
+
+| Ansatz | Vorteil | Nachteil |
+|---|---|---|
+| Einsteiger-Makro | schnell, robust, bequem | potenzieller Overhead, oft nicht optimal |
+| Experten-Makro | schnell und effizient, wenn gut optimiert | schwer zu erstellen oder zu verstehen |
+| Custom-Zauber | maximal situationsspezifisch, potenziell sehr effizient | langsam, komplex, fehleranfällig |
+
+Effizienz entsteht aus der Struktur des Zaubers, nicht aus einem künstlichen Klassenmodifier.
+
+## 10. Prototypische Umsetzung
 
 Der erste Prototyp sollte in 2D beginnen.
 
@@ -95,12 +142,13 @@ Minimal zu testen:
 - Zielauswahl über Punkt, Radius oder Objekt-ID
 - Kostenmodell mit Mindestarbeit und Verlusten
 - Abwärme oder abstrakter Verlustwert
-- einfache Fehlerfälle
+- einfache emergente Fehlerfälle
+- Übersetzung zwischen abstrakter Zauberstruktur und visueller Darstellung
 
-## 9. Größte offene Entscheidungen
+## 11. Größte offene Entscheidungen
 
-1. Was ist Mana ontologisch?
-2. Wie exakt werden physikalische Erhaltungssätze umgesetzt?
+1. Gibt es eine direkte Mana-Joule-Umrechnung?
+2. Wie exakt werden physikalische Erhaltungssätze im ersten 2D-Prototyp umgesetzt?
 3. Welche Zauberform ist intern am besten: Sequenz, Baum, Graph oder Komponentenobjekt?
-4. Welche Rolle spielen visuelle Zeichen: UI, Lore oder Regelmechanik?
-5. Wie stark darf ein LLM fehlende Details ergänzen?
+4. Wie wird die visuelle Zaubersprache konkret geparst und validiert?
+5. Wann sind abstrakte Misslingen-Modifier nötig, statt Fehler rein emergent entstehen zu lassen?

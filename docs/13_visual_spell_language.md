@@ -22,6 +22,25 @@ Mögliche Träger:
 
 Auch vokalisierte Zauber benötigen eine solche Repräsentation am Körper oder in der Nähe des Zauberers.
 
+## Vokalisierung und Gestik
+
+Vokalisierung und Gestik können Zauber auslösen, parametrisieren oder ausrichten.
+
+Sie ersetzen aber nicht die notwendige physische visuelle Repräsentation.
+
+```text
+Vokalisierung/Gestik = Trigger oder Laufzeitinput
+Physische Repräsentation = notwendige Zauberstruktur
+```
+
+Mögliche Funktionen von Stimme/Gestik:
+
+- Aktivierung eines vorbereiteten Zaubers
+- Auswahl eines Zieles
+- Timing einer Wirkung
+- Modulation von Stärke oder Richtung
+- Bestätigung einer Bedingung
+
 ## Warum?
 
 Magie soll nicht nur unsichtbarer Wille sein, sondern eine prüfbare, manipulierbare und fehleranfällige Programmiersprache.
@@ -68,6 +87,34 @@ Ein abstrakt programmierter Zauber wird durch einen Visualizer in eine gültige 
 Zauberstruktur → Visualizer → Glyphe / Schriftrolle / Tattoo / Ritualkreis
 ```
 
+## Semantische Lesbarkeit
+
+Die visuelle Zaubersprache soll nicht nur dekorativ sein. Sie soll semantisch lesbar sein.
+
+Ein erfahrener Zauberer sollte anhand der visuellen Struktur grob erkennen können:
+
+- Zielklasse
+- Wirkungsart
+- räumliche Struktur
+- zentrale Modifier
+- Energie- oder Bindungsstruktur
+- Bibliotheksreferenzen
+- mögliche Risiken oder Instabilität
+
+Das bedeutet nicht, dass jeder Zauber sofort vollständig verständlich sein muss. Komplexe Zauber können Analyse, Expertise oder Hilfsmittel benötigen.
+
+## Mögliche visuelle Informationsschichten
+
+| Schicht | Funktion |
+|---|---|
+| Grundform | grobe Zauberstruktur, z. B. Kreis, Linie, Knoten, Feld |
+| Kernsymbol | Hauptwirkung oder zentrale Operation |
+| Zielzeichen | Zielklasse oder Zielbindung |
+| Modifier-Ring | Parameter wie Dauer, Richtung, Reichweite, Stärke |
+| Import-/Bibliothekszeichen | Referenz auf externe Definitionen oder Makros |
+| Sicherheits-/Stabilitätszeichen | Schutzlogik, Grenzwerte, Fehlerbehandlung |
+| Energiekopplung | Quelle, Speicher oder Transferpfad |
+
 ## Mindestanforderung an ausführbare Zauber
 
 Ein Zauber ist erst ausführbar, wenn folgende Bedingungen erfüllt sind:
@@ -77,8 +124,9 @@ Ein Zauber ist erst ausführbar, wenn folgende Bedingungen erfüllt sind:
 3. Ziel, Wirkung, Struktur, Modifier, Kosten und Fehlerlogik sind angegeben oder ableitbar.
 4. Die Mana-/Energiequelle ist definiert.
 5. Die Repräsentation ist physisch vorhanden oder gültig erzeugbar.
-6. Die Regelengine kann den Zauber validieren.
-7. Die Simulation kann den Effekt ausführen.
+6. Referenzierte Bibliotheken sind verfügbar oder korrekt eingebettet.
+7. Die Regelengine kann den Zauber validieren.
+8. Die Simulation kann den Effekt ausführen.
 
 ## Offene Fragen
 
@@ -89,3 +137,5 @@ Ein Zauber ist erst ausführbar, wenn folgende Bedingungen erfüllt sind:
 5. Können beschädigte Glyphen teilweise, falsch oder gar nicht wirken?
 6. Wie groß muss eine Repräsentation sein, damit sie ausführbar ist?
 7. Gibt es Materialanforderungen an Schriftrollen, Tattoos oder Gravuren?
+8. Wie werden Bibliotheksreferenzen visuell dargestellt?
+9. Wie viel eines Zaubers kann ein erfahrener Zauberer rein visuell erkennen?

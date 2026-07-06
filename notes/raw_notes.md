@@ -56,3 +56,14 @@ Zusatz-Idee:
 
 - conservation of Energy / mass / Momentum (+any process is lossy and creates waste heat); also conservation of "Mana" as the magical equivalent for energy (maybe also mana waste "heat")?
 ```
+
+## Eingang 2026-07-07
+
+```text
+- rein vokalisierte Zauber? Müssen Zauber immer eine physische Komponente haben (also Speicher-Medium, wie ein Artefakt, Zauberstab, gemalter Zauberkreis etc.) oder können sie auch rein "somatisch" gewirkt werden und dann durch Gestikulation/Vokalisierung getriggert werden?
+
+- da Zauber sehr komplex werden können bzw. aus sehr granularen Komponenten bestehen sind für die Praxis meistens Makros sinnvoll(notwendig, sprich, vorgefertigte Zauber-Komponenten, die in irgendeiner Art "Bibliothek" gespeichert werden können (ähnlich einer Funktionen-Library beim Programmieren), welche irgendwie referenziert/importiert werden kann. Die Frage ist dahingehend ob diese "Bibliotheken" irgendwo global referenziert werden/überall abrufbar sind, oder lokal beim Spieler/Zauberer irgendwo hinterlegt sein müssen (in Form von mitgetragenen Bücher/Schriftrollen/Artefakten), damit ein lokal ausgeführter Zauber auf diese zugreifen kann, damit der Zauber korrekt ausgeführt werden kann?
+(Es wäre alleine schon sehr nützlich, wenn Bibliotheken für das refernzieren physischer Objekte existiert, damit ein Zauber, der auf ein Objekt wirken soll, nicht jedes mal erst in juristischer Feinarbeit definieren muss, was ein gegebenes Objekt überhaupt ist, sondern die Definition einfach aus einer Bibliothek beziehen kann).
+
+- die Zaubersprache sollte eine klare visuelle Repräsentation besitzen (noch nicht sicher ob ein Diagramm, Graph, etc - am ehesten an WicthHat Atelier mit seinen Zauberkreisen orntieren), sodass ein erfahrener Zauberer selbst ohne die direkte Beschreibung der Wirkung eines Zaubers rein visuell erahnen kann, was eine Zaubervisualisierung (oder ein Artefakt, auf das sie eingraviert/gemalt ist) bewirken wird.
+```

@@ -8,15 +8,17 @@ Ein Spannungspunkt ist noch kein harter Widerspruch. Er zeigt aber eine Stelle, 
 
 ## W-001 — Mana als ATP vs. Mana als universelles Energieäquivalent
 
-ATP ist eine biologische Energieeinheit und damit körpergebunden. Ein universelles Mana-Modell müsste aber auch Kristalle, Rituale, Artefakte und möglicherweise Umweltquellen erklären.
+ATP ist eine biologische Energieeinheit und damit körpergebunden. Ein universelles Mana-Modell muss aber auch Kristalle, Rituale, Artefakte und nicht-biologische Energiequellen erklären.
 
-### Mögliche Auflösung
+### Auflösung
 
-ATP ist nicht Mana selbst, sondern nur eine biologische Quelle oder ein biologischer Kanal für Mana.
+ATP bzw. chemisch/biologisch gebundene Energie ist nicht Mana selbst, sondern nur eine mögliche biologische Quelle für magische Arbeit.
+
+Mana wird als abstrakter Energie-/Arbeitsbegriff behandelt.
 
 ### Status
 
-Offen
+Geklärt durch DD-003.
 
 ---
 
@@ -24,13 +26,15 @@ Offen
 
 Das Projektziel spricht davon, beliebige denkbare Zauber formal ausdrücken zu können. Gleichzeitig sollen Energie, Masse und Impuls erhalten bleiben.
 
-### Mögliche Auflösung
+### Auflösung
 
-„Beliebig“ bedeutet kombinatorisch offen, nicht physikalisch unbegrenzt. Jeder ausdrückbare Zauber muss trotzdem gültige Kosten, Quellen, Senken und Nebenprodukte haben.
+„Beliebig“ bedeutet kombinatorisch offen, nicht physikalisch unbegrenzt.
+
+Ein Zauber kann nur dann gültig sein, wenn er Quellen, Senken, Kosten, Nebenprodukte, Zielbezug und Erhaltungssätze erfüllt.
 
 ### Status
 
-Offen
+Geklärt durch DD-004.
 
 ---
 
@@ -38,13 +42,13 @@ Offen
 
 Ein LLM kann unausgesprochene Bedeutungen ergänzen, aber genau dadurch die formale Strenge des Systems untergraben.
 
-### Mögliche Auflösung
+### Auflösung
 
-Das LLM darf nur Vorschläge erzeugen. Eine harte Regelengine validiert anschließend, ob der Zauber regelkonform, bezahlbar und simulierbar ist.
+Das LLM darf nur Hilfsmittel sein. Die Regelengine validiert, ob der Zauber syntaktisch korrekt, semantisch gültig, bezahlbar und simulierbar ist.
 
 ### Status
 
-Hypothese
+Geklärt durch DD-005.
 
 ---
 
@@ -52,13 +56,15 @@ Hypothese
 
 Vorgefertigte Zauberkomponenten könnten ineffizient sein, wenn sie generisch sind. Sie könnten aber effizienter sein, wenn sie von Experten optimiert wurden.
 
-### Mögliche Auflösung
+### Auflösung
 
-Unterscheidung zwischen generischen Komfort-Makros und optimierten Experten-Makros.
+Makro-Effizienz ist emergent.
+
+Generische Einsteiger-Makros enthalten oft Overhead und sind bequem, aber nicht optimal. Experten-Makros können sehr effizient sein, wenn sie gut optimiert sind.
 
 ### Status
 
-Offen
+Geklärt durch DD-006.
 
 ---
 
@@ -72,4 +78,38 @@ Der Körper kann Magie ausführen, aber ein Fokusmedium reduziert Streuung, Verl
 
 ### Status
 
-Hypothese
+Hypothese. Muss im Fokusmedien-Modell weiter ausgearbeitet werden.
+
+---
+
+## W-006 — Physische visuelle Repräsentation vs. abstrakte Datenstruktur
+
+Zauber sollen in-world physisch und visuell existieren. Technisch müssen sie aber als Datenstruktur, Graph oder Programm simuliert werden.
+
+### Auflösung
+
+Beides ist notwendig:
+
+```text
+visuelle Repräsentation ↔ Parser/Visualizer ↔ abstrakte Zauberstruktur ↔ Regelengine
+```
+
+Ein korrekt gezeichneter Zauber muss korrekt in Programmlogik übersetzbar sein. Ein abstrakt programmierter Zauber muss in eine gültige physische/visuelle Repräsentation übersetzbar sein, um in-world ausführbar zu werden.
+
+### Status
+
+Geklärt als Grundentscheidung durch DD-007. Technische Ausarbeitung offen.
+
+---
+
+## W-007 — Emergent falsche Zauber vs. abstrakte Misslingen-Modifier
+
+Fehler sollen bevorzugt emergent aus falscher Syntax, ungültigen Referenzen, fehlender Energie oder instabiler Kontrolle entstehen. Für ein Spiel könnten aber zusätzliche Misslingen-Modifier nützlich sein.
+
+### Mögliche Auflösung
+
+Emergente Fehler sind Standard. Abstrakte Misslingen-Modifier werden nur dort eingeführt, wo Simulation, Gameplay oder UI sonst unnötig schwerfällig werden.
+
+### Status
+
+Offen.

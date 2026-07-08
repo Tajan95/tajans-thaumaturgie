@@ -19,7 +19,7 @@ Dieses Dokument sammelt offene Theorie-, Design- und Simulationsfragen.
 ### OQ-001 — Was ist Magie ontologisch?
 
 **Kategorie:** Theorie  
-**Status:** Teilweise geklärt durch DD-003 und DD-004
+**Status:** Teilweise geklärt durch DD-003, DD-004, DD-009 und DD-010
 
 Magie wird nicht als beliebige Realitätsüberschreibung behandelt. Vorläufig gilt:
 
@@ -27,10 +27,18 @@ Magie wird nicht als beliebige Realitätsüberschreibung behandelt. Vorläufig g
 Magie = regelgebundene Zustandsmanipulation unter Erhaltungssätzen und Mana-/Arbeitskosten
 ```
 
-Mana selbst ist kein konkreter Stoff, sondern ein abstrakter Energie-/Arbeitsbegriff.
+Mana selbst ist kein konkreter Stoff und kein Teilchen. Nach DD-010 ist Mana der nutzbare thaumische Arbeitsfluss aus realen physikalischen Energiepotentialen.
+
+```text
+physikalisches Energiepotential
+→ gekoppeltes thaumisches Potential
+→ Zaubergeometrie koppelt daran
+→ magische Arbeit
+→ physikalische Quelle entlädt sich + Verluste
+```
 
 **Noch offen:**  
-Ob es in-world zusätzlich ein Trägermedium, Teilchenfeld oder eine physikalische Kopplungsschicht für Mana gibt.
+Wie exakt das thaumische Potential quantitativ aus physikalischen Energiepotentialen berechnet wird.
 
 ### OQ-004 — Wie entstehen Fehlerfälle?
 
@@ -46,9 +54,24 @@ Fehlerfälle sollen bevorzugt emergent entstehen:
 - nicht mehr zugreifbare Referenz/Bibliothek/Fokusstruktur
 - nicht abgeführte Verlustwärme
 - instabile Bindung
+- Quellkollaps durch zu schnelle Entladung
+- Speicherbruch durch Überladung
+- Rückkopplung in Fokusmedium, Speicher oder Körper
 
 **Noch offen:**  
 Ob zusätzlich abstrakte Misslingen-Modifier für bestimmte Gameplay- oder Simulationssituationen nötig sind.
+
+### OQ-008 — Gibt es ein Mana-Trägermedium?
+
+**Kategorie:** Theorie / Lore / Simulation  
+**Status:** Teilweise geklärt durch DD-010
+
+Mana ist kein Stoff und kein Teilchen. Das Standardmodell verwendet stattdessen ein thaumisches Feldpotential: eine Kopplungsschicht, über die reale physikalische Energiepotentiale magisch adressierbar werden.
+
+Das thaumische Feld ist keine zusätzliche Energiequelle, sondern eine Übertragungs- und Kopplungsebene.
+
+**Noch offen:**  
+Wie das thaumische Feld in der Simulation konkret parametrisiert wird und ob es räumliche Hintergrundwerte, Materialkopplungen oder nur an Quellen gebundene Potentiale besitzt.
 
 ### OQ-012 — Können Zauber rein vokal oder somatisch gewirkt werden?
 
@@ -79,9 +102,11 @@ Wie Memory-Slots, Bibliotheksversionen und visuelle Importzeichen genau funktion
 ### OQ-019 — Kann Magie Felder und Wellen direkt erzeugen?
 
 **Kategorie:** Theorie / Simulation  
-**Status:** Teilweise geklärt durch DD-009
+**Status:** Teilweise geklärt durch DD-009 und DD-010
 
 Standardmagie ist materiegebunden. Direkte substratlose Feld-/Wellenmanipulation ist nicht Teil der Standardmagie.
+
+Das thaumische Feld nach DD-010 ist keine Erlaubnis, beliebige physikalische Felder oder Photonen direkt zu erzeugen. Es ist eine Kopplungsebene für reale Energiepotentiale, die weiterhin bevorzugt auf materielle Zielzustände angewendet werden.
 
 **Noch offen:**  
 Ob und wann direkte EM-/Photonen-/Feldmagie als spätere High-Level-Interventionsklasse eingeführt wird.
@@ -114,21 +139,20 @@ Wenn Modifier auf Modifier oder Zauber auf Zauber wirken können, braucht das Sy
 **Kategorie:** Kosten / Simulation  
 **Status:** Offen
 
-Mana ist als abstrakte magische Arbeitswährung festgelegt. Offen ist, ob ein Mana exakt einer physikalischen Energiemenge entspricht oder ob Mana-Joule nur eine interne Simulationsgröße ist.
+Mana ist als abstrakte magische Arbeitswährung festgelegt. Nach DD-010 ist es der nutzbare thaumische Arbeitsfluss aus realen physikalischen Energiepotentialen.
+
+Offen ist, ob ein Mana exakt einer physikalischen Energiemenge entspricht oder ob Mana-Joule eine interne Simulationsgröße mit Kopplungs- und Effizienzfaktoren bleibt.
 
 ### OQ-007 — Wie wird biologische Materie magisch verbrannt?
 
 **Kategorie:** Theorie / Kosten / Simulation  
 **Status:** Offen
 
-Lebewesen oder biologische Materie können als Mana-Quelle dienen, indem chemisch gebundene Energie magisch nutzbar gemacht wird. Offen ist, ob dieser Prozess analog zu Stoffwechsel, Verbrennung, Lebensenergieentzug oder direkter chemischer Umwandlung modelliert wird.
+Lebewesen oder biologische Materie können als Mana-Quelle dienen, indem chemisch gebundene Energie magisch nutzbar gemacht wird.
 
-### OQ-008 — Gibt es ein Mana-Trägermedium?
+Nach DD-010 bedeutet das: biologische Energie erzeugt ein bio-thaumisches Potential, das durch Zaubergeometrie angezapft werden kann.
 
-**Kategorie:** Theorie / Lore / Simulation  
-**Status:** Offen
-
-Obwohl Mana als abstrakter Arbeitsbegriff definiert ist, könnte die Welt dennoch ein generisches Medium, Feld oder Teilchen besitzen, das magische Energie transportiert oder koppelt.
+Offen ist, ob dieser Prozess analog zu Stoffwechsel, Verbrennung, Lebensenergieentzug oder direkter chemischer Umwandlung modelliert wird.
 
 ### OQ-009 — Wie werden zeitähnliche Effekte formalisiert?
 
@@ -143,6 +167,8 @@ Zeitumkehrung, Zeitverlangsamung und Zeitbeschleunigung sollen nicht als Bruch v
 **Status:** Offen
 
 Jeder ausführbare Zauber braucht eine physische visuelle Repräsentation. Offen ist, wie Zeichnungen, Glyphen, Gravuren oder Tattoos formal geparst und in ausführbare Datenstrukturen übersetzt werden.
+
+Nach DD-010 muss diese Repräsentation nicht nur Bedeutung codieren, sondern auch als Zaubergeometrie bzw. thaumische Kopplungsstruktur modellierbar sein.
 
 ### OQ-011 — Was ist ein ausführbarer Zauber?
 
@@ -186,6 +212,8 @@ Die 2D-Welt könnte pixel-/zellbasiert sein, aber Materialien müssen interne Zu
 
 Das System braucht einen funktionalen Element-, Stoff-, Material- und Objektkatalog. Offen ist, welche Einträge für den ersten Prototyp nötig sind.
 
+Nach DD-010 sollten für relevante Materialien zusätzlich thaumische Attribute wie `mana_capacity`, `mana_conductivity`, `mana_leakage` oder `mana_conversion_efficiency` geprüft werden.
+
 ### OQ-020 — Wie werden Informationskomponenten bepreist?
 
 **Kategorie:** Kosten / Syntax / Simulation  
@@ -214,9 +242,63 @@ Aggregierte Material- oder Gaswerte dürfen nicht willkürlich in geschlossene R
 
 Kleiner gezeichnete Zauber könnten eine Mana-, Präzisions- oder Stabilitäts-Penalty erhalten, besonders wenn die Repräsentation deutlich kleiner als Ziel oder Wirkungsgröße ist.
 
+Nach DD-010 könnte die Größe einer Repräsentation auch die Kopplungsfläche, Entladerate, Streuung oder Überlastungsgrenze beeinflussen.
+
 ### OQ-024 — Wann wird High-Level-Feld-/Wellenmagie eingeführt?
 
 **Kategorie:** Theorie / Simulation / Gameplay  
 **Status:** Offen
 
 Direkte Feld-/Wellenmanipulation bleibt als spätere Interventionsklasse möglich. Offen ist, welche Voraussetzungen, Kosten, Risiken und Bibliotheken nötig wären, damit diese Klasse nicht die materiegebundene Standardmagie trivial ersetzt.
+
+### OQ-025 — Wie wird thaumisches Potential quantitativ berechnet?
+
+**Kategorie:** Kosten / Simulation  
+**Status:** Offen
+
+DD-010 legt fest, dass physikalische Energiepotentiale ein thaumisches Analog besitzen können.
+
+Offen ist, welche Funktion daraus einen Simulationswert macht:
+
+```text
+thaumic_potential = f(physikalische Energie, Materialkopplung, Geometrie, Effizienz, Verluste)
+```
+
+Mögliche Einflussgrößen:
+
+- verfügbare physikalische Energie
+- Leistungsdichte
+- Materialkopplung
+- Größe und Präzision der Zaubergeometrie
+- Distanz zur Quelle
+- Speicherkapazität
+- Leckage
+- Entladerate
+- Rückkopplungsrisiko
+
+### OQ-026 — Welche thaumischen Materialattribute braucht der erste Prototyp?
+
+**Kategorie:** Simulation / Materialität / Gameplay  
+**Status:** Offen
+
+Für den ersten 2D-Prototyp muss entschieden werden, welche Mana-relevanten Materialwerte tatsächlich nötig sind.
+
+Kandidaten:
+
+- `mana_capacity`
+- `mana_charge`
+- `thaumic_potential`
+- `mana_conductivity`
+- `mana_leakage`
+- `mana_conversion_efficiency`
+- `mana_discharge_rate`
+- `mana_overload_threshold`
+
+### OQ-027 — Wie wirkt Zaubergeometrie als Kopplungsgerät?
+
+**Kategorie:** Syntax / Semantik / Simulation  
+**Status:** Offen
+
+Nach DD-010 sind physische Zauberrepräsentationen reale Kopplungsstrukturen.
+
+Offen ist, wie genau Geometrie, Material, Größe, Linienführung, Beschädigung, Symmetrie und Präzision die Kopplung an thaumisches Potential beeinflussen.

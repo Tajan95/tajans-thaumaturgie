@@ -1,6 +1,6 @@
 # 22 — Current Status and Next Steps
 
-**Stand:** 2026-07-08, 16:25 Europe/Berlin  
+**Stand:** 2026-07-08, 22:35 Europe/Berlin  
 **Status:** Arbeitsübersicht / Orientierungspunkt
 
 Dieses Dokument fasst den aktuellen Arbeitsstand von **Tajan's Thaumaturgie** zusammen und dient als Einstiegspunkt, wenn das Projekt nach einer Pause wieder aufgenommen wird.
@@ -11,17 +11,29 @@ Es ersetzt nicht die einzelnen Theorie-, Design- und Simulationsdokumente, sonde
 
 ## 1. Kurzstand
 
-Tajan's Thaumaturgie ist inzwischen kein loses Magiekonzept mehr, sondern ein streng material-, energie- und repräsentationsgebundenes Zauber-Programmiersystem.
+Tajan's Thaumaturgie ist inzwischen kein loses Magiekonzept mehr, sondern ein streng material-, energie-, repräsentations- und kopplungsgebundenes Zauber-Programmiersystem.
 
 Aktueller Kern:
 
 ```text
 Magie = regelgebundene Zustandsmanipulation
         unter Energie-, Massen-, Impuls-, Informations-,
-        Präzisions-, Kontroll- und Repräsentationsbedingungen
+        Präzisions-, Kontroll-, Repräsentations- und Kopplungsbedingungen
 ```
 
 Standardmagie wirkt auf vorhandene Materie und deren Zustände. Ein Zauber ist nur ausführbar, wenn er formal gültig, bezahlbar, simulierbar und physisch-visuell repräsentiert ist.
+
+Nach DD-010 ist Mana kein Stoff und kein Teilchen, sondern nutzbarer thaumischer Arbeitsfluss aus realen Energiepotentialen.
+
+```text
+physikalisches Energiepotential
+→ gekoppeltes thaumisches Potential
+→ Zaubergeometrie koppelt daran
+→ magische Arbeit
+→ physikalische Quelle entlädt sich + Verluste
+```
+
+Physische Zauberrepräsentationen sind damit nicht nur Symbole, sondern auch reale Kopplungsstrukturen für thaumische Potentiale.
 
 ---
 
@@ -38,19 +50,21 @@ Standardmagie wirkt auf vorhandene Materie und deren Zustände. Ein Zauber ist n
 | DD-007 | Zauber benötigen eine physische visuelle Repräsentation. | Festgelegt |
 | DD-008 | Zauberbibliotheken verwenden ein Hybridmodell. | Festgelegt |
 | DD-009 | Standardmagie ist materiegebunden. | Festgelegt |
+| DD-010 | Mana nutzt ein thaumisches Feldpotential realer Energiequellen. | Festgelegt |
 
 Siehe: `docs/07_design_decisions.md`
 
 ---
 
-## 3. Die drei großen aktuellen Baustellen
+## 3. Die vier großen aktuellen Baustellen
 
-Das Projekt arbeitet aktuell nicht mehr nur an der Klärung der Magie-Theorie/Ontologie. Es hat drei parallele Hauptbaustellen:
+Das Projekt arbeitet aktuell nicht mehr nur an der Klärung der Magie-Theorie/Ontologie. Es hat vier parallele Hauptbaustellen:
 
 | Baustelle | Leitfrage | Relevante Dokumente |
 |---|---|---|
-| Magie-Theorie und Zaubersystem | Was ist Magie, wie werden Zauber formal konstruiert und begrenzt? | `docs/02_magic_ontology.md`, `docs/03_spell_syntax.md`, `docs/04_modifiers_and_operators.md`, `docs/05_energy_costs_limits.md` |
+| Magie-Theorie und Zaubersystem | Was ist Magie, wie werden Zauber formal konstruiert und begrenzt? | `docs/02_magic_ontology.md`, `docs/03_spell_syntax.md`, `docs/04_modifiers_and_operators.md`, `docs/05_energy_costs_limits.md`, `docs/23_mana_and_thaumic_field_model.md` |
 | Physik und Materialwelt | Wie sieht eine manipulierbare Welt aus, auf die Magie kausal wirken kann? | `docs/15_material_world_model.md`, `docs/16_2d_world_simulation_model.md`, `docs/18_intervention_classes.md`, `docs/20_world_cell_and_chunk_model.md` |
+| Fokusmedien und Artefakte | Wie speichern, leiten, fokussieren und stabilisieren Materialien thaumische Arbeit? | `docs/12_focus_media_and_artifacts.md`, `docs/23_mana_and_thaumic_field_model.md` |
 | Technische Implementation | Wie wird daraus ein testbarer 2D-Prototyp mit eigener Simulation? | `docs/19_engine_and_framework_evaluation.md`, `docs/21_material_simulation_benchmark.md`, `prototype/2d/` |
 
 ---
@@ -91,6 +105,7 @@ Zu klären bzw. umzusetzen:
 - fallender Sand
 - Temperatur-Overlay
 - lokale Material-/Wärmeeffekte
+- erste thaumische Zustandswerte für Speicher und Quellen
 
 Relevante Issues:
 
@@ -155,6 +170,7 @@ Zu klären:
 - Parsermodell
 - Glyphen-/Graphenstruktur
 - Beschädigung und Fehlerfälle
+- Kopplungswirkung der Geometrie nach DD-010
 
 Relevante Issues:
 
@@ -164,9 +180,37 @@ Relevante Issues:
 
 ---
 
+### 6. Thaumische Material- und Speicherwerte konkretisieren
+
+Zu klären:
+
+- `mana_capacity`
+- `mana_charge`
+- `thaumic_potential`
+- `mana_conductivity`
+- `mana_leakage`
+- `mana_conversion_efficiency`
+- `mana_discharge_rate`
+- `mana_overload_threshold`
+
+Leitfrage:
+
+```text
+Welche Mana-relevanten Materialattribute sind für den ersten Prototyp wirklich nötig?
+```
+
+Relevante Dokumente:
+
+- `docs/05_energy_costs_limits.md`
+- `docs/12_focus_media_and_artifacts.md`
+- `docs/23_mana_and_thaumic_field_model.md`
+- `docs/06_open_questions.md` OQ-025 bis OQ-027
+
+---
+
 ## 5. Nächster sinnvoller Einstieg
 
-Aus aktueller Sicht ist der beste nächste konkrete Arbeitsschritt:
+Aus aktueller Sicht ist der beste nächste konkrete Arbeitsschritt weiterhin:
 
 ```text
 Issue #2 bearbeiten: Interne Form eines Zaubers bestimmen.
@@ -177,8 +221,9 @@ Begründung:
 - Die interne Zauberform beeinflusst Parser, visuelle Sprache, LLM-Compiler, Fehlerdiagnose und Simulation.
 - Ohne diese Entscheidung bleiben viele andere Module abstrakt.
 - Eine gute Zwischenlösung könnte ein Hybridmodell aus Komponentenobjekt und Wirkungsgraph sein.
+- Nach DD-010 muss die interne Form später auch Energiequelle, thaumischen Fluss, Kopplungsgeometrie und Zielzustand sauber abbilden können.
 
-Direkt danach sollten Zielauswahl und minimaler 2D-Benchmark weiter konkretisiert werden.
+Direkt danach sollten Zielauswahl, minimaler 2D-Benchmark und die ersten thaumischen Materialwerte weiter konkretisiert werden.
 
 ---
 

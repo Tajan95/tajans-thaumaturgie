@@ -165,3 +165,24 @@ Das Modell verbindet Spielbarkeit mit Weltlogik. Spieler müssen nicht jedes Gru
 
 **Folgen:**  
 Memory-Slots können häufig verwendete Makros ohne mitgeführte Referenzbibliothek reproduzierbar machen. Trotzdem muss jeder Zauber weiterhin physisch/visuell dargestellt werden, z. B. durch Zeichnen, Schreiben, Gravieren oder Tattoos.
+
+### DD-009 — Standardmagie ist materiegebunden
+
+**Datum:** 2026-07-08  
+**Status:** Festgelegt  
+
+**Kontext:**  
+Am Beispiel eines schwebenden Lichtzaubers stellte sich die Frage, ob Magie direkt elektromagnetische Wellen, Photonen, Magnetfelder oder Felder im Allgemeinen erzeugen darf, oder ob sie primär auf vorhandene Materie wirken muss.
+
+**Entscheidung:**  
+Standardmagie ist zunächst materiegebunden. Magie darf direkt auf vorhandene Materie und deren Zustände wirken, z. B. Position, Geschwindigkeit, Temperatur, Phase, Druck, chemische Bindung, Ladungsverteilung oder Zusammensetzung.
+
+Kontaktlose Kraftvektoren auf Materie sind erlaubt, sofern Zielbezug, Reichweite, Energieaufwand, Impulsbilanz und Fehlerbedingungen erfüllt sind.
+
+Direkte Feld-/Wellenmanipulation, z. B. substratlose Licht-, Magnetfeld- oder EM-Wellen-Erzeugung, bleibt als spätere High-Level-Interventionsklasse möglich, wird aber nicht als Standardmagie angenommen.
+
+**Begründung:**  
+Diese Entscheidung hält die Materialität der Welt als primäre Simulationsgrundlage stabil. Die meisten gewünschten magischen Effekte bleiben möglich, müssen aber über Materie, Zustände, Energiequellen und Erhaltungssätze konstruiert werden.
+
+**Folgen:**  
+Ein einfacher Lichtzauber braucht eine materielle Basis, z. B. ionisierte Luft, Plasma, erhitzte Partikel oder ein glühendes Medium. Ein Schwebezauber wirkt als Kraft-/Impulsmanipulation auf ein materielles Ziel. Direkte Photonen- oder Feldmanipulation wird nicht ausgeschlossen, aber als spätere, schwierigere Erweiterung behandelt.

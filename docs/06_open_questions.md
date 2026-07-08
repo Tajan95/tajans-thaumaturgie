@@ -76,6 +76,16 @@ Zauberbibliotheken verwenden ein Hybridmodell:
 **Noch offen:**  
 Wie Memory-Slots, Bibliotheksversionen und visuelle Importzeichen genau funktionieren.
 
+### OQ-019 — Kann Magie Felder und Wellen direkt erzeugen?
+
+**Kategorie:** Theorie / Simulation  
+**Status:** Teilweise geklärt durch DD-009
+
+Standardmagie ist materiegebunden. Direkte substratlose Feld-/Wellenmanipulation ist nicht Teil der Standardmagie.
+
+**Noch offen:**  
+Ob und wann direkte EM-/Photonen-/Feldmagie als spätere High-Level-Interventionsklasse eingeführt wird.
+
 ## Offene Fragen
 
 ### OQ-002 — Welche Form hat ein Zauber intern?
@@ -176,13 +186,6 @@ Die 2D-Welt könnte pixel-/zellbasiert sein, aber Materialien müssen interne Zu
 
 Das System braucht einen funktionalen Element-, Stoff-, Material- und Objektkatalog. Offen ist, welche Einträge für den ersten Prototyp nötig sind.
 
-### OQ-019 — Kann Magie Felder und Wellen direkt erzeugen?
-
-**Kategorie:** Theorie / Simulation  
-**Status:** Offen
-
-Am Beispiel „schwebendes Licht“ muss geklärt werden, ob Magie nur Materie energetisch beeinflusst oder auch elektromagnetische Wellen, Photonen, Magnetfelder oder elektrische Felder direkt erzeugen/manipulieren kann.
-
 ### OQ-020 — Wie werden Informationskomponenten bepreist?
 
 **Kategorie:** Kosten / Syntax / Simulation  
@@ -210,3 +213,10 @@ Aggregierte Material- oder Gaswerte dürfen nicht willkürlich in geschlossene R
 **Status:** Offen
 
 Kleiner gezeichnete Zauber könnten eine Mana-, Präzisions- oder Stabilitäts-Penalty erhalten, besonders wenn die Repräsentation deutlich kleiner als Ziel oder Wirkungsgröße ist.
+
+### OQ-024 — Wann wird High-Level-Feld-/Wellenmagie eingeführt?
+
+**Kategorie:** Theorie / Simulation / Gameplay  
+**Status:** Offen
+
+Direkte Feld-/Wellenmanipulation bleibt als spätere Interventionsklasse möglich. Offen ist, welche Voraussetzungen, Kosten, Risiken und Bibliotheken nötig wären, damit diese Klasse nicht die materiegebundene Standardmagie trivial ersetzt.

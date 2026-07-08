@@ -1,8 +1,8 @@
 # 14 — Spell Libraries and References
 
-Dieses Dokument beschreibt die frühe Theorie zu Zauberbibliotheken, Makros, Imports und Objektdefinitionen.
+Dieses Dokument beschreibt die Theorie zu Zauberbibliotheken, Makros, Imports und Objektdefinitionen.
 
-**Status:** Neues Arbeitsmodell / offene Grundsatzfrage
+**Status:** Arbeitsmodell / teilweise festgelegt
 
 ---
 
@@ -28,6 +28,7 @@ Eine Zauberbibliothek kann enthalten:
 - Zielauswahlmuster
 - geometrische Standardformen
 - Transformationsroutinen
+- Informationsverarbeitungsroutinen
 - Sicherheitsprüfungen
 - Stabilisierungsmuster
 - visuelle Glyphenkomponenten
@@ -42,70 +43,58 @@ Eine Zauberbibliothek kann enthalten:
 | Spell Macro Library | vorgefertigte Zauberkomponenten | Lichtkugel, Barriere, Wärmeentzug |
 | Safety Library | Schutz- und Fehlerprüfungen | Überhitzung vermeiden, Zielvalidierung |
 | Geometry Library | Standardformen | Kreis, Linie, Kegel, Feld |
+| Information Library | Such-, Filter-, Sortier- und Erkennungsroutinen | finde Metall, meide Hindernis |
 
-## Global vs. lokal
+## Verfügbarkeitsmodell
 
-Die zentrale offene Frage lautet:
+### Entscheidung: Hybridmodell
 
-> Sind Bibliotheken global verfügbar, oder müssen sie lokal in der Spielwelt vorhanden sein?
-
-### Modell A — Globale Bibliotheken
-
-Bibliotheken sind überall abrufbar, sobald der Zauberer sie kennt oder freigeschaltet hat.
-
-**Vorteile:**
-
-- bequem
-- weniger Inventarverwaltung
-- leichter für Einsteiger
-
-**Nachteile:**
-
-- schwächt die physische Weltlogik
-- kollidiert teilweise mit der Pflicht physischer Repräsentation
-- weniger interessante Risiken bei beschädigten oder fehlenden Referenzen
-
-### Modell B — Lokale Bibliotheken
-
-Bibliotheken müssen physisch vorhanden sein, z. B. in Büchern, Schriftrollen, Artefakten, Zauberstäben, Tattoos oder Gravuren.
-
-**Vorteile:**
-
-- konsistent mit physischer Zaubersyntax
-- erzeugt gutes Gameplay: stehlen, kopieren, beschädigen, verlieren, schützen
-- Referenzfehler werden in-world plausibel
-
-**Nachteile:**
-
-- mehr Verwaltung
-- möglicherweise sperrig für schnelles Zaubern
-
-### Modell C — Gelernte Bibliotheken
-
-Ein Zauberer kann Bibliotheken durch Training internalisieren.
-
-**Vorteile:**
-
-- Skill-Progression
-- weniger Abhängigkeit von Inventar
-- erklärt meisterhafte Zauberer
-
-**Nachteile:**
-
-- braucht klare Grenze zur physischen Repräsentationspflicht
-- darf nicht zu unsichtbarer Wunschmagie werden
-
-### Modell D — Hybridmodell
-
-Grundprimitive sind immer verfügbar, komplexe Makros und spezialisierte Definitionen müssen lokal vorhanden, gelernt oder importiert sein.
-
-**Vorläufige Empfehlung:** Hybridmodell.
+Grundprimitive sind immer verfügbar. Komplexe Makros und spezialisierte Definitionen müssen lokal vorhanden, gelernt oder importiert sein.
 
 ```text
 Grundprimitive: systemisch verfügbar
+häufige einfache Makros: lernbar / memorisierbar
 komplexe Makros: lokal / gelernt / importiert
+Spezialdefinitionen: lokal / importiert / über Artefakt verfügbar
 Objektdefinitionen: teils allgemein, teils spezialbibliotheksabhängig
 ```
+
+## Physische Repräsentationspflicht bleibt gültig
+
+Auch wenn ein Makro memorisiert wurde, ersetzt dieses Wissen nicht die physische visuelle Repräsentation des Zaubers.
+
+Ein gelernter Zauberer braucht nicht zwingend das ursprüngliche Buch oder die Schriftrolle, muss den Zauber aber in-world neu darstellen können, z. B. durch:
+
+- Tinte auf Papier
+- Kreide auf Stein
+- Stock in Sand/Erde
+- Gravur
+- Tattoo
+- Ritualkreis
+
+## Memory-Slots
+
+Für häufig verwendete Makros kann es begrenzte Memory-Slots geben.
+
+### Funktion
+
+Memory-Slots erlauben, bestimmte Makros ohne mitgeführte Referenzbibliothek korrekt zu reproduzieren.
+
+Sie bedeuten nicht, dass der Zauber unsichtbar oder rein mental gewirkt wird.
+
+```text
+Memory-Slot = gelernte Reproduktionsfähigkeit
+physische Zeichnung = weiterhin notwendige Ausführungsform
+```
+
+### Mögliche Begrenzungen
+
+- maximale Komplexität
+- Anzahl der Slots
+- Übung/Skill-Anforderung
+- Fehlerwahrscheinlichkeit bei beschädigtem Wissen
+- Zeit zum Zeichnen/Rekonstruieren
+- Abhängigkeit von bekannten Grundprimitiven
 
 ## Imports und Referenzen
 
@@ -134,6 +123,7 @@ Wenn eine Bibliothek fehlt oder während der Laufzeit unzugänglich wird, könne
 | Referenzbruch | Trägermedium beschädigt/entfernt | Zauber bricht ab oder destabilisiert |
 | Typfehler | Ziel passt nicht zur Objektdefinition | keine Wirkung oder Fehlwirkung |
 | Sicherheitsfehler | Safety Library fehlt | Risiko von Überhitzung, Streuung, Rückkopplung |
+| Memory-Fehler | Makro falsch erinnert oder unvollständig reproduziert | Syntax-/Semantikfehler |
 
 ## Objektdefinitions-Bibliotheken
 
@@ -155,6 +145,27 @@ könnte intern definieren:
 - besitzt Scharniere, Rahmen oder Schließmechanismus
 - kann geöffnet, geschlossen, verriegelt, beschädigt oder verschoben werden
 
+## Materialdefinitions-Bibliotheken
+
+Materialbibliotheken definieren Eigenschaften und Zusammensetzungen von Stoffen und Materialien.
+
+Beispiel:
+
+```text
+material.rock
+```
+
+könnte enthalten:
+
+- Hauptbestandteile
+- Dichte
+- Härte
+- Wärmeleitfähigkeit
+- Bruchmodus
+- typische Spurenelemente
+- Reaktion auf Säuren/Laugen
+- magnetische Eigenschaften
+
 ## Visuelle Einbindung
 
 Bibliotheksreferenzen müssen in der visuellen Zaubersprache erkennbar oder codiert sein.
@@ -166,14 +177,14 @@ Mögliche Darstellung:
 - eingebetteter Glyphenblock
 - Referenzknoten im Zaubergraphen
 - Randnotiz / Indexzeichen auf Schriftrolle
+- Speicherzeichen für memorisierte Makros
 
 ## Offene Fragen
 
 1. Wo liegt die Grenze zwischen Grundprimitive und importpflichtiger Bibliothek?
-2. Sind Bibliotheken global, lokal, gelernt oder hybrid verfügbar?
-3. Wie werden Bibliotheksversionen behandelt?
-4. Können Bibliotheken beschädigt, manipuliert oder gefälscht werden?
-5. Können Zauber ohne Zugriff auf eine referenzierte Bibliothek weiterlaufen?
-6. Wie werden Objektdefinitionen geprüft?
-7. Kann ein Zauberer Bibliotheken auswendig lernen, ohne die physische Repräsentationspflicht zu brechen?
-8. Sind Bibliotheksreferenzen visuell sofort lesbar oder erst durch Analyse erkennbar?
+2. Wie werden Bibliotheksversionen behandelt?
+3. Können Bibliotheken beschädigt, manipuliert oder gefälscht werden?
+4. Können Zauber ohne Zugriff auf eine referenzierte Bibliothek weiterlaufen?
+5. Wie werden Objektdefinitionen geprüft?
+6. Wie komplex dürfen Memory-Slot-Makros sein?
+7. Sind Bibliotheksreferenzen visuell sofort lesbar oder erst durch Analyse erkennbar?

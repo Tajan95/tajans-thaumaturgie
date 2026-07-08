@@ -62,6 +62,20 @@ Vokalisierung und Gestik können aber Trigger, Zielhilfe, Timing oder Laufzeitpa
 **Noch offen:**  
 Wie nah die physische Repräsentation am Zauberer oder Ziel sein muss.
 
+### OQ-013 — Wo befinden sich Zauberbibliotheken?
+
+**Kategorie:** Syntax / Semantik / Gameplay / Lore  
+**Status:** Teilweise geklärt durch DD-008
+
+Zauberbibliotheken verwenden ein Hybridmodell:
+
+- Grundprimitive sind systemisch verfügbar.
+- Häufige einfache Makros können memorisiert werden.
+- Komplexe Makros und Spezialdefinitionen müssen lokal vorhanden, gelernt oder importiert sein.
+
+**Noch offen:**  
+Wie Memory-Slots, Bibliotheksversionen und visuelle Importzeichen genau funktionieren.
+
 ## Offene Fragen
 
 ### OQ-002 — Welche Form hat ein Zauber intern?
@@ -127,13 +141,6 @@ Jeder ausführbare Zauber braucht eine physische visuelle Repräsentation. Offen
 
 Ein abstrakt programmierter Zauber muss in eine visuelle Repräsentation übersetzbar sein. Eine visuelle Repräsentation muss in Programm-Logik übersetzbar sein. Offen ist, welche Mindestbedingungen ein Zauber erfüllen muss, um als ausführbar zu gelten.
 
-### OQ-013 — Wo befinden sich Zauberbibliotheken?
-
-**Kategorie:** Syntax / Semantik / Gameplay / Lore  
-**Status:** Offen
-
-Sind Zauberbibliotheken global verfügbar, lokal auf physischen Trägern gespeichert, vom Zauberer gelernt/internalisiert oder hybrid organisiert?
-
 ### OQ-014 — Was ist ein Grundprimitive und was ist importpflichtig?
 
 **Kategorie:** Syntax / Semantik  
@@ -154,3 +161,52 @@ Bibliotheken könnten definieren, was ein Objekt wie „Tür“, „Stein“, �
 **Status:** Offen
 
 Erfahrene Zauberer sollen aus der visuellen Struktur grob erkennen können, was ein Zauber bewirkt. Offen ist, wie viel ohne Analyse sofort erkennbar ist und was Fachwissen oder Tools erfordert.
+
+### OQ-017 — Wie wird die Materialauflösung der Welt modelliert?
+
+**Kategorie:** Simulation / Materialität  
+**Status:** Offen
+
+Die 2D-Welt könnte pixel-/zellbasiert sein, aber Materialien müssen interne Zusammensetzungen, Sub-Pixel-Fraktionen und homogene Makroanzeigen besitzen können.
+
+### OQ-018 — Welche Elemente und Materialien gehören in den ersten Katalog?
+
+**Kategorie:** Semantik / Simulation / Gameplay  
+**Status:** Offen
+
+Das System braucht einen funktionalen Element-, Stoff-, Material- und Objektkatalog. Offen ist, welche Einträge für den ersten Prototyp nötig sind.
+
+### OQ-019 — Kann Magie Felder und Wellen direkt erzeugen?
+
+**Kategorie:** Theorie / Simulation  
+**Status:** Offen
+
+Am Beispiel „schwebendes Licht“ muss geklärt werden, ob Magie nur Materie energetisch beeinflusst oder auch elektromagnetische Wellen, Photonen, Magnetfelder oder elektrische Felder direkt erzeugen/manipulieren kann.
+
+### OQ-020 — Wie werden Informationskomponenten bepreist?
+
+**Kategorie:** Kosten / Syntax / Simulation  
+**Status:** Offen
+
+Suchen, Sortieren, Ausweichen, Filtern und Erkennen wirken eher wie Informationsverarbeitung als physische Arbeit. Offen ist, ob sie Mana, Komplexität, Rechenkosten oder kognitive Kontrolle verbrauchen.
+
+### OQ-021 — Wie funktioniert hierarchische Aggregation ohne Erhaltungsverlust?
+
+**Kategorie:** Simulation / Performance  
+**Status:** Offen
+
+Wärme, Gase, Flüssigkeiten und feine Materialfraktionen sollen lokal präzise, regional aggregiert und global bilanziert werden, ohne Masse oder Energie zu verlieren.
+
+### OQ-022 — Wie werden geschlossene Räume und Container erkannt?
+
+**Kategorie:** Simulation  
+**Status:** Offen
+
+Aggregierte Material- oder Gaswerte dürfen nicht willkürlich in geschlossene Räume oder Container eindringen. Die Simulation braucht daher eine Container-/Raumprüfung.
+
+### OQ-023 — Beeinflusst die Größe einer visuellen Zauberrepräsentation Effizienz?
+
+**Kategorie:** Syntax / Kosten / Gameplay  
+**Status:** Offen
+
+Kleiner gezeichnete Zauber könnten eine Mana-, Präzisions- oder Stabilitäts-Penalty erhalten, besonders wenn die Repräsentation deutlich kleiner als Ziel oder Wirkungsgröße ist.

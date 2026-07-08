@@ -40,6 +40,14 @@ Das System benötigt voraussichtlich keinen vollständigen Periodensystem-Katalo
 
 **Status:** Begriff / Offene Ausarbeitung
 
+## Feld-/Wellenmagie
+
+Mögliche spätere High-Level-Interventionsklasse, bei der Magie direkt Felder, elektromagnetische Wellen, Photonen oder ähnliche nicht-materielle physikalische Zielgrößen manipuliert.
+
+Nicht Teil der Standardmagie.
+
+**Status:** Offene spätere Erweiterung
+
 ## Fokusmedium
 
 Ein Werkzeug, z. B. ein Zauberstab, das magische Operationen präziser, effizienter oder stabiler macht.
@@ -73,6 +81,16 @@ Wenn ein Import fehlt, beschädigt ist oder nicht aufgelöst werden kann, kann d
 Ein Zauberbaustein, der primär Informationen verarbeitet, z. B. Suchen, Filtern, Sortieren, Erkennen, Ausweichen oder Zielklassifikation.
 
 **Status:** Begriff / Offene Kostenlogik
+
+## Interventionsklasse
+
+Beschreibt, worauf ein Zauber direkt zugreift, z. B. vorhandene Materie, materielle Zustände oder später eventuell Felder/Wellen.
+
+```text
+Interventionsklasse = direkter Zugriffstyp eines Zaubers
+```
+
+**Status:** Begriff / Teilweise festgelegt
 
 ## Kognitive Kontrolle
 
@@ -135,6 +153,14 @@ Detailgrad, mit dem die Zusammensetzung eines Materials in der Simulation sichtb
 Ein Stein kann z. B. zunächst homogen erscheinen, intern aber Fraktionen aus Silikaten, Salzen und Spurenelementen enthalten.
 
 **Status:** Begriff / Offene Simulation
+
+## Materiegebundene Magie
+
+Standard-Interventionsklasse des Systems.
+
+Magie koppelt direkt an vorhandene Materie und deren Zustände, z. B. Position, Geschwindigkeit, Temperatur, Phase, Druck, Ladungsverteilung, chemische Bindung oder Zusammensetzung.
+
+**Status:** Festgelegt durch DD-009
 
 ## Magische Arbeit
 

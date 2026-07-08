@@ -16,6 +16,8 @@ Die interne Datenstruktur oder Programmlogik eines Zaubers, unabhängig von sein
 
 Ein Objekt, das magische Struktur, Energie, Zielbindung oder eine Kombination daraus speichern und später aktivieren kann.
 
+Nach DD-010 kann ein Artefakt insbesondere metastabile thaumische Potentialzustände, Zaubergeometrie, Zielbindung oder Auslösebedingungen tragen.
+
 **Status:** Hypothese
 
 ## Bibliothek
@@ -29,6 +31,8 @@ Eine Sammlung wiederverwendbarer Zauberdefinitionen, Makros, Objektdefinitionen,
 Biologische oder chemisch gebundene Energie, die durch magische Arbeit nutzbar gemacht werden kann.
 
 Wichtig: Dies ist keine eigene Mana-Art, sondern eine Quelle für Mana bzw. magische Arbeit.
+
+Nach DD-010 bedeutet dies genauer: biologische Energie erzeugt ein bio-thaumisches Potential, das durch geeignete Zaubergeometrie angezapft werden kann.
 
 **Status:** Festgelegt
 
@@ -52,7 +56,9 @@ Nicht Teil der Standardmagie.
 
 Ein Werkzeug, z. B. ein Zauberstab, das magische Operationen präziser, effizienter oder stabiler macht.
 
-**Status:** Hypothese
+Nach DD-010 ist ein Fokusmedium eine materielle Kopplungsstruktur für thaumische Potentiale, nicht nur ein symbolisches Hilfsmittel.
+
+**Status:** Hypothese / Teilweise geklärt durch DD-010
 
 ## Fraktion
 
@@ -120,7 +126,11 @@ Makros sind komfortabel, können aber Overhead enthalten. Ihre Effizienz ergibt 
 
 Abstrakter Energie-/Arbeitsbegriff für magische Arbeit, vergleichbar mit Joule als Maßeinheit für Energie bzw. Arbeit.
 
-Mana ist keine konkrete Substanz. Es beschreibt den bezahlbaren Aufwand, mit dem magische Operationen Zustände verändern können.
+Mana ist keine konkrete Substanz und kein Teilchen. Nach DD-010 bezeichnet Mana genauer den nutzbaren thaumischen Arbeitsfluss aus realen physikalischen Energiepotentialen.
+
+```text
+Mana = nutzbarer thaumischer Arbeitsfluss aus realen Energiepotentialen
+```
 
 **Status:** Festgelegt
 
@@ -132,11 +142,40 @@ Ob ein Mana-Joule direkt einer physikalischen Energiemenge entspricht oder nur e
 
 **Status:** Offene Frage
 
+## Mana-Partikel
+
+Verworfenes Standardmodell, nach dem Mana aus eigenen diskreten Teilchen bestehen würde.
+
+Das Projekt verwendet stattdessen ein Feldpotential-/Arbeitsflussmodell. Mana-Speicher enthalten keine Mana-Partikel, sondern halten metastabile thaumische Potentialzustände.
+
+**Status:** Verworfen durch DD-010
+
 ## Mana-Speicher
 
-Ein Medium, z. B. ein Kristall oder Artefakt, das magische Energie bzw. nutzbare magische Arbeit speichern kann.
+Ein Medium, z. B. ein Kristall oder Artefakt, das nutzbare magische Arbeit speichern kann.
 
-**Status:** Hypothese
+Nach DD-010 speichert ein Mana-Speicher keine Mana-Substanz, sondern einen metastabilen thaumischen Potentialzustand.
+
+**Status:** Festgelegt als Arbeitsmodell durch DD-010
+
+## Mana-Speicherattribute
+
+Vorläufige Material- oder Objektattribute zur Beschreibung von Mana-Speichern und Fokusmedien.
+
+| Attribut | Bedeutung |
+|---|---|
+| `mana_capacity` | Maximale speicherbare thaumische Arbeit / Potentialmenge. |
+| `mana_charge` | Aktuell gespeicherte thaumische Ladung bzw. nutzbare Arbeit. |
+| `thaumic_potential` | Aktuelle thaumische Spannung / Potentialhöhe. |
+| `mana_conductivity` | Wie gut thaumischer Fluss durch das Material läuft. |
+| `mana_leakage` | Wie schnell gespeichertes Potential verloren geht. |
+| `mana_conversion_efficiency` | Wie gut reale Energie in nutzbaren thaumischen Arbeitsfluss gekoppelt wird. |
+| `mana_discharge_rate` | Wie schnell gespeichertes Potential sicher abgegeben werden kann. |
+| `mana_overload_threshold` | Grenze, ab der Material, Fokus oder Zauber instabil wird. |
+| `syntax_affinity` | Wie gut ein Material physische Zaubergeometrie trägt oder verstärkt. |
+| `feedback_risk` | Risiko einer Rückkopplung in Speicher, Fokusmedium oder Zauberer. |
+
+**Status:** Begriff / Hypothese
 
 ## Material
 
@@ -165,6 +204,8 @@ Magie koppelt direkt an vorhandene Materie und deren Zustände, z. B. Position, 
 ## Magische Arbeit
 
 Kontrollierte Zustandsveränderung durch Magie unter Energie-, Kontroll-, Verlust- und Fehlerbedingungen.
+
+Nach DD-010 wird magische Arbeit über thaumischen Arbeitsfluss aus realen Energiepotentialen bezahlt.
 
 **Status:** Festgelegt
 
@@ -200,6 +241,8 @@ Eine in der Spielwelt vorhandene sichtbare Form eines Zaubers, z. B. Schriftroll
 
 Ein Zauber muss eine solche Repräsentation besitzen, um ausführbar zu sein.
 
+Nach DD-010 ist diese Repräsentation nicht nur Symbol, sondern zugleich materielle Zaubergeometrie: eine Kopplungsstruktur, die thaumische Potentiale anzapfen, lenken oder transformieren kann.
+
 **Status:** Festgelegt
 
 ## Phase
@@ -218,6 +261,8 @@ Das autoritative System, das prüft, ob ein Zauber syntaktisch korrekt, semantis
 
 Ein vorbereiteter oder formal gebundener Zauberprozess, der Energie, Syntax, Bedingungen oder Zielbindung vorab stabilisieren kann.
 
+Nach DD-010 kann ein Ritual auch als räumlich stabilisierte Kopplungsstruktur dienen, die große Energiequellen langsam, effizient oder sicher in Mana-Speicher überführt.
+
 **Status:** Hypothese
 
 ## Semantisches Primitive
@@ -232,6 +277,41 @@ Material- oder Stoffanteil, der kleiner als eine sichtbare Weltzelle bzw. ein Pi
 
 **Status:** Begriff / Offene Simulation
 
+## Thaumische Spannung
+
+Potentialdifferenz im thaumischen Feldmodell, die aus einem realen physikalischen Energiepotential hervorgeht.
+
+Eine thaumische Entladung entlädt zugleich das gekoppelte physikalische Analog.
+
+**Status:** Begriff / Festgelegt durch DD-010
+
+## Thaumischer Arbeitsfluss
+
+Nutzbarer Fluss magischer Arbeit aus einem thaumischen Potential durch eine Zaubergeometrie.
+
+```text
+physikalisches Energiepotential
+→ thaumisches Potential
+→ thaumischer Arbeitsfluss
+→ magische Arbeit
+```
+
+**Status:** Begriff / Festgelegt durch DD-010
+
+## Thaumisches Feld
+
+Hypothetische Kopplungsschicht der Welt, über die reale physikalische Energiepotentiale magisch adressierbar werden.
+
+Das thaumische Feld ist keine zusätzliche Energiequelle, sondern eine Übertragungs- und Kopplungsebene.
+
+**Status:** Begriff / Festgelegt als Arbeitsmodell durch DD-010
+
+## Thaumisches Potential
+
+Gekoppelte Feldspannung, die aus physikalischen Energieunterschieden hervorgeht und durch geeignete Zaubergeometrie nutzbar gemacht werden kann.
+
+**Status:** Begriff / Festgelegt durch DD-010
+
 ## Visuelle Lesbarkeit
 
 Die Eigenschaft eines Zaubers, durch seine sichtbare Struktur zumindest grob interpretierbar zu sein.
@@ -243,6 +323,8 @@ Erfahrene Zauberer sollen anhand visueller Muster Zielklasse, Wirkungsart, Struk
 ## Visuelle Zaubersprache
 
 Eine physische, sichtbare Programmiersprache für Zauber. Sie muss in eine abstrakte Zauberstruktur geparst werden können, und eine abstrakte Zauberstruktur muss regelkonform visualisierbar sein.
+
+Nach DD-010 ist sie zusätzlich eine reale Geometrie zur Kopplung, Leitung und Transformation thaumischer Potentiale.
 
 **Status:** Festgelegt / Ausarbeitung offen
 
@@ -258,6 +340,8 @@ Vokalisierung kann einen vorbereiteten Zauber triggern oder steuern, ersetzt abe
 
 Kleinste räumliche Simulationseinheit der 2D-Welt, die Material, Temperatur, Phase, Fraktionen und ggf. Bewegungsvektoren tragen kann.
 
+Nach DD-010 kann eine Weltzelle optional auch thaumische Zustandsgrößen wie `thaumic_potential`, `mana_capacity`, `mana_charge`, `mana_conductivity` oder `mana_leakage` tragen.
+
 **Status:** Begriff / Offene Simulation
 
 ## Zauberformel
@@ -266,8 +350,21 @@ Die vollständige formale Struktur eines Zaubers, bestehend aus Zielauswahl, Wir
 
 **Status:** Begriff
 
+## Zaubergeometrie
+
+Physische Syntaxstruktur eines Zaubers, die nicht nur Bedeutung repräsentiert, sondern thaumische Potentiale koppeln, leiten, transformieren und auf Zielzustände anwenden kann.
+
+```text
+Zaubergeometrie = Schaltkreis / Antenne / Linse / Ventil / Transformator
+                  für thaumische Potentiale
+```
+
+**Status:** Begriff / Festgelegt durch DD-010
+
 ## Zauberstab
 
 Ein mögliches Fokusmedium, das Präzision, Effizienz, Zielstabilität und Zugriff auf externe Mana-Speicher verbessern kann.
 
-**Status:** Hypothese
+Nach DD-010 kann ein Zauberstab als Komposit aus Leiter, Speicherzugang, Geometrieträger, Zielantenne und Sicherheitsfilter verstanden werden.
+
+**Status:** Hypothese / Teilweise geklärt durch DD-010

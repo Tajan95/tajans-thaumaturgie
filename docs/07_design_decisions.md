@@ -186,3 +186,40 @@ Diese Entscheidung hält die Materialität der Welt als primäre Simulationsgrun
 
 **Folgen:**  
 Ein einfacher Lichtzauber braucht eine materielle Basis, z. B. ionisierte Luft, Plasma, erhitzte Partikel oder ein glühendes Medium. Ein Schwebezauber wirkt als Kraft-/Impulsmanipulation auf ein materielles Ziel. Direkte Photonen- oder Feldmanipulation wird nicht ausgeschlossen, aber als spätere, schwierigere Erweiterung behandelt.
+
+### DD-010 — Mana nutzt ein thaumisches Feldpotential realer Energiequellen
+
+**Datum:** 2026-07-08  
+**Status:** Festgelegt  
+
+**Kontext:**  
+Mana war bereits als abstrakter Energie-/Arbeitsbegriff und nicht als konkrete Substanz festgelegt. Offen blieb aber, wie biologische, chemische, mechanische, elektrische oder andere Energiequellen in-world greifbar zu magischer Arbeit werden, ohne eine separate Mana-Maschine oder Mana-Partikel einzuführen.
+
+**Entscheidung:**  
+Jede reale physikalische Energiequelle bzw. jedes reale Energiepotential kann ein gekoppeltes thaumisches Analog besitzen. Dieses thaumische Potential ist keine zusätzliche Energiequelle, sondern eine magisch adressierbare Kopplungs- und Übertragungsebene für reale Energie.
+
+```text
+physikalisches Energiepotential
+→ gekoppeltes thaumisches Potential
+→ Zaubergeometrie koppelt daran
+→ magische Arbeit
+→ physikalische Quelle entlädt sich + Verluste
+```
+
+Mana bezeichnet die nutzbare magische Arbeit bzw. den nutzbaren thaumischen Arbeitsfluss, der über diese Kopplung verfügbar ist.
+
+Mana-Partikel, Mana als eigenes chemisches Element oder Mana als eigenständige Substanz werden als Standardmodell verworfen.
+
+Mana-Speicher enthalten keine Mana-Substanz, sondern halten metastabile thaumische Potentialzustände, vergleichbar mit Kondensatoren, Batterien oder gespannten Feldkonfigurationen.
+
+Physische Zauberrepräsentationen sind nicht nur Symbole, sondern reale Kopplungsstrukturen. Sie wirken wie Antennen, Linsen, Ventile, Transformatoren, Schaltkreise oder Richtungsweiser für thaumische Potentiale.
+
+**Begründung:**  
+Dieses Modell bewahrt Erhaltungssätze, erklärt aber trotzdem, warum beliebige reale Energiequellen als Mana-Quellen dienen können. Es macht Zaubergeometrien, Fokusmedien, Artefakte und Mana-Speicher systemisch bedeutungsvoll, ohne zusätzliche Teilchenphysik einzuführen.
+
+**Folgen:**  
+Eine thaumische Entladung entlädt immer auch ihr physikalisches Analog. Körpermagie bleibt möglich, solange biologische Energie verfügbar ist, wird aber durch Erschöpfung, Unterzuckerung, Überhitzung und Gewebeschaden begrenzt. Große Zauber benötigen entweder hohe Effizienz, vorhandene Umweltpotentiale, geladene Artefakte oder Infrastruktur.
+
+Aus dem Modell ergeben sich emergente Spiel- und Weltrollen: Kampfzauberer tragen leistungsfähige Speicher oder Foki, Stealth-Zauberer nutzen effiziente kleine Eingriffe, Ritualmagier arbeiten mit stationären Quellen, und Infrastrukturmagier koppeln Zauber an Maschinen, Turbinen, Kraftwerke oder vorbereitete Speicher.
+
+Details siehe: `docs/23_mana_and_thaumic_field_model.md`.

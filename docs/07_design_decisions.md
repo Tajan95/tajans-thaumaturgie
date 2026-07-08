@@ -143,3 +143,25 @@ Dadurch bleibt Magie eine sichtbare, prüfbare und manipulierbare Syntax statt u
 
 **Folgen:**  
 Technisch kann ein Zauber intern als Datenstruktur modelliert werden, muss aber in eine regelkonforme visuelle Darstellung übersetzbar sein. Umgekehrt muss eine korrekt gezeichnete Darstellung durch Parser/Regelengine in ausführbare Zauberlogik übersetzt werden können.
+
+### DD-008 — Zauberbibliotheken verwenden ein Hybridmodell
+
+**Datum:** 2026-07-08  
+**Status:** Festgelegt  
+
+**Kontext:**  
+Komplexe Zauber benötigen wiederverwendbare Definitionen, Makros und Objekt-/Materialbeschreibungen. Gleichzeitig soll die physische Repräsentationspflicht erhalten bleiben.
+
+**Entscheidung:**  
+Zauberbibliotheken verwenden ein Hybridmodell:
+
+- Grundprimitive sind systemisch verfügbar.
+- Häufige einfache Makros können memorisiert werden.
+- Komplexe Makros und Spezialdefinitionen müssen lokal vorhanden, gelernt oder importiert sein.
+- Objekt- und Materialdefinitionen können teils allgemein verfügbar, teils spezialbibliotheksabhängig sein.
+
+**Begründung:**  
+Das Modell verbindet Spielbarkeit mit Weltlogik. Spieler müssen nicht jedes Grundzeichen ständig physisch importieren, aber komplexe Wissensstrukturen bleiben materiell, lernbar, verlierbar, kopierbar, fälschbar und angreifbar.
+
+**Folgen:**  
+Memory-Slots können häufig verwendete Makros ohne mitgeführte Referenzbibliothek reproduzierbar machen. Trotzdem muss jeder Zauber weiterhin physisch/visuell dargestellt werden, z. B. durch Zeichnen, Schreiben, Gravieren oder Tattoos.

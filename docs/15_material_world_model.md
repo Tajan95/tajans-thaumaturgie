@@ -16,6 +16,19 @@ Magie wirkt dadurch nicht auf hardcodierte Objekte, sondern auf beschreibbare Zu
 Element → Substanz/Stoff → Material → Objekt → Weltzustand
 ```
 
+## Grundentscheidung: Materiegebundene Standardmagie
+
+Standardmagie koppelt direkt an vorhandene Materie und deren Zustände.
+
+Das bedeutet:
+
+- Materie kann bewegt, erwärmt, abgekühlt, getrennt, gebunden, verformt oder transformiert werden.
+- Kontaktlose Kraftvektoren auf Materie sind erlaubt.
+- Direkte substratlose Feld-/Wellenmanipulation ist keine Standardmagie.
+- Direkte EM-/Photonen-/Feldmagie bleibt als spätere High-Level-Interventionsklasse offen.
+
+Siehe auch: `docs/18_intervention_classes.md`.
+
 ## Modellschichten
 
 | Ebene | Bedeutung | Beispiel |
@@ -177,13 +190,23 @@ Blei zu Gold ist keine chemische, sondern nukleare Transformation. Es ist dadurc
 
 ### Schwebendes Licht
 
-Mögliche Modellierungen:
+Nach DD-009 ist die Standardvariante eines schwebenden Lichtes materiegebunden.
+
+Mögliche Standard-Modellierungen:
 
 1. Luftplasma durch Energieeintrag.
 2. erhitztes materielles Medium.
-3. direkte elektromagnetische Emission.
+3. ionisierte oder angeregte Partikel als Lichtquelle.
 
-Die dritte Option führt zur offenen Grundfrage, ob Magie direkt Felder/Wellen erzeugen kann oder nur Materie energetisch beeinflusst.
+Direkte elektromagnetische Emission ohne materielles Substrat ist nicht Standardmagie. Sie bleibt als spätere High-Level-Interventionsklasse möglich.
+
+### Schweben / Telekinese
+
+Ein Schwebezauber wirkt direkt auf ein materielles Ziel, indem er Kraftvektoren bzw. Impulsänderungen erzeugt.
+
+```text
+materielles Ziel + Kraftvektor + Stabilisierung + Energieaufwand → Schweben
+```
 
 ## Offene Fragen
 
@@ -192,5 +215,5 @@ Die dritte Option führt zur offenen Grundfrage, ob Magie direkt Felder/Wellen e
 3. Wie detailliert müssen natürliche Objekte intern modelliert werden?
 4. Ist Materialanalyse Grundfähigkeit, Zauber, Artefakt oder UI?
 5. Wie werden Säuren, Laugen, Strom und Magnetfelder repräsentiert?
-6. Kann Magie direkt EM-Wellen/Photonen erzeugen oder nur Materie zur Emission anregen?
-7. Wie wird Plasma im ersten 2D-Prototyp abstrahiert?
+6. Wie wird Plasma im ersten 2D-Prototyp abstrahiert?
+7. Wann, wenn überhaupt, wird High-Level-Feld-/Wellenmagie eingeführt?

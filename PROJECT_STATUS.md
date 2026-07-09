@@ -1,6 +1,6 @@
-# 22 — Current Status and Next Steps
+# Project Status and Next Steps
 
-**Stand:** 2026-07-08, 22:35 Europe/Berlin  
+**Stand:** 2026-07-09, Europe/Berlin  
 **Status:** Arbeitsübersicht / Orientierungspunkt
 
 Dieses Dokument fasst den aktuellen Arbeitsstand von **Tajan's Thaumaturgie** zusammen und dient als Einstiegspunkt, wenn das Projekt nach einer Pause wieder aufgenommen wird.
@@ -33,7 +33,7 @@ physikalisches Energiepotential
 → physikalische Quelle entlädt sich + Verluste
 ```
 
-Physische Zauberrepräsentationen sind damit nicht nur Symbole, sondern auch reale Kopplungsstrukturen für thaumische Potentiale.
+Nach DD-011 kann Zaubergeometrie additiv, subtraktiv oder hybrid realisiert werden. Material und Grenzflächen bestimmen dabei nicht primär die logische Gültigkeit, sondern Kopplungsqualität, Entladerate, Stabilität und Fehlerverhalten.
 
 ---
 
@@ -51,21 +51,21 @@ Physische Zauberrepräsentationen sind damit nicht nur Symbole, sondern auch rea
 | DD-008 | Zauberbibliotheken verwenden ein Hybridmodell. | Festgelegt |
 | DD-009 | Standardmagie ist materiegebunden. | Festgelegt |
 | DD-010 | Mana nutzt ein thaumisches Feldpotential realer Energiequellen. | Festgelegt |
+| DD-011 | Zaubergeometrie koppelt material- und grenzflächenabhängig. | Festgelegt |
 
-Siehe: `docs/07_design_decisions.md`
+Siehe: `project/design_decisions.md`
 
 ---
 
-## 3. Die vier großen aktuellen Baustellen
-
-Das Projekt arbeitet aktuell nicht mehr nur an der Klärung der Magie-Theorie/Ontologie. Es hat vier parallele Hauptbaustellen:
+## 3. Aktuelle Hauptbaustellen
 
 | Baustelle | Leitfrage | Relevante Dokumente |
 |---|---|---|
-| Magie-Theorie und Zaubersystem | Was ist Magie, wie werden Zauber formal konstruiert und begrenzt? | `docs/02_magic_ontology.md`, `docs/03_spell_syntax.md`, `docs/04_modifiers_and_operators.md`, `docs/05_energy_costs_limits.md`, `docs/23_mana_and_thaumic_field_model.md` |
-| Physik und Materialwelt | Wie sieht eine manipulierbare Welt aus, auf die Magie kausal wirken kann? | `docs/15_material_world_model.md`, `docs/16_2d_world_simulation_model.md`, `docs/18_intervention_classes.md`, `docs/20_world_cell_and_chunk_model.md` |
-| Fokusmedien und Artefakte | Wie speichern, leiten, fokussieren und stabilisieren Materialien thaumische Arbeit? | `docs/12_focus_media_and_artifacts.md`, `docs/23_mana_and_thaumic_field_model.md` |
-| Technische Implementation | Wie wird daraus ein testbarer 2D-Prototyp mit eigener Simulation? | `docs/19_engine_and_framework_evaluation.md`, `docs/21_material_simulation_benchmark.md`, `prototype/2d/` |
+| Magie-Theorie und Grundsystem | Was ist Magie, wie werden Zauber formal konstruiert und begrenzt? | `docs/foundations/magic_ontology.md`, `docs/spell_system/spell_syntax.md`, `docs/spell_system/modifiers_and_operators.md` |
+| Mana, Energie und Kopplung | Was bezahlt magische Arbeit und wie wird sie gespeichert, geleitet und begrenzt? | `docs/mana_and_energy/energy_costs_limits.md`, `docs/mana_and_energy/mana_and_thaumic_field_model.md`, `docs/mana_and_energy/focus_media_and_artifacts.md` |
+| Physische Repräsentation | Wie wirken Zauberbilder als reale Kopplungsstrukturen? | `docs/spell_system/visual_spell_language.md`, `docs/representation_and_material_coupling/spell_geometry_and_material_coupling.md` |
+| Physik und Materialwelt | Wie sieht eine manipulierbare Welt aus, auf die Magie kausal wirken kann? | `docs/world_model/material_world_model.md`, `docs/world_model/2d_world_simulation_model.md`, `docs/world_model/world_cell_and_chunk_model.md` |
+| Technische Implementation | Wie wird daraus ein testbarer 2D-Prototyp mit eigener Simulation? | `docs/implementation/engine_and_framework_evaluation.md`, `docs/implementation/material_simulation_benchmark.md`, `prototype/2d/` |
 
 ---
 
@@ -89,10 +89,11 @@ Zu klären:
 - Komponentenobjekt?
 - Hybrid?
 
-Relevante Issues:
+Relevante Dokumente:
 
-- #2 — Syntaxfrage: Interne Form eines Zaubers bestimmen
-- #8 — Feature: Visuelle Zaubersprache und semantische Primitive definieren
+- `docs/spell_system/spell_syntax.md`
+- `docs/spell_system/visual_spell_language.md`
+- `docs/spell_system/llm_spell_compiler.md`
 
 ---
 
@@ -107,13 +108,11 @@ Zu klären bzw. umzusetzen:
 - lokale Material-/Wärmeeffekte
 - erste thaumische Zustandswerte für Speicher und Quellen
 
-Relevante Issues:
+Relevante Dokumente:
 
-- #3 — Simulation: Minimalen 2D-Prototyp definieren
-- #15 — Prototyp: Minimalen Engine-Benchmark für Materialsimulation definieren
-- #19 — Architektur: Simulationskern von Engine-Darstellung trennen
-- #21 — Entscheidung: Erste Engine/Framework für Prototyp auswählen
-- #23 — Architektur: Datenmodell für Weltzellen und Chunks skizzieren
+- `docs/world_model/2d_world_simulation_model.md`
+- `docs/world_model/world_cell_and_chunk_model.md`
+- `docs/implementation/material_simulation_benchmark.md`
 
 ---
 
@@ -129,12 +128,11 @@ Zu klären:
 - Sichtlinie
 - Bibliotheksdefinition
 
-Relevante Issues:
+Relevante Dokumente:
 
-- #2 — Syntaxfrage: Interne Form eines Zaubers bestimmen
-- #10 — Theoriefrage: Zauberbibliotheken, Imports und Referenzen definieren
-- #11 — Simulation: Materialwelt, Element- und Stoffkatalog definieren
-- #14 — Regelmechanik: Informationsverarbeitende Zauberkomponenten bepreisen
+- `docs/spell_system/spell_syntax.md`
+- `docs/spell_system/spell_libraries_and_references.md`
+- `docs/world_model/material_world_model.md`
 
 ---
 
@@ -154,11 +152,10 @@ Leitfrage:
 Wie verhindert das System allwissende Analyse-, Such- oder Zielzauber?
 ```
 
-Relevante Issues:
+Relevante Dokumente:
 
-- #14 — Regelmechanik: Informationsverarbeitende Zauberkomponenten bepreisen
-- #10 — Theoriefrage: Zauberbibliotheken, Imports und Referenzen definieren
-- #11 — Simulation: Materialwelt, Element- und Stoffkatalog definieren
+- `docs/spell_system/information_processing_spell_components.md`
+- `project/open_questions.md`
 
 ---
 
@@ -170,13 +167,13 @@ Zu klären:
 - Parsermodell
 - Glyphen-/Graphenstruktur
 - Beschädigung und Fehlerfälle
-- Kopplungswirkung der Geometrie nach DD-010
+- Kopplungswirkung der Geometrie nach DD-010 und DD-011
 
-Relevante Issues:
+Relevante Dokumente:
 
-- #8 — Feature: Visuelle Zaubersprache und semantische Primitive definieren
-- #10 — Theoriefrage: Zauberbibliotheken, Imports und Referenzen definieren
-- #6 — Begriffsarbeit: Fokusmedien, Zauberstäbe und Artefakte definieren
+- `docs/spell_system/visual_spell_language.md`
+- `docs/representation_and_material_coupling/spell_geometry_and_material_coupling.md`
+- `docs/mana_and_energy/mana_and_thaumic_field_model.md`
 
 ---
 
@@ -201,10 +198,11 @@ Welche Mana-relevanten Materialattribute sind für den ersten Prototyp wirklich 
 
 Relevante Dokumente:
 
-- `docs/05_energy_costs_limits.md`
-- `docs/12_focus_media_and_artifacts.md`
-- `docs/23_mana_and_thaumic_field_model.md`
-- `docs/06_open_questions.md` OQ-025 bis OQ-027
+- `docs/mana_and_energy/energy_costs_limits.md`
+- `docs/mana_and_energy/focus_media_and_artifacts.md`
+- `docs/mana_and_energy/mana_and_thaumic_field_model.md`
+- `docs/representation_and_material_coupling/spell_geometry_and_material_coupling.md`
+- `project/open_questions.md` OQ-025 bis OQ-027
 
 ---
 
@@ -221,7 +219,7 @@ Begründung:
 - Die interne Zauberform beeinflusst Parser, visuelle Sprache, LLM-Compiler, Fehlerdiagnose und Simulation.
 - Ohne diese Entscheidung bleiben viele andere Module abstrakt.
 - Eine gute Zwischenlösung könnte ein Hybridmodell aus Komponentenobjekt und Wirkungsgraph sein.
-- Nach DD-010 muss die interne Form später auch Energiequelle, thaumischen Fluss, Kopplungsgeometrie und Zielzustand sauber abbilden können.
+- Nach DD-010 und DD-011 muss die interne Form später auch Energiequelle, thaumischen Fluss, Kopplungsgeometrie, Materialkopplung und Zielzustand sauber abbilden können.
 
 Direkt danach sollten Zielauswahl, minimaler 2D-Benchmark und die ersten thaumischen Materialwerte weiter konkretisiert werden.
 
@@ -239,5 +237,5 @@ Bei neuen Notizen weiterhin konsequent unterscheiden:
 - **Begriff**
 - **Beispiel**
 
-Neue stabile Entscheidungen gehören in `docs/07_design_decisions.md`.  
-Neue offene Theorie- oder Prototypingfragen gehören als GitHub-Issue oder in `docs/06_open_questions.md`.
+Neue stabile Entscheidungen gehören in `project/design_decisions.md`.  
+Neue offene Theorie- oder Prototypingfragen gehören in `project/open_questions.md` oder als GitHub-Issue.

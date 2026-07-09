@@ -1,6 +1,6 @@
 # Tajan's Thaumaturgie
 
-**Stand:** 2026-07-08, 16:25 Europe/Berlin  
+**Stand:** 2026-07-09, Europe/Berlin  
 **Status:** Frühe Systemarchitektur / Theorie- und Prototypingphase
 
 **Tajan's Thaumaturgie** ist ein Projekt zur Entwicklung eines granularen, modularen und formal ableitbaren Magie-Systems.
@@ -19,12 +19,10 @@ Langfristig soll das System digital simulierbar werden: zuerst als 2D-Proof-of-C
 
 ## Aktueller Kernstand
 
-Das Projekt hat inzwischen mehrere Grundentscheidungen getroffen. Der aktuelle Arbeitsstand lässt sich so zusammenfassen:
-
 ```text
 Magie = regelgebundene Zustandsmanipulation
         unter Energie-, Massen-, Impuls-, Informations-,
-        Präzisions-, Kontroll- und Repräsentationsbedingungen
+        Präzisions-, Kontroll-, Repräsentations- und Kopplungsbedingungen
 ```
 
 Ein Zauber ist keine freie Realitätsüberschreibung. Er muss formal gültig, bezahlbar, simulierbar und innerhalb der Spielwelt physisch-visuell repräsentiert sein.
@@ -32,62 +30,24 @@ Ein Zauber ist keine freie Realitätsüberschreibung. Er muss formal gültig, be
 Aktuell festgelegt:
 
 - Zauber müssen aus kleineren Komponenten ableitbar sein.
-- Mana ist ein abstrakter Energie-/Arbeitsbegriff, keine konkrete Substanz.
+- Mana ist kein Stoff und kein Teilchen, sondern nutzbarer thaumischer Arbeitsfluss aus realen Energiepotentialen.
 - Masse, Energie und Impuls bleiben grundsätzlich erhalten.
 - Standardmagie ist materiegebunden und wirkt auf vorhandene Materie bzw. deren Zustände.
 - Direkte Feld-/Wellenmagie ist keine Standardmagie, bleibt aber als spätere High-Level-Interventionsklasse offen.
 - Jeder ausführbare Zauber benötigt eine physische visuelle Repräsentation, z. B. Schriftrolle, Gravur, Zeichnung, Ritualkreis oder Tattoo.
+- Physische Zaubergeometrien sind reale Kopplungsstrukturen für thaumische Potentiale.
+- Zaubergeometrie kann additiv, subtraktiv oder hybrid realisiert werden; Material bestimmt die Kopplungsqualität.
 - Ein LLM/Genie-System kann beim Übersetzen natürlicher Sprache in formale Zauberstruktur helfen, ist aber nicht die Regelautorität.
 - Makro-Zauber sind Komfortschichten; ihre Effizienz entsteht emergent aus ihrer Struktur.
 - Zauberbibliotheken verwenden ein Hybridmodell aus systemisch verfügbaren Grundprimitiven, memorisierten Makros und lokal/importierten Spezialdefinitionen.
 
-Siehe auch:
+Wichtige Einstiegspunkte:
 
-- `docs/07_design_decisions.md`
-- `docs/22_current_status_and_next_steps.md`
-
----
-
-## Die drei großen aktuellen Baustellen
-
-Das Projekt arbeitet aktuell parallel an drei Hauptbereichen:
-
-| Baustelle | Leitfrage | Beispiele |
-|---|---|---|
-| **Magie-Theorie und Zaubersystem** | Was ist Magie, wie werden Zauber formal konstruiert und begrenzt? | Ontologie, Zauber-Syntax, Operatoren, Modifier, Kosten, Fehlerlogik |
-| **Physik und Materialwelt** | Wie sieht eine manipulierbare Welt aus, auf die Magie kausal wirken kann? | Materie, Phasen, Temperatur, Materialfraktionen, Erhaltungssätze, Interventionsklassen |
-| **Technische Implementation** | Wie wird daraus ein testbarer 2D-Prototyp mit eigener Simulation? | Weltzellen, Chunks, SimulationCore, Rendering, Debug-Overlays, Engine-Benchmark |
-
----
-
-## Wichtigster aktueller Arbeitsfokus
-
-Der nächste Fokus ist nicht mehr nur „Grundidee formulieren“, sondern:
-
-```text
-Von Theorie-Grundsatz → zu minimalem simulierbarem Kern
-```
-
-Konkret stehen derzeit diese Aufgaben im Vordergrund:
-
-1. **Zauber-Interne Form entscheiden**  
-   Sequenz, Syntaxbaum, Graph, Komponentenobjekt oder Hybridmodell?
-
-2. **Minimalen Prototyp konkretisieren**  
-   Weltzellen, Chunks, fallender Sand, Temperatur-Overlay, lokale Material-/Wärmeeffekte.
-
-3. **Zielauswahl formalisieren**  
-   Punkt, Radius, Objekt-ID, Materialklasse, Relation, Sichtlinie, Bibliotheksdefinition.
-
-4. **Informationskomponenten begrenzen**  
-   Suchen, Filtern, Sortieren, Erkennen, Ausweichen — ohne allwissende Analysezauber zu erlauben.
-
-5. **Physische Zaubersyntax konkretisieren**  
-   Mindestbestandteile, Parsermodell, Glyphen-/Graphenstruktur, Beschädigung und Fehlerfälle.
-
-Die ausführlichere Arbeitsübersicht liegt hier:
-
-- `docs/22_current_status_and_next_steps.md`
+- `PROJECT_STATUS.md` — aktueller Projektstand und nächste Schritte
+- `project/design_decisions.md` — getroffene Designentscheidungen
+- `project/open_questions.md` — offene Theorie-, Design- und Simulationsfragen
+- `docs/README.md` — Übersicht über die Dokumentationsstruktur
+- `docs/reference/glossary.md` — Glossar zentraler Begriffe
 
 ---
 
@@ -100,6 +60,36 @@ Die ausführlichere Arbeitsübersicht liegt hier:
 5. Entwicklung einer manipulierbaren materiellen Welt als Simulationsgrundlage.
 6. Vorbereitung einer digitalen Simulation, zunächst in 2D, später optional in 3D.
 7. Prüfung, ob ein LLM-gestützter Zauber-Compiler als Interface zwischen natürlicher Sprache und formaler Zaubersyntax dienen kann.
+
+---
+
+## Projektstruktur
+
+```text
+tajans-thaumaturgie/
+├─ README.md
+├─ PROJECT_STATUS.md
+├─ project/
+│  ├─ design_decisions.md
+│  ├─ open_questions.md
+│  └─ system_tensions.md
+├─ docs/
+│  ├─ README.md
+│  ├─ foundations/
+│  ├─ spell_system/
+│  ├─ mana_and_energy/
+│  ├─ representation_and_material_coupling/
+│  ├─ world_model/
+│  ├─ implementation/
+│  └─ reference/
+├─ notes/
+│  ├─ raw/
+│  ├─ processed/
+│  └─ archive/
+├─ prototype/
+│  └─ 2d/
+└─ issues/
+```
 
 ---
 
@@ -122,28 +112,6 @@ Neue Ideen werden nach Möglichkeit in diese Kategorien einsortiert:
 - **Feature**
 - **Begriff**
 - **Beispiel**
-
----
-
-## Projektstruktur
-
-- `docs/` enthält stabile Theorie-, Design- und Architektur-Dokumente.
-- `notes/` enthält Rohnotizen und noch nicht bereinigte Gedanken.
-- `prototype/` enthält technische Experimente und spätere Prototypen.
-- `issues/` enthält Vorlagen und strukturierte Arbeitsaufgaben.
-
-Wichtige Einstiegspunkte:
-
-- `docs/00_project_vision.md` — Projektvision
-- `docs/01_core_principles.md` — Grundprinzipien
-- `docs/02_magic_ontology.md` — Magie-Ontologie
-- `docs/03_spell_syntax.md` — Zauber-Syntax
-- `docs/05_energy_costs_limits.md` — Energie, Kosten und Limits
-- `docs/07_design_decisions.md` — getroffene Designentscheidungen
-- `docs/15_material_world_model.md` — Materialwelt
-- `docs/20_world_cell_and_chunk_model.md` — Weltzellen und Chunks
-- `docs/21_material_simulation_benchmark.md` — Materialsimulations-Benchmark
-- `docs/22_current_status_and_next_steps.md` — aktueller Projektstand und nächste Schritte
 
 ---
 

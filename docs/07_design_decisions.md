@@ -223,3 +223,46 @@ Eine thaumische Entladung entlädt immer auch ihr physikalisches Analog. Körper
 Aus dem Modell ergeben sich emergente Spiel- und Weltrollen: Kampfzauberer tragen leistungsfähige Speicher oder Foki, Stealth-Zauberer nutzen effiziente kleine Eingriffe, Ritualmagier arbeiten mit stationären Quellen, und Infrastrukturmagier koppeln Zauber an Maschinen, Turbinen, Kraftwerke oder vorbereitete Speicher.
 
 Details siehe: `docs/23_mana_and_thaumic_field_model.md`.
+
+### DD-011 — Zaubergeometrie koppelt material- und grenzflächenabhängig
+
+**Datum:** 2026-07-09  
+**Status:** Festgelegt  
+
+**Kontext:**  
+Nach DD-010 sind physische Zauberrepräsentationen reale Kopplungsstrukturen für thaumische Potentiale. Offen blieb, ob diese Repräsentationen zwingend aus einem thaumisch leitfähigen Spezialmaterial bestehen müssen, oder ob jede stabile Geometrie in bzw. auf Materie ausreicht.
+
+**Entscheidung:**  
+Zaubergeometrie kann additiv, subtraktiv oder hybrid realisiert werden.
+
+```text
+Additiv:
+  Material wird aufgetragen, z. B. Tinte, Kreide, Asche, Metallpulver.
+
+Subtraktiv:
+  Material wird entfernt, verdrängt oder verformt, z. B. Kratzer, Gravur, Furche, Rille, Hohlraum.
+
+Hybrid:
+  Subtraktive Form wird mit leitfähigem, stabilisierendem oder speicherndem Material gefüllt oder beschichtet.
+```
+
+Spezialtinte oder thaumisch optimiertes Linienmaterial ist nützlich, aber nicht zwingend. Entscheidend ist eine stabile, präzise und materiell realisierte Geometrie.
+
+```text
+Geometrie bestimmt Gültigkeit.
+Material bestimmt Kopplungsqualität.
+```
+
+Negative Zaubergeometrien funktionieren nicht, weil Luft ein guter thaumischer Leiter wäre. Normale Luft gilt im Standardmodell eher als schwaches Füll- und Zwischenmedium. Der Kopplungseffekt negativer Geometrien entsteht primär durch Material-Luft-Grenzflächen, Hohlraumform, Kantenpräzision, geometrische Kontinuität und Trägermaterialstabilität.
+
+**Begründung:**  
+Dieses Modell erhält improvisierte Magie, Gravuren, Ritzungen, Kreidekreise, Runensteine und Artefakte, ohne Materialeigenschaften zu entwerten. Hochwertige Materialien verbessern Kopplung, Entladerate, Stabilität und Sicherheit, sind aber keine absolute Voraussetzung für jeden einfachen Zauber.
+
+Luft wird bewusst nicht als guter thaumischer Leiter definiert, weil sonst die gesamte Atmosphäre zu einem ständig verfügbaren thaumischen Leitmedium würde. Das würde Fernwirkung, Streuung, Leckage und Materialgrenzen schwerer kontrollierbar machen.
+
+**Folgen:**  
+Ein in Erde gezogener Kreis kann grundsätzlich funktionieren, ist aber schwach, instabil und störanfällig. Eine präzise Gravur in Stein ist dauerhafter. Metallische oder kristallhaltige Linien können stärkere Kopplung erlauben, erhöhen aber ggf. Überlastungs- oder Rückkopplungsrisiken.
+
+Materialwahl beeinflusst Kopplungseffizienz, maximale Entladerate, Stabilität, Leckage, Überlastungsrisiko und Fehlerverhalten.
+
+Details siehe: `docs/24_spell_geometry_and_material_coupling.md`.

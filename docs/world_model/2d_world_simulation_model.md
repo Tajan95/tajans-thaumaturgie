@@ -1,14 +1,19 @@
 # 16 — 2D World Simulation Model
 
+**Stand:** 2026-07-14, 01:44 Europe/Berlin  
+**Status:** Arbeitsmodell / Prototyping-Grundlage
+
 Dieses Dokument sammelt frühe Entscheidungen und offene Fragen zur technischen Simulation der 2D-Welt.
 
-**Status:** Arbeitsmodell / Prototyping-Fragen
+Details zu Einheiten, Sub-Zell-Massen und numerischer Quantisierung siehe:
+
+- `world_resolution_and_quantity_model.md`
 
 ---
 
 ## Ziel
 
-Der erste Prototyp soll eine 2D-Welt simulieren, in der Materialien grundsätzlich:
+Der erste Prototyp soll eine 2D-Seitenansicht simulieren, in der Materialien grundsätzlich:
 
 - bewegbar
 - zerstörbar
@@ -19,20 +24,51 @@ Der erste Prototyp soll eine 2D-Welt simulieren, in der Materialien grundsätzli
 
 sind.
 
+```text
+x = horizontale Weltachse
+y = vertikale Weltachse
+z = keine kontinuierlich simulierte Raumachse
+```
+
+---
+
 ## Weltauflösung
 
-Vorläufige Wunschrichtung:
+Vorläufige Richtung:
 
 ```text
-pixel-/zellbasierte 2D-Welt + flüssige Bewegungsvektoren
+zellbasierte 2D-Welt
++ Sub-Zell-Positionen für starre Objekte
++ zellbasierter Fluss für Granulate, Flüssigkeiten und Gase
 ```
 
 Das bedeutet:
 
 - Die Welt besteht aus kleinen räumlichen Einheiten.
-- Materialien können sich in diesen Einheiten befinden.
-- Bewegung ist nicht nur grob entlang x/y-Achsen möglich.
-- Zellen/Pixel können Vektoren, Temperatur, Materialfraktionen und Zustand speichern.
+- Eine Zelle ist keine Mindestmasse und keine Mindeststoffmenge.
+- Starre Objekte können sich mit kontinuierlicher oder Fixed-Point-Sub-Zell-Präzision bewegen.
+- Flüssigkeiten, Gase und Granulate übertragen Masse, Impuls und Energie zwischen Zellen.
+- Zellen speichern Temperatur, Materialfraktionen und lokale Zustände.
+
+---
+
+## Seitenansicht und diskrete Tiefenebenen
+
+Der erste Prototyp verwendet eine Seitenansicht.
+
+Optional können drei diskrete Tiefenebenen verwendet werden:
+
+```text
+Hintergrund
+Hauptebene
+Vordergrund
+```
+
+Diese Ebenen sind keine kontinuierliche 3D-Achse. Sie können als getrennte 2D-Raster mit expliziten Übergängen und Wechselwirkungen implementiert werden.
+
+Noch offen ist, ob Hintergrund und Vordergrund physikalisch vollständig simuliert oder teilweise nur visuell verwendet werden.
+
+---
 
 ## Pixel, Zellen und Materialfraktionen
 
@@ -40,46 +76,135 @@ Eine Weltzelle kann mehrere Informationen enthalten:
 
 | Eigenschaft | Beispiel |
 |---|---|
-| Position | x/y-Koordinate |
+| Position | x/y-Koordinate + diskrete Tiefenebene |
 | Hauptmaterial | Stein, Luft, Wasser |
-| Materialfraktionen | 78% N₂, 21% O₂, Rest |
+| Materialfraktionen | N₂, O₂, CO₂ und Wasserdampf |
 | Temperatur | 293 K |
 | Phase | fest, flüssig, gasförmig, Plasma |
 | Bewegungsvektor | Richtung + Geschwindigkeit |
 | Druck / Dichte | optional |
 | elektrische Ladung | optional |
-| Magnetfeldwert | optional |
+| Zusammensetzungsreferenz | Verweis auf Sub-Zell-Massen |
 
-## Sub-Pixel-Fraktionen
+---
 
-Kleine Stoffanteile dürfen nicht verloren gehen, nur weil ihr Volumen kleiner als ein Pixel wäre.
+## Sub-Zell-Fraktionen
 
-Arbeitsmodell:
+Kleine Stoffanteile dürfen nicht verloren gehen, nur weil ihr Volumen kleiner als eine Zelle ist.
 
 ```text
-Fraktionen unter 1 Pixelvolumen können denselben Zellraum überlagern,
-solange ihre Summe unterhalb definierter Schwellen bleibt.
+sichtbare Zellgröße ≠ kleinste physikalische Stoffmenge
 ```
+
+Eine Zelle kann mehrere Stoffmassen enthalten. Der Renderer zeigt eine dominante Materialklasse oder ein Gemisch, während die Simulation die Zusammensetzung erhält.
 
 Beispiel:
 
-Wenn Gestein 0,4% Gold und 0,2% Platin enthält, können diese Fraktionen bei Analyse oder Trennung sichtbar werden, ohne sofort realistisch große Pixelvolumina zu erzwingen.
+```text
+Luftzelle:
+- Stickstoff
+- Sauerstoff
+- CO₂ in Spurmenge
+- variabler Wasserdampf
+```
 
-### Offene technische Frage
+Ein Trennzauber darf den CO₂-Anteil aus mehreren Zellen entfernen und in einer Zielzelle oder einem Behälter akkumulieren. Masse wird weder auf volle Zellen aufgerundet noch verworfen.
 
-Wie werden solche Fraktionen behandelt, wenn sie:
+---
 
-- getrennt werden
-- bewegt werden
-- kollidieren
-- konzentriert werden
-- über mehrere Zellen aggregiert werden?
+## Hierarchische Objektauflösung
+
+Die Simulation verwendet die niedrigste Detailstufe, die für die aktuelle Interaktion ausreicht.
+
+```text
+stabiler Festkörper
+→ aggregiertes RigidObject
+
+lokale stoffliche Manipulation
+→ Zell-/Komponentenauflösung
+
+Bruch, Schmelzen oder Zerfall
+→ Fragmente oder Flussmaterial
+```
+
+Eine Truhe kann daher als Gesamtobjekt bewegt werden. Erst das lokale Herauslösen ihrer Metallbeschläge erfordert eine detailliertere Materialauflösung.
+
+---
+
+## Bewegungsmodelle
+
+### Starre Objekte
+
+```text
+Sub-Zell-Position
++ kontinuierliche Geschwindigkeit
++ kontinuierliche Rotation
++ rasterisierte Belegung / Kollision
+```
+
+Dadurch bleiben langsame und gekrümmte Bewegungen möglich, ohne die zellbasierte Welt aufzugeben.
+
+### Sand und andere Granulate
+
+```text
+zellbasierter Transfer
++ Ruhe-/Rutschregeln
++ optionaler Impulstransport
+```
+
+### Flüssigkeiten
+
+```text
+zellbasierter Massen-, Druck- und Impulstransfer
+```
+
+### Gase
+
+```text
+zellbasierter Stoffmengen-, Druck-, Wärme- und Diffusionstransfer
+```
+
+---
+
+## Ruhende Objekte
+
+Ruhende oder sehr langsame starre Objekte können später optional in eine stabile Rasterbelegung einrasten.
+
+Restenergie oder Bilanzdifferenzen dürfen dabei nicht stillschweigend verschwinden. Sie werden bevorzugt als Reibungswärme oder numerisches Residuum verbucht.
+
+Globale Energieflüsse durch Sonne, Erdwärme oder Abstrahlung existieren unabhängig davon und sollen numerische Fehler nicht kaschieren.
+
+---
+
+## Physikalische und numerische Größen
+
+Die Welt verwendet SI-kompatible Größen.
+
+Vorläufige Arbeits- und Anzeigeeinheiten:
+
+- Meter
+- Gramm
+- Sekunde
+- Kelvin
+- Joule
+- Newton
+- Watt
+
+Ein Joule ist die semantische Energieeinheit, nicht zwingend die kleinste numerische Energiemenge.
+
+Vorläufige Implementationshypothese:
+
+```text
+Fixed-Point-Integer
++ Energiequantum kleiner als 1 J
++ erster Benchmark mit Millijoule
+```
+
+---
 
 ## Hierarchische Material- und Wärmeverteilung
 
-Wärme, Gase, Flüssigkeiten und feine Partikel sollen nicht auf unendlich detaillierter Ebene simuliert werden.
-
-Stattdessen wird ein hierarchisches Modell vorgeschlagen:
+Wärme, Gase, Flüssigkeiten und feine Partikel sollen nicht überall auf maximaler Detailstufe simuliert werden.
 
 ```text
 lokal präzise → regional aggregiert → global bilanziert
@@ -89,86 +214,99 @@ lokal präzise → regional aggregiert → global bilanziert
 
 1. Direkt am Effektort wird Abwärme präzise berechnet.
 2. In mittlerer Entfernung wird sie gröber auf Bereiche verteilt.
-3. In großer Entfernung wird sie als globaler oder regionaler Wärmebeitrag bilanziert.
+3. In großer Entfernung wird sie als regionaler oder globaler Wärmebeitrag bilanziert.
 
-### Beispiel: CO₂-Erzeugung
+### Beispiel: CO₂
 
-Ein Zauber oder eine Maschine produziert CO₂.
-
-- In einem geschlossenen Raum muss CO₂ lokal/regional erhalten bleiben.
-- Im Freien kann es ab einer gewissen Entfernung in einen atmosphärischen Aggregatwert übergehen.
+- In einem geschlossenen Raum bleibt CO₂ lokal oder regional erhalten.
+- Im Freien kann es später in einen atmosphärischen Aggregatwert übergehen.
 - Masse darf dabei nicht verschwinden.
+
+---
 
 ## Erhaltungsprüfer
 
-Damit Optimierungen nicht Massen- oder Energieerhaltung brechen, braucht die Simulation Prüfer.
-
-Mögliche Prüfer:
-
 | Prüfer | Aufgabe |
 |---|---|
-| Massenbilanz | Prüft, ob Materialmenge erhalten bleibt. |
-| Energiebilanz | Prüft Wärme, Arbeit und Verluste. |
-| Impulsbilanz | Prüft Bewegungsänderungen und Rückstöße. |
-| Containerprüfung | Erkennt geschlossene Räume/Behälter. |
-| Fraktionsprüfung | Prüft Sub-Pixel-Anteile und Aggregation. |
-| Reaktionsprüfung | Prüft chemische/nukleare Umwandlungen. |
+| Massenbilanz | Prüft Material- und Komponentenmasse. |
+| Energiebilanz | Prüft Wärme, Arbeit, Verluste und numerische Residuen. |
+| Impulsbilanz | Prüft Bewegungsänderungen und Gegenimpulse. |
+| Containerprüfung | Erkennt geschlossene Räume und Behälter. |
+| Fraktionsprüfung | Prüft Sub-Zell-Anteile und Aggregation. |
+| Reaktionsprüfung | Prüft chemische und nukleare Umwandlungen. |
+
+---
 
 ## Performance-Risiken
-
-Eine vollständig manipulierbare Pixelwelt kann teuer werden.
 
 Problematische Fälle:
 
 - Explosionen
-- viele bewegte Pixel/Zellen
+- viele bewegte Zellen oder Fragmente
 - viele Kollisionen
-- viele gleichzeitige Transformationen
-- Gase/Flüssigkeiten mit Diffusion
+- gleichzeitige Transformationen
+- Gas- und Flüssigkeitsdiffusion
 - Wärmeausbreitung
-- Feuer/Plasma
+- Feuer und Plasma
 - chemische Kettenreaktionen
+- viele individuelle Stoffkomponenten pro Zelle
+- häufige Live-Zielabfragen von Zaubern
+
+---
 
 ## Mögliche Optimierungsansätze
 
 | Ansatz | Zweck |
 |---|---|
 | Chunking | Welt in größere Berechnungsbereiche teilen. |
-| Spatial Partitioning | Kollisionen nur lokal prüfen. |
-| LOD-Aggregation | entfernte/kleine Effekte gröber berechnen. |
+| Spatial Partitioning | Kollisionen lokal prüfen. |
+| LOD-Aggregation | entfernte oder kleine Effekte gröber berechnen. |
 | Aktivitätsmasken | nur aktive Bereiche aktualisieren. |
-| Ereignisbasierte Updates | nur bei Änderung neu berechnen. |
-| Grenzwerte/Cutoffs | irrelevante Kleinstwerte aggregieren. |
-| Schlafende Partikel | ruhende Materialien nicht ständig simulieren. |
-| Container-Regionen | Räume/Behälter als eigene Bilanzräume behandeln. |
+| Ereignisbasierte Updates | nur bei Änderungen neu berechnen. |
+| Fixed-Point-Quantisierung | reproduzierbare Mengen- und Energiebilanzen. |
+| CompositionPool | komplexe Mischungen außerhalb der Zellen speichern. |
+| Schlafende Objekte | ruhende Materialien nicht ständig simulieren. |
+| Container-Regionen | Räume und Behälter als Bilanzräume behandeln. |
 
-## 2D-Levelstruktur
+---
 
-Eine mögliche Gameplay-Struktur:
+## Bezug zur Zaubersyntax
 
-- 2D-Welt mit links-nach-rechts-Fortschritt.
-- Verschiedene Level führen Materialtypen, Spell-Makros und Simulationskonzepte schrittweise ein.
-- Analyse- und Zaubermöglichkeiten wachsen mit Wissen/Bibliotheken.
+Zauber können auf verschiedenen Auflösungsebenen wirken:
 
-## Zwei oder drei Ebenen?
+```text
+ObjectRef
+CellRef
+CellRegionRef
+SurfaceRef
+MaterialFractionRef
+LayerRef
+```
 
-Offen ist, ob die 2D-Welt nur eine Ebene besitzt oder mehrere Schichten.
+Beispiele:
 
-Mögliche Modelle:
+```text
+Bewege den Stein
+→ ObjectRef + ApplyForce
 
-| Modell | Beschreibung |
-|---|---|
-| 2D-Ebene | klassische Seitenansicht oder Top-Down-Welt |
-| 2.5D-Schichten | Vordergrund/Mitte/Hintergrund oder Materialschichten |
-| 3 Ebenen | z. B. Oberfläche, Innenraum, Feld-/Energieebene |
+Erhitze eine lokale Steinfläche
+→ CellRegionRef oder SurfaceRef + TransferThermalEnergy
+
+Trenne CO₂ aus Luft
+→ MaterialFractionRef + TransportComponentMass
+```
+
+---
 
 ## Offene Fragen
 
-1. Ist die 2D-Welt eher Seitenansicht, Top-Down oder Hybrid?
-2. Sind Weltzellen Pixel, Blöcke, Partikel oder hybride Zellen?
-3. Wie werden Bewegungsvektoren stabil und performant berechnet?
-4. Welche Stoffe werden lokal präzise simuliert und welche aggregiert?
-5. Wie erkennt das System geschlossene Räume und Container?
-6. Welche Ereignisse erzwingen hohe Simulationsauflösung?
-7. Wie werden Explosionen begrenzt, ohne Erhaltungssätze zu brechen?
-8. Welche Engine kann dieses Modell am besten tragen?
+1. Welche Zellbreite und Zellhöhe trägt der erste Prototyp?
+2. Welche angenommene Tiefe besitzt eine 2D-Ebene?
+3. Sind Hintergrund und Vordergrund physikalisch oder teilweise nur visuell?
+4. Welche Cross-Layer-Wechselwirkungen werden erlaubt?
+5. Welche Fixed-Point-Quanten werden für Masse, Energie und Position gewählt?
+6. Wie werden Bewegungsvektoren und Kollisionen performant berechnet?
+7. Welche Stoffe werden lokal präzise simuliert und welche aggregiert?
+8. Wie erkennt das System geschlossene Räume und Container?
+9. Welche Ereignisse erzwingen höhere Simulationsauflösung?
+10. Wie werden Explosionen begrenzt, ohne Erhaltungssätze zu brechen?

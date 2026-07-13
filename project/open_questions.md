@@ -14,6 +14,8 @@ Dieses Dokument sammelt offene Theorie-, Design- und Simulationsfragen.
 | Gameplay | Betrifft spätere Spielbarkeit. |
 | Lore | Betrifft Weltdeutung, Kultur oder Erzählung. |
 
+---
+
 ## Teilweise geklärte Fragen
 
 ### OQ-001 — Was ist Magie ontologisch?
@@ -21,286 +23,288 @@ Dieses Dokument sammelt offene Theorie-, Design- und Simulationsfragen.
 **Kategorie:** Theorie  
 **Status:** Teilweise geklärt durch DD-003, DD-004, DD-009 und DD-010
 
-Magie wird nicht als beliebige Realitätsüberschreibung behandelt. Vorläufig gilt:
-
 ```text
-Magie = regelgebundene Zustandsmanipulation unter Erhaltungssätzen und Mana-/Arbeitskosten
+Magie = regelgebundene Zustandsmanipulation
+        unter Erhaltungssätzen und Mana-/Arbeitskosten
 ```
 
-Mana selbst ist kein konkreter Stoff und kein Teilchen. Nach DD-010 ist Mana der nutzbare thaumische Arbeitsfluss aus realen physikalischen Energiepotentialen.
-
-```text
-physikalisches Energiepotential
-→ gekoppeltes thaumisches Potential
-→ Zaubergeometrie koppelt daran
-→ magische Arbeit
-→ physikalische Quelle entlädt sich + Verluste
-```
+Mana ist kein Stoff oder Teilchen, sondern nutzbarer thaumischer Arbeitsfluss aus realen physikalischen Energiepotentialen.
 
 **Noch offen:**  
-Wie exakt das thaumische Potential quantitativ aus physikalischen Energiepotentialen berechnet wird.
+Wie das thaumische Potential quantitativ berechnet wird.
 
 ### OQ-002 — Welche Form hat ein Zauber intern?
 
 **Kategorie:** Syntax / Simulation  
-**Status:** Teilweise geklärt durch DD-012
+**Status:** Teilweise geklärt durch DD-012 bis DD-015
 
-Geklärt ist das erste notwendige Submodell:
+Geklärt:
 
-- Jeder ausführbare Zauber besitzt mindestens eine Start-Glyphe bzw. einen Aktivierungsknoten.
-- Ohne expliziten Start-Modifier gilt `on_complete_execute_once`.
-- Verzögerungen, Vokalisierung, Gestik, Umweltbedingungen, Halten, Toggle, Dauerlimits, autonome Quellenbindung, Wiederholung und Failsafes sind explizite syntaktische Bestandteile.
+```text
+ActivationNode
+→ TargetNode(s)
+→ EffectNode(s)
+→ StateChangeRequest(s)
+```
+
+- TargetNodes erzeugen typisierte TargetSets.
+- Primitive EffectNodes enthalten eine atomare Zustandsoperation.
+- Mehrere Wirkungen können parallel oder sequenziell verbunden werden.
+- Makros expandieren zu primitiven Teilgraphen.
 
 Aktuelle starke Hypothese:
 
 ```text
-Interne Zauberform = Komponentenobjekt + gerichteter Wirkungsgraph
+Interne Zauberform = Komponentenobjekt + typisierter gerichteter Wirkungsgraph
 ```
 
 **Noch offen:**  
-Ob der restliche Zauber final als lineare Sequenz, Syntaxbaum, Graph, Komponentenobjekt oder Hybridmodell beschrieben wird. Als nächstes müssen `Effect Node` und `Target Node` definiert werden.
+Ob dieses Hybridmodell endgültig festgelegt wird und welche weiteren Node-Familien die minimale SpellIR benötigt.
+
+### OQ-003 — Wie wird Zielauswahl definiert?
+
+**Kategorie:** Semantik / Simulation  
+**Status:** Teilweise geklärt durch DD-013
+
+TargetNodes definieren Selektor, Anker, Suchraum, Filter, Granularität, Bindungsmodus, Aktualisierung, Zugriffsvoraussetzungen und Fehlerverhalten.
+
+Vorläufige Referenzen:
+
+```text
+ObjectRef
+CellRef
+CellRegionRef
+SurfaceRef
+MaterialFractionRef
+PointRef
+BiologicalRegionRef
+```
+
+**Noch offen:**  
+Welche Referenz-, Filter- und Selektortypen Grundprimitive sind und welche Wissen oder Bibliotheken benötigen.
 
 ### OQ-004 — Wie entstehen Fehlerfälle?
 
 **Kategorie:** Kosten / Simulation / Gameplay  
 **Status:** Teilweise geklärt
 
-Fehlerfälle sollen bevorzugt emergent entstehen:
+Fehler entstehen bevorzugt emergent aus:
 
-- unzureichende Mana-Quelle
-- syntaktisch falscher Zauber
-- semantischer Widerspruch
-- ungültige Zielauswahl
-- nicht mehr zugreifbare Referenz/Bibliothek/Fokusstruktur
-- nicht abgeführte Verlustwärme
-- instabile Bindung
-- Quellkollaps durch zu schnelle Entladung
-- Speicherbruch durch Überladung
-- Rückkopplung in Fokusmedium, Speicher oder Körper
-- ungültige oder beschädigte Start-Glyphe
-- fehlende oder gefährlich unvollständige Terminationslogik
+- ungültiger Syntax oder Portverbindung
+- semantischem Widerspruch
+- leerer oder gebrochener Zielbindung
+- unzureichender Energiequelle
+- fehlender Bibliothek oder Repräsentation
+- nicht abgeführter Wärme oder Nebenprodukten
+- Quellkollaps, Speicherbruch oder Rückkopplung
+- beschädigter Start-Glyphe
+- fehlender Terminationslogik
+- widersprüchlichen parallelen StateChangeRequests
 
 **Noch offen:**  
-Ob zusätzlich abstrakte Misslingen-Modifier für bestimmte Gameplay- oder Simulationssituationen nötig sind.
+Ob zusätzliche abstrakte Misslingen-Modifier benötigt werden.
 
 ### OQ-008 — Gibt es ein Mana-Trägermedium?
 
 **Kategorie:** Theorie / Lore / Simulation  
 **Status:** Teilweise geklärt durch DD-010
 
-Mana ist kein Stoff und kein Teilchen. Das Standardmodell verwendet stattdessen ein thaumisches Feldpotential: eine Kopplungsschicht, über die reale physikalische Energiepotentiale magisch adressierbar werden.
-
-Das thaumische Feld ist keine zusätzliche Energiequelle, sondern eine Übertragungs- und Kopplungsebene.
+Das Standardmodell verwendet ein thaumisches Feldpotential als Kopplungsebene für reale Energiepotentiale, nicht als zusätzliche Energiequelle.
 
 **Noch offen:**  
-Wie das thaumische Feld in der Simulation konkret parametrisiert wird und ob es räumliche Hintergrundwerte, Materialkopplungen oder nur an Quellen gebundene Potentiale besitzt.
+Wie dieses Feld räumlich und quantitativ simuliert wird.
+
+### OQ-011 — Was ist ein ausführbarer Zauber?
+
+**Kategorie:** Syntax / Simulation / Gameplay  
+**Status:** Teilweise geklärt durch DD-007 und DD-012 bis DD-015
+
+Ein ausführbarer Zauber benötigt mindestens:
+
+```text
+ActivationNode
++ TargetNode
++ EffectNode
++ Ressourcenmodell
++ physische Repräsentation
++ gültige Fehlerlogik
+```
+
+**Noch offen:**  
+Welche zusätzlichen Mindestknoten bei Transfers, Nebenprodukten, Bibliotheken und kontinuierlicher Ausführung zwingend sind.
 
 ### OQ-012 — Können Zauber rein vokal oder somatisch gewirkt werden?
 
 **Kategorie:** Syntax / Gameplay / Lore  
 **Status:** Teilweise geklärt durch DD-007 und DD-012
 
-Rein vokale oder rein somatische Zauber ohne physische visuelle Repräsentation sind nicht vorgesehen.
-
-Vokalisierung und Gestik können aber Trigger, Zielhilfe, Timing oder Laufzeitparameter eines bereits physisch repräsentierten Zaubers sein.
-
-Nach DD-012 sind Vokalisierung und Gestik explizite Start- oder Laufzeitmodifier, nicht unsichtbare Ersatzsyntax.
+Rein vokale oder somatische Zauber ohne physische Repräsentation sind nicht vorgesehen. Stimme und Gestik können Trigger oder Laufzeitinput sein.
 
 **Noch offen:**  
-Wie nah die physische Repräsentation am Zauberer oder Ziel sein muss.
+Wie nah sich die physische Repräsentation an Zauberer oder Ziel befinden muss.
 
 ### OQ-013 — Wo befinden sich Zauberbibliotheken?
 
 **Kategorie:** Syntax / Semantik / Gameplay / Lore  
 **Status:** Teilweise geklärt durch DD-008
 
-Zauberbibliotheken verwenden ein Hybridmodell:
-
-- Grundprimitive sind systemisch verfügbar.
-- Häufige einfache Makros können memorisiert werden.
-- Komplexe Makros und Spezialdefinitionen müssen lokal vorhanden, gelernt oder importiert sein.
+Grundprimitive sind systemisch verfügbar; einfache Makros können memorisiert, komplexe Definitionen lokal gelernt oder importiert werden.
 
 **Noch offen:**  
-Wie Memory-Slots, Bibliotheksversionen und visuelle Importzeichen genau funktionieren.
+Memory-Slots, Versionen und visuelle Importzeichen.
+
+### OQ-017 — Wie wird die Materialauflösung der Welt modelliert?
+
+**Kategorie:** Simulation / Materialität  
+**Status:** Teilweise geklärt durch DD-016 bis DD-019
+
+Geklärt:
+
+- WorldCells sind räumliche Einheiten, keine Mindestmassen.
+- Sub-Zell-Massen und Stofffraktionen bleiben erhalten.
+- Starre Objekte verwenden Sub-Zell-Positionen.
+- Flussmaterialien verwenden Zelltransfermodelle.
+- Größen bleiben SI-kompatibel und intern quantisierbar.
+
+**Noch offen:**  
+Konkrete Zellgröße, effektive Ebenentiefe, Mengenquanten, CompositionPool und adaptive Auflösungswechsel.
 
 ### OQ-019 — Kann Magie Felder und Wellen direkt erzeugen?
 
 **Kategorie:** Theorie / Simulation  
 **Status:** Teilweise geklärt durch DD-009 und DD-010
 
-Standardmagie ist materiegebunden. Direkte substratlose Feld-/Wellenmanipulation ist nicht Teil der Standardmagie.
-
-Das thaumische Feld nach DD-010 ist keine Erlaubnis, beliebige physikalische Felder oder Photonen direkt zu erzeugen. Es ist eine Kopplungsebene für reale Energiepotentiale, die weiterhin bevorzugt auf materielle Zielzustände angewendet werden.
+Direkte substratlose Feld-/Wellenmanipulation ist keine Standardmagie.
 
 **Noch offen:**  
-Ob und wann direkte EM-/Photonen-/Feldmagie als spätere High-Level-Interventionsklasse eingeführt wird.
+Ob und wann sie als High-Level-Interventionsklasse eingeführt wird.
+
+### OQ-020 — Wie werden Informationskomponenten bepreist?
+
+**Kategorie:** Kosten / Syntax / Simulation  
+**Status:** Teilweise geklärt durch DD-013 und DD-015
+
+Query-, Analysis-, Filter- und Live-Bindungsoperationen verursachen Steuerarbeit. Kostenfaktoren sind unter anderem Suchraum, Auflösung, Aktualisierungsrate, Zielzahl, Unsicherheit und Bibliothekswissen.
+
+**Noch offen:**  
+Die konkrete Kostenfunktion und Grenzen gegen allwissende Abfragen.
+
+---
 
 ## Offene Fragen
-
-### OQ-003 — Wie wird Zielauswahl definiert?
-
-**Kategorie:** Semantik / Simulation  
-**Status:** Offen
-
-Wir müssen klären, ob Ziele über Sicht, Entfernung, Symbolbindung, Materialeigenschaft, Koordinate, Name, Kontakt oder Relation ausgewählt werden.
 
 ### OQ-005 — Was begrenzt Rekursion und Kombinatorik?
 
 **Kategorie:** Theorie / Syntax / Kosten  
 **Status:** Offen
 
-Wenn Modifier auf Modifier oder Zauber auf Zauber wirken können, braucht das System Grenzen gegen unendliche Verstärkung oder Selbstreferenz.
+Wie werden Selbstreferenz, rekursive Makros, unendliche Schleifen und exponentielle Graphauswertung begrenzt?
 
 ### OQ-006 — Gibt es eine direkte Mana-Joule-Umrechnung?
 
 **Kategorie:** Kosten / Simulation  
 **Status:** Offen
 
-Mana ist als abstrakte magische Arbeitswährung festgelegt. Nach DD-010 ist es der nutzbare thaumische Arbeitsfluss aus realen physikalischen Energiepotentialen.
+Ist Mana exakt eine Energiemenge in Joule oder bleibt es eine interne Größe aus nutzbarer Arbeit, Kopplung, Effizienz und Verlusten?
 
-Offen ist, ob ein Mana exakt einer physikalischen Energiemenge entspricht oder ob Mana-Joule eine interne Simulationsgröße mit Kopplungs- und Effizienzfaktoren bleibt.
-
-### OQ-007 — Wie wird biologische Materie magisch verbrannt?
+### OQ-007 — Wie wird biologische Materie als Energiequelle genutzt?
 
 **Kategorie:** Theorie / Kosten / Simulation  
 **Status:** Offen
 
-Lebewesen oder biologische Materie können als Mana-Quelle dienen, indem chemisch gebundene Energie magisch nutzbar gemacht wird.
-
-Nach DD-010 bedeutet das: biologische Energie erzeugt ein bio-thaumisches Potential, das durch Zaubergeometrie angezapft werden kann.
-
-Offen ist, ob dieser Prozess analog zu Stoffwechsel, Verbrennung, Lebensenergieentzug oder direkter chemischer Umwandlung modelliert wird.
+Wie werden Stoffwechsel, chemische Entladung, Erschöpfung, Gewebeschaden und Wärme bilanziert?
 
 ### OQ-009 — Wie werden zeitähnliche Effekte formalisiert?
 
 **Kategorie:** Theorie / Simulation  
 **Status:** Offen
 
-Zeitumkehrung, Zeitverlangsamung und Zeitbeschleunigung sollen nicht als Bruch von Naturgesetzen behandelt werden, sondern möglicherweise als präzise Manipulation von Zustandsvektoren, Bewegungen oder lokalen Prozessraten.
+Können zeitähnliche Effekte als Manipulation von Zustandsvektoren, Bewegungen oder lokalen Prozessraten konstruiert werden?
 
 ### OQ-010 — Wie wird visuelle Syntax geparst?
 
 **Kategorie:** Syntax / Semantik / Simulation  
 **Status:** Offen
 
-Jeder ausführbare Zauber braucht eine physische visuelle Repräsentation. Offen ist, wie Zeichnungen, Glyphen, Gravuren oder Tattoos formal geparst und in ausführbare Datenstrukturen übersetzt werden.
-
-Nach DD-010 muss diese Repräsentation nicht nur Bedeutung codieren, sondern auch als Zaubergeometrie bzw. thaumische Kopplungsstruktur modellierbar sein.
-
-Nach DD-012 muss der Parser außerdem erkennen, ob Start-Glyphe, Triggerlogik, Ausführungsmodus und Terminationslogik gültig sind.
-
-### OQ-011 — Was ist ein ausführbarer Zauber?
-
-**Kategorie:** Syntax / Simulation / Gameplay  
-**Status:** Offen
-
-Ein abstrakt programmierter Zauber muss in eine visuelle Repräsentation übersetzbar sein. Eine visuelle Repräsentation muss in Programm-Logik übersetzbar sein. Offen ist, welche Mindestbedingungen ein Zauber erfüllen muss, um als ausführbar zu gelten.
+Wie werden physische Glyphen in Activation-, Target-, Effect-, Ressourcen- und Sicherheitsknoten übersetzt, und wie beeinflusst ihre reale Geometrie zugleich die thaumische Kopplung?
 
 ### OQ-014 — Was ist ein Grundprimitive und was ist importpflichtig?
 
 **Kategorie:** Syntax / Semantik  
 **Status:** Offen
 
-Das System muss unterscheiden, welche semantischen Bausteine immer verfügbar sind und welche als Bibliothek, Makro oder Objektdefinition importiert werden müssen.
+Welche Target-, Effect-, Query- und Control-Nodes sind immer verfügbar?
 
 ### OQ-015 — Wie funktionieren Objektdefinitions-Bibliotheken?
 
 **Kategorie:** Semantik / Zielauswahl / Simulation  
 **Status:** Offen
 
-Bibliotheken könnten definieren, was ein Objekt wie „Tür“, „Stein“, „Wasser“ oder „Klinge“ bedeutet. Offen ist, wer entscheidet, ob ein konkretes Ziel zu einer solchen Definition passt.
+Wie wird entschieden, ob ein konkretes Objekt einer Definition wie Tür, Stein, Tier oder Organ entspricht?
 
 ### OQ-016 — Wie lesbar ist ein Zauber für erfahrene Zauberer?
 
 **Kategorie:** Semantik / Gameplay / Visuelle Sprache  
 **Status:** Offen
 
-Erfahrene Zauberer sollen aus der visuellen Struktur grob erkennen können, was ein Zauber bewirkt. Offen ist, wie viel ohne Analyse sofort erkennbar ist und was Fachwissen oder Tools erfordert.
-
-### OQ-017 — Wie wird die Materialauflösung der Welt modelliert?
-
-**Kategorie:** Simulation / Materialität  
-**Status:** Offen
-
-Die 2D-Welt könnte pixel-/zellbasiert sein, aber Materialien müssen interne Zusammensetzungen, Sub-Pixel-Fraktionen und homogene Makroanzeigen besitzen können.
+Welche Node-Typen, Zielbindungen, Ressourcenpfade und Risiken sind direkt visuell erkennbar?
 
 ### OQ-018 — Welche Elemente und Materialien gehören in den ersten Katalog?
 
 **Kategorie:** Semantik / Simulation / Gameplay  
 **Status:** Offen
 
-Das System braucht einen funktionalen Element-, Stoff-, Material- und Objektkatalog. Offen ist, welche Einträge für den ersten Prototyp nötig sind.
-
-Nach DD-010 sollten für relevante Materialien zusätzlich thaumische Attribute wie `mana_capacity`, `mana_conductivity`, `mana_leakage` oder `mana_conversion_efficiency` geprüft werden.
-
-### OQ-020 — Wie werden Informationskomponenten bepreist?
-
-**Kategorie:** Kosten / Syntax / Simulation  
-**Status:** Offen
-
-Suchen, Sortieren, Ausweichen, Filtern und Erkennen wirken eher wie Informationsverarbeitung als physische Arbeit. Offen ist, ob sie Mana, Komplexität, Rechenkosten oder kognitive Kontrolle verbrauchen.
+Welche Stoffe, Materialien und Attribute werden für den ersten thermischen, mechanischen und kompositionellen Prototyp benötigt?
 
 ### OQ-021 — Wie funktioniert hierarchische Aggregation ohne Erhaltungsverlust?
 
 **Kategorie:** Simulation / Performance  
 **Status:** Offen
 
-Wärme, Gase, Flüssigkeiten und feine Materialfraktionen sollen lokal präzise, regional aggregiert und global bilanziert werden, ohne Masse oder Energie zu verlieren.
+Wie werden lokale Werte regional aggregiert und später wieder verfeinert, ohne Masse, Energie, Impuls oder Zusammensetzung zu verlieren?
 
 ### OQ-022 — Wie werden geschlossene Räume und Container erkannt?
 
 **Kategorie:** Simulation  
 **Status:** Offen
 
-Aggregierte Material- oder Gaswerte dürfen nicht willkürlich in geschlossene Räume oder Container eindringen. Die Simulation braucht daher eine Container-/Raumprüfung.
+Wie verhindert die Simulation, dass aggregierte Gase, Flüssigkeiten oder Wärme durch geschlossene Grenzen diffundieren?
 
-### OQ-023 — Beeinflusst die Größe einer visuellen Zauberrepräsentation Effizienz?
+### OQ-023 — Beeinflusst die Größe einer Zauberrepräsentation Effizienz?
 
 **Kategorie:** Syntax / Kosten / Gameplay  
 **Status:** Offen
 
-Kleiner gezeichnete Zauber könnten eine Mana-, Präzisions- oder Stabilitäts-Penalty erhalten, besonders wenn die Repräsentation deutlich kleiner als Ziel oder Wirkungsgröße ist.
-
-Nach DD-010 könnte die Größe einer Repräsentation auch die Kopplungsfläche, Entladerate, Streuung oder Überlastungsgrenze beeinflussen.
+Wie beeinflussen Größe, Präzision, Kopplungsfläche und Material die Entladerate, Stabilität und Überlastungsgrenze?
 
 ### OQ-024 — Wann wird High-Level-Feld-/Wellenmagie eingeführt?
 
 **Kategorie:** Theorie / Simulation / Gameplay  
 **Status:** Offen
 
-Direkte Feld-/Wellenmanipulation bleibt als spätere Interventionsklasse möglich. Offen ist, welche Voraussetzungen, Kosten, Risiken und Bibliotheken nötig wären, damit diese Klasse nicht die materiegebundene Standardmagie trivial ersetzt.
+Welche Voraussetzungen verhindern, dass direkte Feld- oder Wellenmagie die materiegebundene Standardmagie trivial ersetzt?
 
 ### OQ-025 — Wie wird thaumisches Potential quantitativ berechnet?
 
 **Kategorie:** Kosten / Simulation  
 **Status:** Offen
 
-DD-010 legt fest, dass physikalische Energiepotentiale ein thaumisches Analog besitzen können.
-
-Offen ist, welche Funktion daraus einen Simulationswert macht:
-
 ```text
-thaumic_potential = f(physikalische Energie, Materialkopplung, Geometrie, Effizienz, Verluste)
+thaumic_potential = f(
+    physikalische Energie,
+    Leistungsdichte,
+    Materialkopplung,
+    Geometrie,
+    Distanz,
+    Effizienz,
+    Verluste
+)
 ```
-
-Mögliche Einflussgrößen:
-
-- verfügbare physikalische Energie
-- Leistungsdichte
-- Materialkopplung
-- Größe und Präzision der Zaubergeometrie
-- Distanz zur Quelle
-- Speicherkapazität
-- Leckage
-- Entladerate
-- Rückkopplungsrisiko
 
 ### OQ-026 — Welche thaumischen Materialattribute braucht der erste Prototyp?
 
 **Kategorie:** Simulation / Materialität / Gameplay  
 **Status:** Offen
-
-Für den ersten 2D-Prototyp muss entschieden werden, welche Mana-relevanten Materialwerte tatsächlich nötig sind.
 
 Kandidaten:
 
@@ -318,6 +322,61 @@ Kandidaten:
 **Kategorie:** Syntax / Semantik / Simulation  
 **Status:** Offen
 
-Nach DD-010 sind physische Zauberrepräsentationen reale Kopplungsstrukturen.
+Wie beeinflussen Linienführung, Material, Größe, Symmetrie, Beschädigung und Präzision die Kopplung?
 
-Offen ist, wie genau Geometrie, Material, Größe, Linienführung, Beschädigung, Symmetrie und Präzision die Kopplung an thaumisches Potential beeinflussen.
+### OQ-028 — Welche Fixed-Point-Quanten verwendet die Simulation?
+
+**Kategorie:** Simulation / Performance  
+**Status:** Offen
+
+Welche kleinsten internen Einheiten werden für Energie, Masse, Position, Zeit und Stoffanteile verwendet?
+
+Erster Kandidat:
+
+```text
+Energie: Millijoule in signed 64-bit Integer
+```
+
+### OQ-029 — Wie werden viele Stoffkomponenten pro Zelle gespeichert?
+
+**Kategorie:** Simulation / Performance  
+**Status:** Offen
+
+Welche Inline-Kapazität ist sinnvoll, und wie funktionieren CompositionPool, Copy-on-Write und konservierte Spurstoff-Records?
+
+### OQ-030 — Wie werden parallele StateChangeRequests aufgelöst?
+
+**Kategorie:** Syntax / Simulation  
+**Status:** Offen
+
+Was geschieht bei widersprüchlichen, konkurrierenden oder ressourcenabhängigen Änderungen im selben Tick?
+
+### OQ-031 — Sind partielle Effect-Ausführungen erlaubt?
+
+**Kategorie:** Syntax / Kosten / Gameplay  
+**Status:** Offen
+
+Wird ein EffectNode bei unzureichender Energie abgebrochen, proportional begrenzt, teilweise ausgeführt oder gemäß expliziter Policy behandelt?
+
+### OQ-032 — Welche Grenzen gelten für biologische und kognitive Zauber?
+
+**Kategorie:** Theorie / Syntax / Gameplay  
+**Status:** Offen
+
+Biologische und kognitive Makros werden vorläufig aus materiellen, chemischen, elektrischen und informationsverarbeitenden Operationen abgeleitet.
+
+Offen sind:
+
+- notwendige Neuro-/Biologiebibliotheken
+- zulässige Analyseauflösung
+- individuelle Variation
+- Fehlertoleranz
+- direkte mentale Fernwirkung
+- ethische und spielmechanische Begrenzungen
+
+### OQ-033 — Wie funktionieren diskrete Tiefenebenen?
+
+**Kategorie:** Simulation / Gameplay  
+**Status:** Offen
+
+Sind Hintergrund und Vordergrund voll physikalisch, und welche Cross-Layer-Interaktionen, Verdeckungen und Übergänge sind erlaubt?

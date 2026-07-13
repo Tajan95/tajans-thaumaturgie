@@ -31,6 +31,7 @@ Grundannahmen und Projektfundament.
 Zauberlogik, Syntax, Interventionsklassen, Bibliotheken und Compiler-Fragen.
 
 - `spell_syntax.md`
+- `spell_lifecycle_and_activation.md`
 - `modifiers_and_operators.md`
 - `intervention_classes.md`
 - `spell_libraries_and_references.md`
@@ -62,10 +63,11 @@ Materialwelt, Weltzellen, Chunks und 2D-Simulationsmodell.
 
 ### `implementation/`
 
-Engine-, Framework- und Benchmark-Fragen.
+Engine-, Framework-, Benchmark- und Editor-Fragen.
 
 - `engine_and_framework_evaluation.md`
 - `material_simulation_benchmark.md`
+- `spell_editor_architecture.md`
 
 ### `reference/`
 

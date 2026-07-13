@@ -1,6 +1,6 @@
 # Tajan's Thaumaturgie
 
-**Stand:** 2026-07-13, 18:18 Europe/Berlin  
+**Stand:** 2026-07-14, 01:44 Europe/Berlin  
 **Status:** Frühe Systemarchitektur / Theorie- und Prototypingphase
 
 **Tajan's Thaumaturgie** ist ein Projekt zur Entwicklung eines granularen, modularen und formal ableitbaren Magie-Systems.
@@ -34,14 +34,21 @@ Aktuell festgelegt:
 - Masse, Energie und Impuls bleiben grundsätzlich erhalten.
 - Standardmagie ist materiegebunden und wirkt auf vorhandene Materie bzw. deren Zustände.
 - Direkte Feld-/Wellenmagie ist keine Standardmagie, bleibt aber als spätere High-Level-Interventionsklasse offen.
-- Jeder ausführbare Zauber benötigt eine physische visuelle Repräsentation, z. B. Schriftrolle, Gravur, Zeichnung, Ritualkreis oder Tattoo.
+- Jeder ausführbare Zauber benötigt eine physische visuelle Repräsentation.
 - Physische Zaubergeometrien sind reale Kopplungsstrukturen für thaumische Potentiale.
-- Zaubergeometrie kann additiv, subtraktiv oder hybrid realisiert werden; Material bestimmt die Kopplungsqualität.
+- Zaubergeometrie kann additiv, subtraktiv oder hybrid realisiert werden.
 - Jeder ausführbare Zauber besitzt mindestens eine Start-Glyphe bzw. einen Aktivierungsknoten.
-- Ohne expliziten Start-Modifier gilt: `on_complete_execute_once`.
-- Ein LLM/Genie-System kann beim Übersetzen natürlicher Sprache in formale Zauberstruktur helfen, ist aber nicht die Regelautorität.
-- Makro-Zauber sind Komfortschichten; ihre Effizienz entsteht emergent aus ihrer Struktur.
-- Zauberbibliotheken verwenden ein Hybridmodell aus systemisch verfügbaren Grundprimitiven, memorisierten Makros und lokal/importierten Spezialdefinitionen.
+- Ohne expliziten Start-Modifier gilt `on_complete_execute_once`.
+- TargetNodes erzeugen explizite, typisierte TargetSets.
+- Primitive EffectNodes enthalten genau eine atomare Zustandsoperation.
+- Mehrere Wirkungen werden durch parallele oder sequenzielle Graphzweige kombiniert.
+- Makros werden für Kosten und Validierung zu primitiven Teilgraphen expandiert.
+- Zauberlogik verbraucht neben physikalischer Effektarbeit eigene thaumische Steuerarbeit.
+- WorldCells sind räumliche Einheiten, keine Mindestmassen oder Mindeststoffmengen.
+- Der erste Prototyp verwendet eine 2D-Seitenansicht.
+- Starre Objekte nutzen Sub-Zell-Positionen; Granulate, Flüssigkeiten und Gase nutzen Zelltransfermodelle.
+- Physikalische Größen bleiben SI-kompatibel und werden intern quantisierbar gehalten.
+- Ein LLM/Genie-System kann bei der Übersetzung helfen, ist aber nicht die Regelautorität.
 
 Wichtige Einstiegspunkte:
 
@@ -49,6 +56,8 @@ Wichtige Einstiegspunkte:
 - `project/design_decisions.md` — getroffene Designentscheidungen
 - `project/open_questions.md` — offene Theorie-, Design- und Simulationsfragen
 - `docs/README.md` — Übersicht über die Dokumentationsstruktur
+- `docs/spell_system/target_and_effect_node_model.md` — TargetNode-, EffectNode- und StateChangeRequest-Modell
+- `docs/world_model/world_resolution_and_quantity_model.md` — Welt-, Mengen- und Präzisionsmodell
 - `docs/reference/glossary.md` — Glossar zentraler Begriffe
 
 ---
@@ -120,19 +129,22 @@ Neue Ideen werden nach Möglichkeit in diese Kategorien einsortiert:
 
 ## Aktueller nächster sinnvoller Einstieg
 
-Issue #2 wird aktuell schrittweise bearbeitet.
+Issue #2 wird schrittweise bearbeitet.
 
 Bereits dokumentiert:
 
 ```text
-Activation & Termination Model
-= Wie wird ein Zauber scharfgeschaltet, gestartet, gehalten und beendet?
+ActivationNode
+→ TargetNode(s)
+→ EffectNode(s)
+→ StateChangeRequest(s)
 ```
 
 Nächster granularer Schritt:
 
 ```text
-Effect Node und Target Node definieren.
+TransferThermalEnergy vollständig gegentesten:
+„Erhitze eine definierte Wassermenge um 10 K.“
 ```
 
-Diese Entscheidung klärt, was die kleinste Einheit einer Wirkung ist, wie Zielauswahl formal an Wirkung gekoppelt wird und wie daraus später ein simulierbarer Eingriff in WorldCells, Materialien oder Objekte entsteht.
+Dabei werden Zielrollen, Energiequelle, Wärmekapazität, Verluste, Teilwirkung, StateChangeRequest, Code-Syntax und visuelle Darstellung konkretisiert.

@@ -1,8 +1,15 @@
 # 15 — Material World Model
 
+**Stand:** 2026-07-14, 01:44 Europe/Berlin  
+**Status:** Arbeitsmodell / offene Simulationsfragen
+
 Dieses Dokument beschreibt das frühe Modell der materiellen Spielwelt.
 
-**Status:** Arbeitsmodell / offene Simulationsfragen
+Ergänzende Dokumente:
+
+- `world_resolution_and_quantity_model.md`
+- `world_cell_and_chunk_model.md`
+- `../spell_system/target_and_effect_node_model.md`
 
 ---
 
@@ -16,6 +23,8 @@ Magie wirkt dadurch nicht auf hardcodierte Objekte, sondern auf beschreibbare Zu
 Element → Substanz/Stoff → Material → Objekt → Weltzustand
 ```
 
+---
+
 ## Grundentscheidung: Materiegebundene Standardmagie
 
 Standardmagie koppelt direkt an vorhandene Materie und deren Zustände.
@@ -27,7 +36,7 @@ Das bedeutet:
 - Direkte substratlose Feld-/Wellenmanipulation ist keine Standardmagie.
 - Direkte EM-/Photonen-/Feldmagie bleibt als spätere High-Level-Interventionsklasse offen.
 
-Siehe auch: `docs/18_intervention_classes.md`.
+---
 
 ## Modellschichten
 
@@ -37,7 +46,12 @@ Siehe auch: `docs/18_intervention_classes.md`.
 | Substanz / Stoff | molekulare oder chemische Verbindung | Wasser, Quarz, NaCl |
 | Material | spielpraktische Materialklasse mit Eigenschaften | Holz, Stein, Fleisch, Öl |
 | Objekt | zusammengesetzte Struktur aus Materialien | Baum, Tür, Felsblock |
-| Weltzelle / Pixel | kleinste simulierte räumliche Einheit | Materialfraktion in 2D-Welt |
+| WorldCell | kleinste simulierte räumliche Einheit | lokaler Weltzustand |
+| Stofffraktion | Sub-Zell-Masse eines Bestandteils | CO₂-Anteil in Luft |
+
+Eine WorldCell ist keine Mindestmasse und keine Mindeststoffmenge.
+
+---
 
 ## Elementkatalog
 
@@ -50,7 +64,7 @@ H, He?, Ar, C, N, P, O, S, Cl, Na, Ca, Mg?, Fe, Cu, Ag, Au, Pt,
 Pb, Hg?, U, Al?, Ti?, Li?, Si, F?, K?, Sn?, Zn?, W?
 ```
 
-### Offene Auswahlkriterien
+### Auswahlkriterien
 
 Ein Element sollte aufgenommen werden, wenn es mindestens eine klare Funktion erfüllt:
 
@@ -60,9 +74,9 @@ Ein Element sollte aufgenommen werden, wenn es mindestens eine klare Funktion er
 - Reaktivität, Leitfähigkeit, Magnetismus oder Dichte erklären
 - für Gameplay oder Rätsel relevant sein
 
-## Material- und Stoffkatalog
+---
 
-Neben Elementen braucht das System pragmatisch gewählte Stoffe und Materialien.
+## Material- und Stoffkatalog
 
 Beispiele:
 
@@ -82,26 +96,31 @@ Beispiele:
 - Glas
 - Metalllegierungen
 
-## Materialattribute
+---
 
-Materialien und Stoffe können Attribute besitzen wie:
+## Materialattribute
 
 | Attribut | Bedeutung |
 |---|---|
-| Dichte | Masse pro Volumen |
-| Härte | Widerstand gegen Eindringen/Verformung |
-| Leitfähigkeit | elektrische oder thermische Leitfähigkeit |
+| Dichte | Masse pro effektivem Volumen |
+| Wärmekapazität | Energiebedarf pro Temperaturänderung |
+| Wärmeleitfähigkeit | Wärmeübertragung im Material |
+| elektrische Leitfähigkeit | Ladungs- und Stromtransport |
+| Härte | Widerstand gegen Eindringen oder Verformung |
+| Elastizität | Rückstellverhalten |
+| Reibung | Oberflächenwiderstand |
+| Viskosität | Fließwiderstand |
 | Entflammbarkeit | Neigung zur Verbrennung |
 | Reaktivität | chemische Aktivität |
 | Säure-/Laugenempfindlichkeit | Reaktion mit pH-Extremen |
-| Magnetismus | Reaktion auf Magnetfelder |
+| Magnetismus | Reaktion auf magnetische Felder |
 | Reflektivität | Verhalten gegenüber Licht |
-| Elastizität | Rückstellverhalten nach Verformung |
-| Reibung | Oberflächenwiderstand |
-| Viskosität | Fließwiderstand bei Flüssigkeiten |
 | Gefrier-/Siedepunkt | Phasenübergänge |
-| Bruchmodus | Splittern, Reißen, Krümeln, Verformen, Explodieren |
+| Bruchmodus | Splittern, Reißen, Krümeln, Verformen |
 | chemische Energie | gespeicherte Reaktionsenergie |
+| nukleare Zusammensetzung | Isotope und Kernzustände bei High-Level-Transformation |
+
+---
 
 ## Phasenmodell
 
@@ -116,31 +135,142 @@ Plasma
 
 Feuer ist kein Grundelement.
 
-Feuer wird stattdessen als Kombination aus Prozess und Zustand verstanden:
-
 ```text
-Feuer = Wärme + chemische Reaktion + Lichtemission + ggf. Plasma/ionisierte Gase
+Feuer = Wärme + chemische Reaktion + Lichtemission + ggf. Plasma
 ```
 
-Magisches Feuer wäre entsprechend kein Element, sondern ein zusammengesetzter Effekt aus Energieeintrag, Materialreaktion und ggf. Plasma.
+Magisches Feuer ist entsprechend ein zusammengesetzter Effekt aus Materialauswahl, Energieeintrag, Reaktion, Stofftransport und gegebenenfalls Ionisierung.
 
-## Kompositmaterialien
+---
 
-Kompositmaterialien können als homogene Masse angezeigt werden, solange keine Analyse oder Trennung stattfindet.
+## Kompositmaterialien und Sub-Zell-Fraktionen
 
-Intern behalten sie eine Zusammensetzung.
+Kompositmaterialien können als homogene oder dominante Materialklasse angezeigt werden, solange keine Analyse oder Trennung stattfindet.
 
-Beispiel:
-
-```text
-Gestein = Quarz/Silikate + metallische/ionische Spurenelemente + Salze
-```
-
-Komplexes Beispiel:
+Intern behalten sie ihre Zusammensetzung.
 
 ```text
-Baum = Holz + Rinde + photosynthetisches Gewebe + Meristem + Wasseranteile
+Gestein = Silikate + metallische Anteile + Salze + Spurenelemente
 ```
+
+```text
+Luft = Stickstoff + Sauerstoff + Argon + CO₂ + Wasserdampf
+```
+
+Kleine Stoffmengen werden nicht auf ein vollständiges Pixelvolumen aufgerundet. Sie bleiben als Sub-Zell-Massen in einer `Composition` erhalten.
+
+Ein Trennzauber kann mehrere solche Fraktionen akkumulieren, bis eine sichtbare oder technisch relevante Stoffmenge entsteht.
+
+---
+
+## Gemischtypen
+
+| Typ | Beispiel | Bedeutung |
+|---|---|---|
+| homogen | Luft, Lösung, Legierung | Bestandteile werden als gemeinsame Phase behandelt |
+| heterogenes Partikelgemisch | Sand mit Goldstaub | diskrete, aber subzellulär aggregierte Partikel |
+| Kompositstruktur | Holz mit Stahlbeschlägen | räumlich/strukturell getrennte Komponenten |
+| porös | Erde, Schaum | Feststoff und Gas/Flüssigkeit teilen Raumanteile |
+| biologisch organisiert | Gewebe, Organ | Material plus funktionale Struktur und Zustände |
+
+Die Art des Gemischs beeinflusst, welche Trenn-, Analyse- und Transformationsoperationen zulässig oder teuer sind.
+
+---
+
+## Hierarchische Objekte
+
+Stabile makroskopische Gegenstände werden möglichst als aggregierte Objekte simuliert.
+
+```text
+RigidObject {
+    geometry
+    mass
+    center_of_mass
+    position_subcell
+    orientation
+    linear_velocity
+    angular_velocity
+    material_composition
+}
+```
+
+Gesamtmasse:
+
+```text
+Gesamtmasse = Σ (Dichte_i × Volumen_i)
+```
+
+Erst lokale stoffliche oder strukturelle Eingriffe verlangen eine feinere Zell-, Komponenten- oder Fragmentauflösung.
+
+---
+
+## Physikalische Effect-Domänen
+
+Die materielle Welt muss mindestens folgende Standardoperationen unterstützen:
+
+| Domäne | Veränderte Zustände | Beispiele |
+|---|---|---|
+| mechanisch-kinematisch | Position, Impuls, Geschwindigkeit, Rotation | bewegen, beschleunigen, drehen |
+| mechanisch-strukturell | Spannung, Dehnung, Form, Bruch | biegen, komprimieren, spalten |
+| thermisch | innere Energie und Temperatur | erhitzen, abkühlen |
+| elektrisch in Materie | Ladung, Verteilung, Strom | laden, entladen, Strom treiben |
+| kompositionell / Transport | Stoffverteilung | filtern, trennen, konzentrieren |
+| chemisch | Molekül- und Bindungsstruktur | Reaktionen ausführen |
+| phasenbezogen | Aggregatzustand | schmelzen, verdampfen, ionisieren |
+| nuklear | Kern-/Isotopenzusammensetzung | Transmutation |
+
+Diese Domänen sind keine fertigen Zauber. Sie sind Familien atomarer Zustandsoperationen.
+
+---
+
+## Information ist keine materielle Effect-Domäne
+
+Suchen, Erkennen, Klassifizieren und Filtern werden als Query-/Analysis-Operationen modelliert.
+
+Sie können Informationen oder TargetSets erzeugen, verändern aber nicht zwangsläufig Materie.
+
+Ihre Kosten entstehen unter anderem durch:
+
+- Größe des Suchraums
+- Auflösung
+- Bibliothekswissen
+- Aktualisierungsfrequenz
+- Unsicherheit
+- Zielkomplexität
+
+---
+
+## Biologische und kognitive Effekte
+
+Biologische Organismen bestehen aus Materie, chemischen Zuständen, elektrischen Signalen und komplexer räumlicher Organisation.
+
+Daher wird vorläufig keine unabhängige elementare Domäne `Kognition` eingeführt.
+
+Kognitive Makros müssen auf zugrunde liegende Operationen zurückführbar sein.
+
+### Tierkommunikation
+
+```text
+sensorische Signale erfassen
++ Muster analysieren
++ Bedeutung über Wissen/Bibliothek abbilden
++ kompatible Antwortsignale erzeugen
+```
+
+### Beeinflussung eines Gehirns
+
+```text
+biologische Zielregion identifizieren
++ elektrische/chemische Zustände manipulieren
++ Rückkopplung beobachten
++ Sicherheits- und Fehlerlogik
+```
+
+Direkte mentale Wirkung ohne materielles neuronales Substrat ist keine Standardmagie.
+
+Solche Eingriffe bleiben prinzipiell möglich, sind aber extrem informationsintensiv, individuell, fehleranfällig und physisch gefährlich.
+
+---
 
 ## Materialanalyse
 
@@ -149,71 +279,72 @@ Materialanalyse kann progressive Detailtiefe haben.
 Frühe Analyse:
 
 ```text
-Luft: 78% Stickstoff, 21% Sauerstoff, 2% unbekannter Rest
+Luft: überwiegend Stickstoff und Sauerstoff, Rest unbekannt
 ```
 
 Spätere Analyse:
 
 ```text
-Luft: 78% Stickstoff, 20.95% Sauerstoff, 0.93% Argon, Spuren CO₂, Wasserdampf variabel
+Luft: genaue Stoffmassen, Spurengase, Temperatur, Druck, Feuchtigkeit
 ```
-
-## Materialanalyse als Fähigkeit oder Zauber
-
-Offen ist, ob Materialanalyse eine inhärente Spielerfähigkeit, ein Zauber, ein Artefakt oder ein UI-Hilfsmittel ist.
 
 Mögliche Modelle:
 
 | Modell | Bedeutung |
 |---|---|
-| Grundfähigkeit | Spieler kann einfache Materialien immer grob erkennen. |
-| Analysezauber | Detailtiefe hängt von Zauber, Mana und Wissen ab. |
-| Artefaktfunktion | Analyse benötigt Werkzeug oder Fokusmedium. |
-| Wissensprogression | bekannte Elemente/Materialien werden nach und nach aufgedeckt. |
-| Hybrid | grobe Analyse kostenlos, tiefe Analyse als Zauber/Tool. |
+| Grundfähigkeit | grobe Materialien immer erkennbar |
+| Analysezauber | Detailtiefe kostet Energie und Kontrolle |
+| Artefaktfunktion | Analyse benötigt Werkzeug |
+| Wissensprogression | bekannte Stoffe werden präziser erkannt |
+| Hybrid | grobe Analyse frei, tiefe Analyse als Query-/Analysegraph |
 
-## Beispiele für emergente Zaubermotive
+---
 
-### Opfer als biologische Manaquelle
+## Beispiele emergenter Zaubermotive
 
-Wenn biologische oder chemisch gebundene Energie als Manaquelle dienen kann, ergeben sich Tier- oder Menschenopfer als mögliche Ritualform, ohne als Spezialregel hardcodiert zu werden.
+### Opfer als biologische Energiequelle
 
 ```text
-biologische Materie → magische Energiequelle → Ritualarbeit + Nebenprodukte
+biologische Energiequelle
+→ thaumischer Arbeitsfluss
+→ Ritualarbeit
+→ Erschöpfung, Wärme und Gewebeschaden
 ```
-
-Das Motiv ist morbide, aber systemisch konsistent.
 
 ### Blei zu Gold
 
-Blei zu Gold ist keine chemische, sondern nukleare Transformation. Es ist dadurch prinzipiell denkbar, aber extrem energieintensiv und riskant.
+Blei-zu-Gold ist eine nukleare, keine chemische Transformation. Sie ist prinzipiell beschreibbar, aber extrem energieintensiv und mit Strahlung, Nebenprodukten und Präzisionsanforderungen verbunden.
 
 ### Schwebendes Licht
 
-Nach DD-009 ist die Standardvariante eines schwebenden Lichtes materiegebunden.
+Standardvarianten benötigen ein materielles Medium:
 
-Mögliche Standard-Modellierungen:
+1. ionisierte Luft oder Plasma
+2. erhitzte Partikel
+3. angeregte Materie als Lichtquelle
 
-1. Luftplasma durch Energieeintrag.
-2. erhitztes materielles Medium.
-3. ionisierte oder angeregte Partikel als Lichtquelle.
-
-Direkte elektromagnetische Emission ohne materielles Substrat ist nicht Standardmagie. Sie bleibt als spätere High-Level-Interventionsklasse möglich.
+Direkte substratlose Photonenerzeugung bleibt High-Level-Feld-/Wellenmagie.
 
 ### Schweben / Telekinese
 
-Ein Schwebezauber wirkt direkt auf ein materielles Ziel, indem er Kraftvektoren bzw. Impulsänderungen erzeugt.
-
 ```text
-materielles Ziel + Kraftvektor + Stabilisierung + Energieaufwand → Schweben
+materielles Ziel
++ ApplyForce / Impulsänderung
++ Referenzrahmen
++ Stabilisierung
++ Energie- und Gegenimpulsbilanz
+→ Schweben
 ```
+
+---
 
 ## Offene Fragen
 
-1. Welche Elemente sind für den ersten Prototyp nötig?
+1. Welche Elemente und Stoffe sind für den ersten Prototyp nötig?
 2. Welche Materialattribute sind zwingend, welche optional?
-3. Wie detailliert müssen natürliche Objekte intern modelliert werden?
-4. Ist Materialanalyse Grundfähigkeit, Zauber, Artefakt oder UI?
-5. Wie werden Säuren, Laugen, Strom und Magnetfelder repräsentiert?
-6. Wie wird Plasma im ersten 2D-Prototyp abstrahiert?
-7. Wann, wenn überhaupt, wird High-Level-Feld-/Wellenmagie eingeführt?
+3. Wie detailliert müssen natürliche und biologische Objekte intern modelliert werden?
+4. Wie werden Säuren, Laugen, Plasma und Magnetfelder abstrahiert?
+5. Welche atomaren chemischen und nuklearen Operationen werden tatsächlich angeboten?
+6. Welche Wissens- und Analysemodelle erlauben biologische Zielauswahl?
+7. Ab welcher Komplexität werden biologische oder kognitive Makros praktisch nicht mehr beherrschbar?
+8. Wann wird High-Level-Feld-/Wellenmagie eingeführt?

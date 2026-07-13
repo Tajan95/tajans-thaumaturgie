@@ -1,6 +1,6 @@
 # Spell Editor Architecture
 
-**Stand:** 2026-07-13, 18:18 Europe/Berlin  
+**Stand:** 2026-07-14, 01:44 Europe/Berlin  
 **Status:** Feature-Hypothese / früher Prototypkandidat
 
 Dieses Dokument skizziert einen ausführbaren Zauber-Editor als mögliche erste konkrete Softwarekomponente des Projekts.
@@ -17,9 +17,8 @@ Der Editor dient als Brücke zwischen:
 - formaler Zauber-Syntax,
 - natürlicher Sprache,
 - Regelvalidierung,
+- Kosten- und Erhaltungsprüfung,
 - späterer Simulation.
-
-Er soll beim Entwickeln der Zauber-Syntax helfen und gleichzeitig testen, ob die visuelle Sprache, die interne Datenstruktur und die Regelengine wechselseitig übersetzbar sind.
 
 ```text
 visuelle Zauberstruktur
@@ -29,18 +28,18 @@ visuelle Zauberstruktur
     ↔ Simulation / Testumgebung
 ```
 
+Er soll bereits während der Theorieentwicklung prüfen, ob Datenstruktur, visuelle Sprache und Code-Syntax wechselseitig übersetzbar sind.
+
 ---
 
 ## 2. Grundaufbau
-
-Der Editor besteht vorläufig aus drei Hauptbereichen.
 
 ```text
 +--------------------------------------------------------------+
 | Visuelle Programmierfläche        | Code-/IDE-Fenster         |
 |                                   |                           |
 | Graph, Glyphen, Makros,           | Textuelle Zauber-Syntax,   |
-| Verbindungen, Layout,             | Autocomplete, Kategorien,  |
+| typisierte Ports, Layout,         | Autocomplete, Kategorien,  |
 | Symmetrisierung                   | Parserfeedback             |
 |                                   |---------------------------|
 |                                   | Genie-Fenster              |
@@ -53,67 +52,92 @@ Der Editor besteht vorläufig aus drei Hauptbereichen.
 
 ## 3. Linke Seite: Visuelle Programmierfläche
 
-Die linke Seite ist eine graphartige Arbeitsfläche für Zauberbilder.
-
 Funktionen:
 
-- syntaktische Elemente per Drag & Drop platzieren,
+- syntaktische Knoten per Drag & Drop platzieren,
 - gespeicherte Makros platzieren,
-- Knoten verbinden,
-- Trigger-, Ziel-, Wirkungs-, Modifier-, Energie- und Sicherheitsknoten anordnen,
-- visuelles Feedback zu offenen oder ungültigen Verbindungen anzeigen,
-- Zauber testweise validieren,
-- nach erfolgreicher Prüfung automatisch symmetrisieren, ordnen oder stilisieren.
-
-Wichtig:
-
-Die sichtbare Darstellung während des Bearbeitens muss nicht bereits die finale in-world-Glyphe sein. Der Editor darf zunächst eine verständliche Arbeitsgraph-Darstellung zeigen und daraus beim Testen/Validieren eine regelkonforme, schönere oder stärker arkane visuelle Repräsentation erzeugen.
+- typisierte Ports verbinden,
+- Activation-, Target-, Query-, Effect-, Ressourcen- und Sicherheitsknoten anordnen,
+- parallele und sequenzielle Graphzweige darstellen,
+- offene, inkompatible oder gefährliche Verbindungen markieren,
+- Makros expandieren und einklappen,
+- Zauber validieren,
+- nach erfolgreicher Prüfung automatisch ordnen, symmetrisieren oder stilisieren.
 
 ```text
-Arbeitsgraph → Visualizer/Layout → gültige Zauberrepräsentation
+Arbeitsgraph
+→ Parser / Graph-Mapper
+→ validierte SpellIR
+→ Visualizer / Layout
+→ in-world-Zauberrepräsentation
 ```
+
+Die verständliche Arbeitsgraph-Darstellung muss nicht identisch mit der finalen arkanen Glyphe sein.
 
 ---
 
-## 4. Rechte Seite oben: Code-/IDE-Fenster
+## 4. Typisierte visuelle Ports
 
-Das Codefenster zeigt die formale Zauber-Syntax.
+Knoten dürfen nur semantisch passende Daten austauschen.
+
+Beispiele:
+
+```text
+TargetNode.output: TargetSet
+EffectNode.subject_input: TargetSet
+EffectNode.energy_source_input: TargetSet
+QueryNode.output: InformationValue oder TargetSet
+EffectNode.output: StateChangeRequest[]
+```
+
+Gültig:
+
+```text
+WasserTargetSet
+→ TransferThermalEnergy.subject
+```
+
+Ungültig:
+
+```text
+Temperaturwert
+→ ObjectRef-Port
+```
+
+Der Editor soll ungültige Verbindungen möglichst vor dem vollständigen Kompilieren verhindern oder klar markieren.
+
+---
+
+## 5. Rechte Seite oben: Code-/IDE-Fenster
 
 Funktionen:
 
-- Zauber direkt in einer textuellen Syntax schreiben,
-- bekannte Operationen per Autocomplete vorschlagen,
+- Zauber direkt in textueller Syntax schreiben,
+- Node- und Operationsnamen per Autocomplete vorschlagen,
+- Zielrollen und Porttypen anzeigen,
 - Operator-Kategorien als Menü anbieten,
 - Bausteine per Drag & Drop in die Codefläche einfügen,
 - Syntaxfehler markieren,
-- semantische Warnungen anzeigen,
-- Änderungen live mit der visuellen Darstellung synchronisieren.
-
-Beispielhafte Arbeitsweise:
+- semantische und physikalische Warnungen anzeigen,
+- Änderungen live mit Graph und Glyphe synchronisieren.
 
 ```text
-Spieler schreibt Syntax rechts
-    → Parser erzeugt SpellIR
-    → Visualizer erzeugt links die visuelle Struktur
+Code wird verändert
+→ Parser erzeugt/ändert SpellIR
+→ Graph und visuelle Darstellung werden aktualisiert
 ```
 
 ---
 
-## 5. Rechte Seite unten: Genie-Fenster
-
-Das Genie-Fenster ist die natürlichsprachige Schnittstelle.
+## 6. Rechte Seite unten: Genie-Fenster
 
 Funktionen:
 
-- Zauberwirkung in natürlicher Sprache beschreiben,
-- mögliche fehlende Parameter erkennen,
-- Varianten vorschlagen,
-- eine formale Zauberstruktur vorschlagen,
-- die textuelle Syntax und visuelle Darstellung daraus erzeugen lassen.
-
-Wichtig:
-
-Das Genie erzeugt nur Vorschläge. Es ist nicht regelautoritativ.
+- gewünschte Zauberwirkung natürlichsprachlich beschreiben,
+- fehlende Zielrollen und Parameter erkennen,
+- Varianten mit unterschiedlichen Sicherheits-/Kostenprofilen anbieten,
+- einen formalen Graphvorschlag erzeugen,
+- Code- und visuelle Darstellung generieren.
 
 ```text
 natürliche Beschreibung
@@ -124,43 +148,142 @@ Draft SpellIR
     ↓
 Regelengine
     ↓
-Syntax + Visualisierung oder Fehlermeldung
+validierter Graph oder Fehlermeldung
 ```
 
-Ein ungültiger Vorschlag bleibt ungültig, auch wenn er natürlichsprachlich plausibel klingt.
+Das Genie ist nicht regelautoritativ. Es darf Target-, Effect-, Ressourcen- oder Sicherheitsknoten vorschlagen, aber nicht unsichtbar Grundregeln umgehen.
 
 ---
 
-## 6. Gemeinsame Zwischenstruktur: SpellIR
-
-Damit visuelle Darstellung, Textsyntax und Genie-Fenster synchron bleiben, braucht der Editor eine gemeinsame interne Zwischenstruktur.
-
-Vorläufiger Name:
+## 7. Gemeinsame Zwischenstruktur: SpellIR
 
 ```text
 SpellIR = Spell Intermediate Representation
 ```
 
-SpellIR ist nicht zwingend die finale Simulationsstruktur, sollte aber nah genug daran liegen, dass die Regelengine sie prüfen kann.
+Vorläufige Struktur:
 
-Minimal enthält SpellIR:
+```text
+SpellIR {
+    representation_model
+    activation_nodes[]
 
-- Aktivierungsknoten,
-- Zielmodell,
-- Wirkungsmodell,
-- Struktur-/Geometriemodell,
-- Modifier,
-- Ressourcenmodell,
-- Terminationsmodell,
-- Fehler-/Failsafe-Modell,
-- Referenzen auf Bibliotheken oder Makros,
-- Repräsentationsdaten bzw. Visualisierungsanweisungen.
+    graph {
+        target_nodes[]
+        query_and_analysis_nodes[]
+        effect_nodes[]
+        control_nodes[]
+        resource_nodes[]
+        safety_nodes[]
+        edges[]
+    }
+
+    execution_policy
+    termination_policy
+    failure_model
+    library_references[]
+    visualization_hints
+}
+```
+
+SpellIR ist nicht zwingend identisch mit dem finalen Laufzeitformat. Sie muss aber nah genug an der Simulation liegen, dass Regel-, Kosten- und Typprüfung auf ihr möglich sind.
 
 ---
 
-## 7. Synchronisationsmodell
+## 8. TargetNode im Editor
 
-Alle drei Eingabeformen sollen denselben Zauber beschreiben können.
+Ein TargetNode erzeugt ein `TargetSet`.
+
+Im Inspector oder Codefenster müssen mindestens sichtbar sein:
+
+- Selektor
+- Anker
+- Suchraum
+- Filter
+- Granularität
+- `snapshot` oder `live`
+- Aktualisierungsrate
+- Zugriffsvoraussetzungen
+- Fehlerpolicy
+
+Der Editor sollte Live-Bindungen, große Suchräume und informationsintensive Filter als erhöhte Kosten- oder Risikofaktoren markieren.
+
+---
+
+## 9. EffectNode im Editor
+
+Ein primitiver EffectNode enthält eine atomare Zustandsoperation.
+
+Beispiele:
+
+```text
+ApplyForce
+TransferThermalEnergy
+TransferCharge
+TransportComponentMass
+ChangeBondStructure
+```
+
+Der Editor sollte anzeigen:
+
+- Effect-Domäne
+- Operation
+- benötigte Zielrollen
+- Parameter
+- Präzisionsanforderung
+- Ausführungsmodus
+- erwartete Quellen, Senken und Nebenprodukte
+- geschätzte physikalische und thaumische Kosten
+
+Mehrere Effekte werden über getrennte Graphzweige kombiniert.
+
+---
+
+## 10. Makros
+
+Ein Makro kann im Editor als einzelner kompakter Knoten erscheinen.
+
+```text
+MacroNode
+→ intern expandierbarer Teilgraph
+```
+
+Der Editor muss mindestens zwei Ansichten anbieten können:
+
+```text
+kompakt:
+MacroNode
+
+expandiert:
+Target-/Query-/Effect-/Safety-Teilgraph
+```
+
+Kosten und Validierung beziehen sich immer auf den expandierten Graphen.
+
+---
+
+## 11. StateChangeRequest-Vorschau
+
+EffectNodes verändern die Welt nicht direkt, sondern erzeugen `StateChangeRequest`s.
+
+Der Editor kann diese in einer Diagnoseansicht darstellen:
+
+```text
+angeforderte Zustandsdeltas
+physikalische Mindestarbeit
+Steuerarbeit
+Energiequelle
+Senke
+Nebenprodukte
+Erhaltungsbedingungen
+Fehlerpolicy
+```
+
+So kann der Spieler erkennen, warum ein formal plausibler Zauber teuer, unmöglich oder gefährlich ist.
+
+---
+
+## 12. Synchronisationsmodell
 
 ```text
 Visual Canvas ↔ SpellIR ↔ Code Editor
@@ -169,103 +292,125 @@ Visual Canvas ↔ SpellIR ↔ Code Editor
              Genie Draft
 ```
 
-### Von links nach rechts
+### Visuell → Code
 
 ```text
-Graph/Glyphe wird verändert
-    → Parser/Graph-Mapper aktualisiert SpellIR
-    → Codefenster wird aktualisiert
+Graph wird verändert
+→ Graph-Mapper aktualisiert SpellIR
+→ Codefenster wird aktualisiert
 ```
 
-### Von rechts nach links
+### Code → Visuell
 
 ```text
 Code wird verändert
-    → Parser aktualisiert SpellIR
-    → Visualizer aktualisiert Graph/Glyphe
+→ Parser aktualisiert SpellIR
+→ Visualizer aktualisiert Graph/Glyphe
 ```
 
-### Von unten nach oben
+### Genie → beide Ansichten
 
 ```text
 Genie-Vorschlag
-    → Draft SpellIR
-    → Regelvalidierung
-    → Code + Visualisierung werden erzeugt
+→ Draft SpellIR
+→ Regelvalidierung
+→ Code + Graph + Glyphe
 ```
 
 ---
 
-## 8. Testen / Validieren
+## 13. Testen / Validieren
 
-Der Button `Testen` bedeutet nicht automatisch, dass ein Zauber in der Welt gewirkt wird.
+Der Button `Testen` bedeutet nicht automatisch, dass der Zauber in der Welt gewirkt wird.
 
-Er kann stufenweise arbeiten:
+Prüfstufen:
 
-1. Syntaxprüfung,
-2. Semantikprüfung,
-3. Bibliotheksprüfung,
-4. Ressourcenprüfung,
-5. Repräsentationsprüfung,
-6. Simulationsfähigkeit,
-7. optionaler Testlauf in Sandbox.
+1. Parser- und Syntaxprüfung
+2. Typ- und Portprüfung
+3. Ziel- und Bindungsprüfung
+4. Semantikprüfung
+5. Bibliotheksprüfung
+6. Ressourcen- und Kopplungsprüfung
+7. Erhaltungsprüfung
+8. StateChangeRequest-Erzeugung
+9. Repräsentationsprüfung
+10. Simulationsfähigkeit
+11. optionaler Sandbox-Testlauf
 
 ```text
-Testen = prüfen, visualisieren, ggf. in isolierter Umgebung simulieren
+Testen = prüfen, erklären, visualisieren und optional isoliert simulieren
 ```
 
 ---
 
-## 9. Spätere Spielintegration
+## 14. Fehlerdiagnose
 
-Der Editor sollte so gestaltet werden, dass er später im Spiel wiederverwendet werden kann.
+Mögliche Editorfehler:
+
+| Fehler | Beispiel |
+|---|---|
+| fehlender Port | EffectNode besitzt kein `subject` |
+| Typfehler | Temperaturwert an TargetSet-Port |
+| leeres TargetSet | kein Wasser im Suchraum |
+| unklare Zielrolle | Quelle und Senke nicht unterschieden |
+| Ressourcenfehler | Energiequelle reicht nicht |
+| Erhaltungsfehler | Masse verschwindet beim Trennen |
+| Konfliktfehler | parallele Effekte fordern unvereinbare Deltas |
+| Sicherheitswarnung | autonomer Lauf ohne Limit |
+| Repräsentationsfehler | Graph nicht als gültige Geometrie darstellbar |
+
+---
+
+## 15. Spätere Spielintegration
 
 Mögliche in-world-Varianten:
 
-- Zauberbuch-Editor,
-- Schriftrollenwerkbank,
-- Ritualkreis-Editor,
-- Tattoo-/Gravurwerkzeug,
-- Artefakt-Konfigurationsoberfläche,
-- Akademie-/Labor-Interface.
+- Zauberbuch-Editor
+- Schriftrollenwerkbank
+- Ritualkreis-Editor
+- Tattoo-/Gravurwerkzeug
+- Artefakt-Konfiguration
+- Akademie-/Labor-Interface
 
-Die UI darf für den Prototyp abstrakter sein, sollte aber keine Annahmen treffen, die eine spätere in-world-Integration unmöglich machen.
+Die frühe UI darf abstrakter sein, sollte aber dieselbe SpellIR verwenden wie die spätere Spielkomponente.
 
 ---
 
-## 10. Abgrenzung
+## 16. Abgrenzung
 
 Der Spell Editor ist nicht:
 
 - die Regelengine selbst,
 - die vollständige Simulation,
-- eine Ausnahme von der physischen Repräsentationspflicht,
+- eine Ausnahme von der Repräsentationspflicht,
 - eine LLM-Autorität,
-- ein Ersatz für formale Zaubersyntax.
+- ein Ersatz für formale Syntax.
 
-Er ist ein Entwicklungs-, Übersetzungs-, Diagnose- und späteres Gameplay-Werkzeug.
+Er ist Entwicklungs-, Übersetzungs-, Diagnose- und späteres Gameplay-Werkzeug.
 
 ---
 
-## 11. Offene Fragen
+## 17. Offene Fragen
 
 | Kategorie | Frage |
 |---|---|
 | Offene Frage | Wird der erste Editor in Godot, Web/Canvas, Python, Unity oder als eigenes Minimaltool gebaut? |
-| Offene Frage | Ist SpellIR identisch mit der späteren Simulationsstruktur oder nur eine Editor-Zwischenschicht? |
-| Offene Frage | Wie stark darf der Visualizer die vom Spieler gezeichnete Struktur automatisch symmetrisieren? |
-| Offene Frage | Wird die finale visuelle Glyphe deterministisch aus SpellIR erzeugt? |
-| Offene Frage | Wie werden Makros in der visuellen Palette, im Codefenster und im Genie-Fenster gleichwertig dargestellt? |
-| Offene Frage | Wie werden gefährliche Modi wie autonomer Quellenlauf oder fehlende Failsafes visuell gewarnt? |
+| Offene Frage | Ist SpellIR identisch mit der Laufzeitstruktur oder eine Editor-Zwischenschicht? |
+| Offene Frage | Wie stark darf der Visualizer automatisch symmetrisieren? |
+| Offene Frage | Wird die finale Glyphe deterministisch aus SpellIR erzeugt? |
+| Offene Frage | Wie werden Makros in Graph, Code und Genie gleichwertig dargestellt? |
+| Offene Frage | Wie werden Kosten, Erhaltung und StateChangeRequests verständlich visualisiert? |
+| Offene Frage | Wie werden parallele Konflikte im Graphen dargestellt? |
 
 ---
 
-## 12. Arbeitsstand
+## 18. Arbeitsstand
 
 | Kategorie | Inhalt |
 |---|---|
-| Feature | Ein dreigeteilter Spell Editor soll visuelle Zauberstruktur, Code-Syntax und Genie-Fenster verbinden. |
-| Hypothese | Der Editor ist ein guter erster ausführbarer Prototyp, weil er Syntax, Visualisierung und Validierung früh zusammenführt. |
-| Hypothese | Eine gemeinsame `SpellIR` ist notwendig, damit alle Eingabeformen synchron bleiben. |
-| Festgelegt | Das LLM/Genie bleibt Hilfsmittel und wird durch die Regelengine validiert. |
-| Offene Frage | Konkrete Technologie und Umfang des ersten Editor-Prototyps sind noch nicht entschieden. |
+| Feature | Dreigeteilter Spell Editor verbindet Graph, Code und Genie. |
+| Festgelegt | TargetNodes, EffectNodes und typisierte Ports sind Bestandteile der SpellIR-Arbeitsstruktur. |
+| Festgelegt | Makros werden für Kosten und Validierung expandiert. |
+| Festgelegt | Das LLM/Genie bleibt Hilfsmittel. |
+| Hypothese | Der Editor ist ein geeigneter früher Prototyp für Syntax, Visualisierung und Validierung. |
+| Offene Frage | Technologie und Umfang des ersten Editor-Prototyps sind noch nicht entschieden. |

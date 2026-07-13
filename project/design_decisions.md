@@ -299,3 +299,148 @@ Die interne Zauberstruktur braucht ein Activation-/Termination-Modell. Die visue
 Der Spell Editor muss diese Logik sowohl visuell als auch textuell sichtbar machen. Besonders gefährliche Modi, z. B. autonomer Quellenlauf ohne Limit, sollten als Risiko erkennbar sein.
 
 Details siehe: `docs/spell_system/spell_lifecycle_and_activation.md`.
+
+### DD-013 — TargetNodes erzeugen explizite typisierte Zielmengen
+
+**Datum:** 2026-07-14  
+**Status:** Festgelegt  
+
+**Kontext:**  
+Zaubereffekte benötigen eindeutig definierte Ziele. Implizite oder rein natürlichsprachliche Zielannahmen wären schwer validierbar, simulierbar und visuell lesbar.
+
+**Entscheidung:**  
+Zielauswahl wird durch eigene `TargetNode`s modelliert. Ein TargetNode erzeugt ein typisiertes `TargetSet`, das ganze Objekte, Zellbereiche, Oberflächen, Punkte oder Stofffraktionen enthalten kann.
+
+TargetNodes definieren mindestens Selektor, Anker, Suchraum, Filter, Granularität, Bindungsmodus und Fehlerverhalten.
+
+Die Bindungsmodi `snapshot` und `live` werden unterschieden. Live-Bindung wird während der Laufzeit erneut ausgewertet und ist entsprechend teurer.
+
+**Begründung:**  
+Die Trennung von Ziel und Wirkung verbessert Typprüfung, Wiederverwendung, Kostenberechnung, visuelle Darstellung und Fehlerdiagnose.
+
+**Folgen:**  
+EffectNodes konsumieren TargetSets über benannte Rollen wie `subject`, `source`, `destination`, `reference_frame`, `energy_source` oder `energy_sink`.
+
+Details siehe: `docs/spell_system/target_and_effect_node_model.md`.
+
+### DD-014 — Primitive EffectNodes enthalten eine atomare Zustandsoperation
+
+**Datum:** 2026-07-14  
+**Status:** Festgelegt  
+
+**Kontext:**  
+Es musste entschieden werden, ob ein EffectNode mehrere unabhängige Wirkungen enthalten darf oder ob Wirkungen granular und kombinierbar bleiben sollen.
+
+**Entscheidung:**  
+Ein primitiver EffectNode enthält genau eine atomare Zustandsoperation, z. B. Kraft anwenden, Wärme übertragen, Ladung transportieren, Komponentenmasse bewegen oder Bindungsstruktur ändern.
+
+Mehrere Wirkungen werden durch parallele oder sequenzielle Graphzweige kombiniert. Kompakte Mehrfachwirkungen werden als Makros dargestellt, die zu primitiven Teilgraphen expandieren.
+
+Physikalisch untrennbare Gegenänderungen dürfen Teil derselben atomaren Transferoperation sein, etwa Wärmeabgabe der Quelle und Wärmeaufnahme der Senke.
+
+**Begründung:**  
+Atomare EffectNodes verbessern Kostenberechnung, Typprüfung, Parallelisierung, Wiederverwendung, visuelle Lesbarkeit und Fehlerdiagnose.
+
+**Folgen:**  
+Die interne Zauberform bewegt sich in Richtung eines typisierten gerichteten Wirkungsgraphen. Makros verändern die Darstellung, nicht die zugrunde liegenden Operationen.
+
+Details siehe: `docs/spell_system/target_and_effect_node_model.md`.
+
+### DD-015 — Zauberlogik verbraucht eigene thaumische Steuerarbeit
+
+**Datum:** 2026-07-14  
+**Status:** Festgelegt  
+
+**Kontext:**  
+Die physikalische Mindestarbeit eines Effekts erklärt nicht den Aufwand für Zielsuche, Präzision, Verzweigung, kontinuierliche Kontrolle und Sicherheitslogik.
+
+**Entscheidung:**  
+Die Gesamtkosten eines Zaubers enthalten neben der physikalischen Effektarbeit auch thaumische Steuerarbeit für Zielerfassung, Zielbindung, primitive Operationen, Präzision, Aktualisierungsrate, Parallelität, Feedback, Prüfung und Failsafes.
+
+Jede ausgeführte primitive Operation darf einen Basiskostenanteil besitzen. Kosten werden jedoch aus dem expandierten internen Graphen berechnet und nicht pauschal pro sichtbarem Editor-Knoten.
+
+**Begründung:**  
+Dadurch entsteht ein emergenter Anreiz, Zauber einfach, situationsspezifisch und effizient zu strukturieren, ohne dass das Zusammenfassen in Makros Kosten künstlich umgeht.
+
+**Folgen:**  
+Live-Zielsuche, hohe Präzision, große Zielmengen, schnelle Regelschleifen und komplexe Sicherheitslogik sind systemisch teurer als statische, direkte und einfache Operationen.
+
+### DD-016 — WorldCells sind räumliche Einheiten, keine Mindestmassen
+
+**Datum:** 2026-07-14  
+**Status:** Festgelegt  
+
+**Kontext:**  
+Spurengase, Legierungsbestandteile und kleine Materialmengen können weniger Volumen als eine sichtbare Weltzelle einnehmen. Ein Aufrunden auf volle Zellen würde Masse erzeugen und Konzentrationen verfälschen.
+
+**Entscheidung:**  
+Eine WorldCell ist die kleinste räumlich adressierbare Simulationseinheit, nicht die kleinste Materiemenge. Zellen dürfen konservierte Sub-Zell-Massen und mehrere Stofffraktionen enthalten.
+
+Sichtbare Materialdarstellung und physikalische Zusammensetzung werden getrennt behandelt.
+
+**Begründung:**  
+Dadurch können Spurstoffe analysiert, transportiert und über mehrere Zellen akkumuliert werden, ohne Erhaltungssätze zu verletzen.
+
+**Folgen:**  
+Das Weltmodell benötigt `composition_ref`, typisierte Stofffraktionen und eine von der Renderdarstellung getrennte Mengenbilanz.
+
+Details siehe: `docs/world_model/world_resolution_and_quantity_model.md`.
+
+### DD-017 — Der erste Simulationsprototyp verwendet eine 2D-Seitenansicht
+
+**Datum:** 2026-07-14  
+**Status:** Festgelegt  
+
+**Kontext:**  
+Die ersten Weltmodelle ließen Seitenansicht, Top-Down und Hybrid offen. Der geplante Proof-of-Concept soll jedoch physikalisch und visuell überschaubar bleiben.
+
+**Entscheidung:**  
+Der erste Simulationsprototyp wird als 2D-Seitenansicht entwickelt. Eine kontinuierliche dritte Raumachse wird nicht simuliert.
+
+Hintergrund, Hauptebene und Vordergrund dürfen als diskrete Tiefenebenen vorgesehen werden. Ob alle Ebenen vollständig physikalisch sind, bleibt eine nachgelagerte Prototypentscheidung.
+
+**Begründung:**  
+Die Seitenansicht unterstützt Gravitation, Flüssigkeiten, Granulate, Projektile und sichtbare Materialprozesse, ohne unmittelbar eine 3D-Simulation zu erfordern.
+
+**Folgen:**  
+Dichte- und Volumenberechnungen verwenden eine angenommene effektive Ebenentiefe. Cross-Layer-Wechselwirkungen müssen explizit definiert werden.
+
+### DD-018 — Starre Objekte und Flussmaterialien verwenden unterschiedliche Bewegungsmodelle
+
+**Datum:** 2026-07-14  
+**Status:** Festgelegt  
+
+**Kontext:**  
+Rein diskrete Objektpositionen erzeugen treppenförmige Flugbahnen, ungenaue Kollisionen und Probleme bei langsamen Bewegungen. Eine vollständige Partikelsimulation wäre dagegen unnötig teuer.
+
+**Entscheidung:**  
+Starre Objekte verwenden kontinuierliche oder Fixed-Point-Sub-Zell-Positionen sowie kontinuierliche Geschwindigkeits- und Rotationswerte. Ihre Belegung und Darstellung werden auf das Zellraster abgebildet.
+
+Granulate, Flüssigkeiten und Gase verwenden bevorzugt zellbasierte Massen-, Impuls- und Energietransfers.
+
+**Begründung:**  
+Das Hybridmodell verbindet saubere Objektbewegungen mit einer performanten zellbasierten Materialwelt.
+
+**Folgen:**  
+Ruhende Objekte können später kontrolliert in eine stabile Rasterbelegung überführt werden. Numerische Restenergie muss als Wärme oder Residuum bilanziert werden und darf nicht stillschweigend verschwinden.
+
+### DD-019 — Physikalische Größen bleiben SI-kompatibel und numerisch quantisierbar
+
+**Datum:** 2026-07-14  
+**Status:** Festgelegt  
+
+**Kontext:**  
+Zauber- und Weltkosten sollen physikalisch nachvollziehbar, deterministisch testbar und gegen Rundungsdrift robust sein.
+
+**Entscheidung:**  
+Die Theorie und Zaubersyntax verwenden SI-kompatible Größen. Für den 2D-Prototyp werden bevorzugt Meter, Gramm, Sekunden, Kelvin, Joule, Newton und Watt als Arbeits- und Anzeigeeinheiten verwendet.
+
+Ein Joule ist die semantische Energieeinheit, aber nicht zwingend das kleinste interne Energiequantum. Interne Größen dürfen als Fixed-Point-Integer in kleineren Quanten gespeichert werden.
+
+**Begründung:**  
+Eine Mindestauflösung von 1 Joule wäre für kleine Stoffmengen und langsame Prozesse zu grob. Fixed-Point-Arithmetik unterstützt deterministische Erhaltungsbilanzen besser als unkontrollierte Gleitkomma-Drift.
+
+**Folgen:**  
+Der erste Benchmark prüft Millijoule als Energiequantum sowie passende Quanten für Masse und Sub-Zell-Position. Die endgültige Quantisierung bleibt eine technische Benchmarkentscheidung.
+
+Details siehe: `docs/world_model/world_resolution_and_quantity_model.md`.

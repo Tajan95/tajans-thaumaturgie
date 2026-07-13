@@ -266,3 +266,36 @@ Ein in Erde gezogener Kreis kann grundsätzlich funktionieren, ist aber schwach,
 Materialwahl beeinflusst Kopplungseffizienz, maximale Entladerate, Stabilität, Leckage, Überlastungsrisiko und Fehlerverhalten.
 
 Details siehe: `docs/24_spell_geometry_and_material_coupling.md`.
+
+### DD-012 — Zauber besitzen eine Start-Glyphe mit Default-Sofortausführung
+
+**Datum:** 2026-07-13  
+**Status:** Festgelegt  
+
+**Kontext:**  
+Für Issue #2 muss geklärt werden, wie Zauber als ausführbare Programme beginnen. Gleichzeitig soll die Zaubersprache Spieler nicht durch unsichtbare Sicherheitsannahmen entlasten: Verzögerungen, Bedingungen, Trigger und Failsafes sollen explizite syntaktische Bestandteile sein.
+
+**Entscheidung:**  
+Jeder ausführbare Zauber besitzt mindestens eine Start-Glyphe bzw. einen Aktivierungsknoten.
+
+Ohne zusätzlichen Start-Modifier gilt der Default:
+
+```text
+on_complete_execute_once
+```
+
+Das bedeutet: Sobald die Start-Glyphe vollständig und gültig fertiggestellt ist, versucht der Zauber, sich einmal auszuführen.
+
+Abweichende Start- oder Ausführungslogik muss explizit codiert werden, z. B. Vokalisierung, Gestik, Umweltbedingung, Verzögerung, Scharfschaltung, Halten, Toggle, Dauerlimit, autonome Quellenbindung, Wiederholung oder Failsafe.
+
+**Begründung:**  
+Dieses Modell macht die Zaubersprache konsequent programmatisch. Der einfachste Zauber verhält sich wie ein unmittelbar ausgeführtes Programm, während vorbereitete, sichere oder komplexe Zauber zusätzliche Start-/Stop-Logik explizit mitführen müssen.
+
+Dadurch bleiben Makros und Anfängerzauber bequem, weil sie Sicherheitsmechanismen enthalten können, ohne dass diese als unsichtbare Systemannahmen gelten.
+
+**Folgen:**  
+Die interne Zauberstruktur braucht ein Activation-/Termination-Modell. Die visuelle Sprache muss Start-Glyphen, Trigger-Marker, Ausführungsmodi, Ressourcenbindung, Stop-Marker und Sicherheitsknoten darstellen können.
+
+Der Spell Editor muss diese Logik sowohl visuell als auch textuell sichtbar machen. Besonders gefährliche Modi, z. B. autonomer Quellenlauf ohne Limit, sollten als Risiko erkennbar sein.
+
+Details siehe: `docs/spell_system/spell_lifecycle_and_activation.md`.

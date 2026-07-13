@@ -40,6 +40,26 @@ physikalisches Energiepotential
 **Noch offen:**  
 Wie exakt das thaumische Potential quantitativ aus physikalischen Energiepotentialen berechnet wird.
 
+### OQ-002 — Welche Form hat ein Zauber intern?
+
+**Kategorie:** Syntax / Simulation  
+**Status:** Teilweise geklärt durch DD-012
+
+Geklärt ist das erste notwendige Submodell:
+
+- Jeder ausführbare Zauber besitzt mindestens eine Start-Glyphe bzw. einen Aktivierungsknoten.
+- Ohne expliziten Start-Modifier gilt `on_complete_execute_once`.
+- Verzögerungen, Vokalisierung, Gestik, Umweltbedingungen, Halten, Toggle, Dauerlimits, autonome Quellenbindung, Wiederholung und Failsafes sind explizite syntaktische Bestandteile.
+
+Aktuelle starke Hypothese:
+
+```text
+Interne Zauberform = Komponentenobjekt + gerichteter Wirkungsgraph
+```
+
+**Noch offen:**  
+Ob der restliche Zauber final als lineare Sequenz, Syntaxbaum, Graph, Komponentenobjekt oder Hybridmodell beschrieben wird. Als nächstes müssen `Effect Node` und `Target Node` definiert werden.
+
 ### OQ-004 — Wie entstehen Fehlerfälle?
 
 **Kategorie:** Kosten / Simulation / Gameplay  
@@ -57,6 +77,8 @@ Fehlerfälle sollen bevorzugt emergent entstehen:
 - Quellkollaps durch zu schnelle Entladung
 - Speicherbruch durch Überladung
 - Rückkopplung in Fokusmedium, Speicher oder Körper
+- ungültige oder beschädigte Start-Glyphe
+- fehlende oder gefährlich unvollständige Terminationslogik
 
 **Noch offen:**  
 Ob zusätzlich abstrakte Misslingen-Modifier für bestimmte Gameplay- oder Simulationssituationen nötig sind.
@@ -76,11 +98,13 @@ Wie das thaumische Feld in der Simulation konkret parametrisiert wird und ob es 
 ### OQ-012 — Können Zauber rein vokal oder somatisch gewirkt werden?
 
 **Kategorie:** Syntax / Gameplay / Lore  
-**Status:** Teilweise geklärt durch DD-007
+**Status:** Teilweise geklärt durch DD-007 und DD-012
 
 Rein vokale oder rein somatische Zauber ohne physische visuelle Repräsentation sind nicht vorgesehen.
 
 Vokalisierung und Gestik können aber Trigger, Zielhilfe, Timing oder Laufzeitparameter eines bereits physisch repräsentierten Zaubers sein.
+
+Nach DD-012 sind Vokalisierung und Gestik explizite Start- oder Laufzeitmodifier, nicht unsichtbare Ersatzsyntax.
 
 **Noch offen:**  
 Wie nah die physische Repräsentation am Zauberer oder Ziel sein muss.
@@ -112,13 +136,6 @@ Das thaumische Feld nach DD-010 ist keine Erlaubnis, beliebige physikalische Fel
 Ob und wann direkte EM-/Photonen-/Feldmagie als spätere High-Level-Interventionsklasse eingeführt wird.
 
 ## Offene Fragen
-
-### OQ-002 — Welche Form hat ein Zauber intern?
-
-**Kategorie:** Syntax / Simulation  
-**Status:** Offen
-
-Ist ein Zauber besser als lineare Sequenz, Syntaxbaum, Graph, Komponentenobjekt oder Hybridmodell beschreibbar?
 
 ### OQ-003 — Wie wird Zielauswahl definiert?
 
@@ -169,6 +186,8 @@ Zeitumkehrung, Zeitverlangsamung und Zeitbeschleunigung sollen nicht als Bruch v
 Jeder ausführbare Zauber braucht eine physische visuelle Repräsentation. Offen ist, wie Zeichnungen, Glyphen, Gravuren oder Tattoos formal geparst und in ausführbare Datenstrukturen übersetzt werden.
 
 Nach DD-010 muss diese Repräsentation nicht nur Bedeutung codieren, sondern auch als Zaubergeometrie bzw. thaumische Kopplungsstruktur modellierbar sein.
+
+Nach DD-012 muss der Parser außerdem erkennen, ob Start-Glyphe, Triggerlogik, Ausführungsmodus und Terminationslogik gültig sind.
 
 ### OQ-011 — Was ist ein ausführbarer Zauber?
 

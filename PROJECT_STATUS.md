@@ -1,6 +1,6 @@
 # Project Status and Next Steps
 
-**Stand:** 2026-07-09, Europe/Berlin  
+**Stand:** 2026-07-13, 18:18 Europe/Berlin  
 **Status:** Arbeitsübersicht / Orientierungspunkt
 
 Dieses Dokument fasst den aktuellen Arbeitsstand von **Tajan's Thaumaturgie** zusammen und dient als Einstiegspunkt, wenn das Projekt nach einer Pause wieder aufgenommen wird.
@@ -35,6 +35,12 @@ physikalisches Energiepotential
 
 Nach DD-011 kann Zaubergeometrie additiv, subtraktiv oder hybrid realisiert werden. Material und Grenzflächen bestimmen dabei nicht primär die logische Gültigkeit, sondern Kopplungsqualität, Entladerate, Stabilität und Fehlerverhalten.
 
+Nach DD-012 besitzt jeder ausführbare Zauber mindestens eine Start-Glyphe bzw. einen Aktivierungsknoten. Ohne expliziten Start-Modifier gilt:
+
+```text
+on_complete_execute_once
+```
+
 ---
 
 ## 2. Aktuell stabile Grundentscheidungen
@@ -52,6 +58,7 @@ Nach DD-011 kann Zaubergeometrie additiv, subtraktiv oder hybrid realisiert werd
 | DD-009 | Standardmagie ist materiegebunden. | Festgelegt |
 | DD-010 | Mana nutzt ein thaumisches Feldpotential realer Energiequellen. | Festgelegt |
 | DD-011 | Zaubergeometrie koppelt material- und grenzflächenabhängig. | Festgelegt |
+| DD-012 | Zauber besitzen eine Start-Glyphe mit Default-Sofortausführung. | Festgelegt |
 
 Siehe: `project/design_decisions.md`
 
@@ -61,43 +68,92 @@ Siehe: `project/design_decisions.md`
 
 | Baustelle | Leitfrage | Relevante Dokumente |
 |---|---|---|
-| Magie-Theorie und Grundsystem | Was ist Magie, wie werden Zauber formal konstruiert und begrenzt? | `docs/foundations/magic_ontology.md`, `docs/spell_system/spell_syntax.md`, `docs/spell_system/modifiers_and_operators.md` |
+| Magie-Theorie und Grundsystem | Was ist Magie, wie werden Zauber formal konstruiert und begrenzt? | `docs/foundations/magic_ontology.md`, `docs/spell_system/spell_syntax.md`, `docs/spell_system/spell_lifecycle_and_activation.md`, `docs/spell_system/modifiers_and_operators.md` |
 | Mana, Energie und Kopplung | Was bezahlt magische Arbeit und wie wird sie gespeichert, geleitet und begrenzt? | `docs/mana_and_energy/energy_costs_limits.md`, `docs/mana_and_energy/mana_and_thaumic_field_model.md`, `docs/mana_and_energy/focus_media_and_artifacts.md` |
 | Physische Repräsentation | Wie wirken Zauberbilder als reale Kopplungsstrukturen? | `docs/spell_system/visual_spell_language.md`, `docs/representation_and_material_coupling/spell_geometry_and_material_coupling.md` |
 | Physik und Materialwelt | Wie sieht eine manipulierbare Welt aus, auf die Magie kausal wirken kann? | `docs/world_model/material_world_model.md`, `docs/world_model/2d_world_simulation_model.md`, `docs/world_model/world_cell_and_chunk_model.md` |
-| Technische Implementation | Wie wird daraus ein testbarer 2D-Prototyp mit eigener Simulation? | `docs/implementation/engine_and_framework_evaluation.md`, `docs/implementation/material_simulation_benchmark.md`, `prototype/2d/` |
+| Technische Implementation | Wie wird daraus ein testbarer 2D-Prototyp mit eigener Simulation und Spell Editor? | `docs/implementation/engine_and_framework_evaluation.md`, `docs/implementation/material_simulation_benchmark.md`, `docs/implementation/spell_editor_architecture.md`, `prototype/2d/` |
 
 ---
 
 ## 4. Wichtigster aktueller Arbeitsfokus
 
-Der nächste wirklich sinnvolle Fokus ist nicht mehr „Grundidee formulieren“, sondern:
+Der nächste wirklich sinnvolle Fokus ist weiterhin:
 
 ```text
 Von Theorie-Grundsatz → zu minimalem simulierbarem Kern
 ```
 
-Konkret:
+Issue #2 wird jetzt sukzessiv in Teilmodelle zerlegt.
+
+---
 
 ### 1. Zauber-Interne Form entscheiden
 
-Zu klären:
+**Status:** Teilweise geklärt.
 
-- Sequenz?
-- Syntaxbaum?
-- Graph?
-- Komponentenobjekt?
-- Hybrid?
+Geklärt:
+
+- Jeder ausführbare Zauber besitzt mindestens eine Start-Glyphe bzw. einen Aktivierungsknoten.
+- Ohne expliziten Start-Modifier gilt `on_complete_execute_once`.
+- Startbedingungen, Verzögerungen, Vokalisierung, Gestik, Umweltbedingungen, Halten, Toggle, Dauerlimits, autonomer Quellenlauf, Wiederholung und Failsafes sind explizite syntaktische Bestandteile.
+- Ein reines Sequenz-, Baum- oder Graphmodell ist noch nicht final entschieden.
+
+Aktuelle starke Hypothese:
+
+```text
+Interne Zauberform = Komponentenobjekt + gerichteter Wirkungsgraph
+```
 
 Relevante Dokumente:
 
 - `docs/spell_system/spell_syntax.md`
+- `docs/spell_system/spell_lifecycle_and_activation.md`
 - `docs/spell_system/visual_spell_language.md`
 - `docs/spell_system/llm_spell_compiler.md`
 
+Nächster Teilfokus innerhalb von Issue #2:
+
+```text
+Wirkungs- und Zielmodell konkretisieren:
+Was ist ein Effect Node, was ist ein Target Node, und wie fließt Kontrolle/Energie zwischen ihnen?
+```
+
 ---
 
-### 2. Minimalen Prototyp konkretisieren
+### 2. Spell Editor als frühe Softwarekomponente konkretisieren
+
+**Status:** Feature-Hypothese / früher Prototypkandidat.
+
+Der Spell Editor soll drei Eingabeformen verbinden:
+
+- visuelle Graph-/Glyphenfläche,
+- textuelle Code-/IDE-Syntax,
+- Genie-Fenster für natürliche Sprache.
+
+Alle drei Formen sollen auf eine gemeinsame Zwischenstruktur zeigen:
+
+```text
+Visual Canvas ↔ SpellIR ↔ Code Editor
+                  ↑
+                  |
+             Genie Draft
+```
+
+Relevantes Dokument:
+
+- `docs/implementation/spell_editor_architecture.md`
+
+Offen:
+
+- konkrete Technologie,
+- Umfang des ersten Prototyps,
+- Verhältnis von SpellIR zu finaler Simulationsstruktur,
+- Grad automatischer Symmetrisierung/Stilisierung.
+
+---
+
+### 3. Minimalen Prototyp konkretisieren
 
 Zu klären bzw. umzusetzen:
 
@@ -107,16 +163,18 @@ Zu klären bzw. umzusetzen:
 - Temperatur-Overlay
 - lokale Material-/Wärmeeffekte
 - erste thaumische Zustandswerte für Speicher und Quellen
+- später: einfache SpellIR-zu-Simulation-Kopplung
 
 Relevante Dokumente:
 
 - `docs/world_model/2d_world_simulation_model.md`
 - `docs/world_model/world_cell_and_chunk_model.md`
 - `docs/implementation/material_simulation_benchmark.md`
+- `docs/implementation/spell_editor_architecture.md`
 
 ---
 
-### 3. Zielauswahl formalisieren
+### 4. Zielauswahl formalisieren
 
 Zu klären:
 
@@ -136,7 +194,7 @@ Relevante Dokumente:
 
 ---
 
-### 4. Informationskomponenten begrenzen
+### 5. Informationskomponenten begrenzen
 
 Zu klären:
 
@@ -159,25 +217,28 @@ Relevante Dokumente:
 
 ---
 
-### 5. Physische Zaubersyntax konkretisieren
+### 6. Physische Zaubersyntax konkretisieren
 
 Zu klären:
 
 - Mindestbestandteile
 - Parsermodell
 - Glyphen-/Graphenstruktur
+- Start-Glyphe und Trigger-Marker
+- Modus-Ringe für One-Shot, Held, Toggle, autonom und Repeat
 - Beschädigung und Fehlerfälle
 - Kopplungswirkung der Geometrie nach DD-010 und DD-011
 
 Relevante Dokumente:
 
 - `docs/spell_system/visual_spell_language.md`
+- `docs/spell_system/spell_lifecycle_and_activation.md`
 - `docs/representation_and_material_coupling/spell_geometry_and_material_coupling.md`
 - `docs/mana_and_energy/mana_and_thaumic_field_model.md`
 
 ---
 
-### 6. Thaumische Material- und Speicherwerte konkretisieren
+### 7. Thaumische Material- und Speicherwerte konkretisieren
 
 Zu klären:
 
@@ -208,20 +269,27 @@ Relevante Dokumente:
 
 ## 5. Nächster sinnvoller Einstieg
 
-Aus aktueller Sicht ist der beste nächste konkrete Arbeitsschritt weiterhin:
+Aus aktueller Sicht ist der nächste konkrete Arbeitsschritt innerhalb von Issue #2:
 
 ```text
-Issue #2 bearbeiten: Interne Form eines Zaubers bestimmen.
+Effect Node und Target Node definieren.
 ```
+
+Leitfragen:
+
+1. Was ist die kleinste Einheit einer Wirkung?
+2. Wie bindet eine Wirkung ihr Ziel?
+3. Fließt Energie direkt in die Wirkung, in die Zielbindung oder in beide?
+4. Sind Zielauswahl und Wirkung getrennte Knoten oder ein kombiniertes Interventionsobjekt?
+5. Wie wird aus `Ziel + Wirkung + Struktur` ein simulierbarer Eingriff in WorldCells, Materialien oder Objekte?
 
 Begründung:
 
-- Die interne Zauberform beeinflusst Parser, visuelle Sprache, LLM-Compiler, Fehlerdiagnose und Simulation.
-- Ohne diese Entscheidung bleiben viele andere Module abstrakt.
-- Eine gute Zwischenlösung könnte ein Hybridmodell aus Komponentenobjekt und Wirkungsgraph sein.
-- Nach DD-010 und DD-011 muss die interne Form später auch Energiequelle, thaumischen Fluss, Kopplungsgeometrie, Materialkopplung und Zielzustand sauber abbilden können.
+- Die Start-/Stop-Logik ist als erstes Submodell dokumentiert.
+- Ohne Ziel- und Wirkungsmodell bleibt der Wirkungsgraph abstrakt.
+- Zielauswahl verbindet Zaubersyntax direkt mit Weltmodell, Materialkatalog und Informationskosten.
 
-Direkt danach sollten Zielauswahl, minimaler 2D-Benchmark und die ersten thaumischen Materialwerte weiter konkretisiert werden.
+Direkt danach sollten Informationskomponenten und die erste SpellIR-Skizze konkretisiert werden.
 
 ---
 

@@ -1,6 +1,6 @@
 # Project Status and Next Steps
 
-**Stand:** 2026-07-13, 18:18 Europe/Berlin  
+**Stand:** 2026-07-14, 01:44 Europe/Berlin  
 **Status:** Arbeitsübersicht / Orientierungspunkt
 
 Dieses Dokument fasst den aktuellen Arbeitsstand von **Tajan's Thaumaturgie** zusammen und dient als Einstiegspunkt, wenn das Projekt nach einer Pause wieder aufgenommen wird.
@@ -11,9 +11,7 @@ Es ersetzt nicht die einzelnen Theorie-, Design- und Simulationsdokumente, sonde
 
 ## 1. Kurzstand
 
-Tajan's Thaumaturgie ist inzwischen kein loses Magiekonzept mehr, sondern ein streng material-, energie-, repräsentations- und kopplungsgebundenes Zauber-Programmiersystem.
-
-Aktueller Kern:
+Tajan's Thaumaturgie ist inzwischen ein streng material-, energie-, repräsentations- und kopplungsgebundenes Zauber-Programmiersystem.
 
 ```text
 Magie = regelgebundene Zustandsmanipulation
@@ -23,7 +21,7 @@ Magie = regelgebundene Zustandsmanipulation
 
 Standardmagie wirkt auf vorhandene Materie und deren Zustände. Ein Zauber ist nur ausführbar, wenn er formal gültig, bezahlbar, simulierbar und physisch-visuell repräsentiert ist.
 
-Nach DD-010 ist Mana kein Stoff und kein Teilchen, sondern nutzbarer thaumischer Arbeitsfluss aus realen Energiepotentialen.
+Aktueller thaumischer Energiepfad:
 
 ```text
 physikalisches Energiepotential
@@ -33,12 +31,22 @@ physikalisches Energiepotential
 → physikalische Quelle entlädt sich + Verluste
 ```
 
-Nach DD-011 kann Zaubergeometrie additiv, subtraktiv oder hybrid realisiert werden. Material und Grenzflächen bestimmen dabei nicht primär die logische Gültigkeit, sondern Kopplungsqualität, Entladerate, Stabilität und Fehlerverhalten.
-
-Nach DD-012 besitzt jeder ausführbare Zauber mindestens eine Start-Glyphe bzw. einen Aktivierungsknoten. Ohne expliziten Start-Modifier gilt:
+Der aktuelle Syntaxkern entwickelt sich zu:
 
 ```text
-on_complete_execute_once
+Interne Zauberform
+= Komponentenobjekt
++ typisierter gerichteter Wirkungsgraph
+```
+
+Bereits konkretisiert:
+
+```text
+ActivationNode
+→ TargetNode(s)
+→ EffectNode(s)
+→ StateChangeRequest(s)
+→ Validierung und Simulation
 ```
 
 ---
@@ -59,6 +67,13 @@ on_complete_execute_once
 | DD-010 | Mana nutzt ein thaumisches Feldpotential realer Energiequellen. | Festgelegt |
 | DD-011 | Zaubergeometrie koppelt material- und grenzflächenabhängig. | Festgelegt |
 | DD-012 | Zauber besitzen eine Start-Glyphe mit Default-Sofortausführung. | Festgelegt |
+| DD-013 | TargetNodes erzeugen explizite typisierte Zielmengen. | Festgelegt |
+| DD-014 | Primitive EffectNodes enthalten eine atomare Zustandsoperation. | Festgelegt |
+| DD-015 | Zauberlogik verbraucht eigene thaumische Steuerarbeit. | Festgelegt |
+| DD-016 | WorldCells sind räumliche Einheiten, keine Mindestmassen. | Festgelegt |
+| DD-017 | Der erste Prototyp verwendet eine 2D-Seitenansicht. | Festgelegt |
+| DD-018 | Starre Objekte und Flussmaterialien verwenden unterschiedliche Bewegungsmodelle. | Festgelegt |
+| DD-019 | Physikalische Größen bleiben SI-kompatibel und numerisch quantisierbar. | Festgelegt |
 
 Siehe: `project/design_decisions.md`
 
@@ -68,70 +83,200 @@ Siehe: `project/design_decisions.md`
 
 | Baustelle | Leitfrage | Relevante Dokumente |
 |---|---|---|
-| Magie-Theorie und Grundsystem | Was ist Magie, wie werden Zauber formal konstruiert und begrenzt? | `docs/foundations/magic_ontology.md`, `docs/spell_system/spell_syntax.md`, `docs/spell_system/spell_lifecycle_and_activation.md`, `docs/spell_system/modifiers_and_operators.md` |
-| Mana, Energie und Kopplung | Was bezahlt magische Arbeit und wie wird sie gespeichert, geleitet und begrenzt? | `docs/mana_and_energy/energy_costs_limits.md`, `docs/mana_and_energy/mana_and_thaumic_field_model.md`, `docs/mana_and_energy/focus_media_and_artifacts.md` |
+| Magie-Theorie und Grundsystem | Was ist Magie und wie werden Zauber formal konstruiert? | `docs/foundations/magic_ontology.md`, `docs/spell_system/spell_syntax.md` |
+| Zauberlebenszyklus | Wie starten, laufen und enden Zauber? | `docs/spell_system/spell_lifecycle_and_activation.md` |
+| Ziel- und Wirkungsmodell | Wie werden Ziele gebunden und atomare Zustandsänderungen angefordert? | `docs/spell_system/target_and_effect_node_model.md` |
+| Mana, Energie und Kopplung | Was bezahlt magische Arbeit und wie wird sie geleitet? | `docs/mana_and_energy/energy_costs_limits.md`, `docs/mana_and_energy/mana_and_thaumic_field_model.md` |
 | Physische Repräsentation | Wie wirken Zauberbilder als reale Kopplungsstrukturen? | `docs/spell_system/visual_spell_language.md`, `docs/representation_and_material_coupling/spell_geometry_and_material_coupling.md` |
-| Physik und Materialwelt | Wie sieht eine manipulierbare Welt aus, auf die Magie kausal wirken kann? | `docs/world_model/material_world_model.md`, `docs/world_model/2d_world_simulation_model.md`, `docs/world_model/world_cell_and_chunk_model.md` |
-| Technische Implementation | Wie wird daraus ein testbarer 2D-Prototyp mit eigener Simulation und Spell Editor? | `docs/implementation/engine_and_framework_evaluation.md`, `docs/implementation/material_simulation_benchmark.md`, `docs/implementation/spell_editor_architecture.md`, `prototype/2d/` |
+| Physik und Materialwelt | Wie sieht eine manipulierbare, quantisierte Welt aus? | `docs/world_model/material_world_model.md`, `docs/world_model/world_resolution_and_quantity_model.md` |
+| Technische Implementation | Wie wird daraus ein testbarer 2D-Prototyp und Spell Editor? | `docs/implementation/material_simulation_benchmark.md`, `docs/implementation/spell_editor_architecture.md` |
 
 ---
 
-## 4. Wichtigster aktueller Arbeitsfokus
+## 4. Issue #2 — Interne Form eines Zaubers
 
-Der nächste wirklich sinnvolle Fokus ist weiterhin:
+**Status:** Deutlich teilweise geklärt.
 
-```text
-Von Theorie-Grundsatz → zu minimalem simulierbarem Kern
-```
-
-Issue #2 wird jetzt sukzessiv in Teilmodelle zerlegt.
-
----
-
-### 1. Zauber-Interne Form entscheiden
-
-**Status:** Teilweise geklärt.
+### 4.1 Aktivierung und Beendigung
 
 Geklärt:
 
-- Jeder ausführbare Zauber besitzt mindestens eine Start-Glyphe bzw. einen Aktivierungsknoten.
+- Jeder ausführbare Zauber besitzt mindestens einen ActivationNode bzw. eine Start-Glyphe.
 - Ohne expliziten Start-Modifier gilt `on_complete_execute_once`.
-- Startbedingungen, Verzögerungen, Vokalisierung, Gestik, Umweltbedingungen, Halten, Toggle, Dauerlimits, autonomer Quellenlauf, Wiederholung und Failsafes sind explizite syntaktische Bestandteile.
-- Ein reines Sequenz-, Baum- oder Graphmodell ist noch nicht final entschieden.
+- Verzögerung, Vokalisierung, Gestik, Umweltbedingungen, Halten, Toggle, Dauerlimit, autonomer Quellenlauf, Wiederholung und Failsafes sind explizite syntaktische Bestandteile.
 
-Aktuelle starke Hypothese:
+### 4.2 Zielauswahl
 
-```text
-Interne Zauberform = Komponentenobjekt + gerichteter Wirkungsgraph
-```
-
-Relevante Dokumente:
-
-- `docs/spell_system/spell_syntax.md`
-- `docs/spell_system/spell_lifecycle_and_activation.md`
-- `docs/spell_system/visual_spell_language.md`
-- `docs/spell_system/llm_spell_compiler.md`
-
-Nächster Teilfokus innerhalb von Issue #2:
+Geklärt:
 
 ```text
-Wirkungs- und Zielmodell konkretisieren:
-Was ist ein Effect Node, was ist ein Target Node, und wie fließt Kontrolle/Energie zwischen ihnen?
+TargetNode → TargetSet
 ```
+
+TargetNodes definieren mindestens:
+
+- Selektor
+- Anker
+- Suchraum
+- Filter
+- Granularität
+- Bindungsmodus
+- Aktualisierung
+- Zugriffsvoraussetzungen
+- Fehlerverhalten
+
+Mögliche Referenzen:
+
+```text
+ObjectRef
+CellRef
+CellRegionRef
+SurfaceRef
+MaterialFractionRef
+PointRef
+BiologicalRegionRef
+```
+
+Bindungsmodi:
+
+```text
+snapshot
+live
+```
+
+Live-Bindung verursacht zusätzliche Such-, Bindungs- und Steuerkosten.
+
+### 4.3 Wirkungen
+
+Geklärt:
+
+- Ein primitiver EffectNode enthält genau eine atomare Zustandsoperation.
+- Mehrere Effekte werden durch parallele oder sequenzielle Graphzweige kombiniert.
+- Makros dürfen Teilgraphen kompakt darstellen, werden für Kosten und Prüfung aber expandiert.
+- Physikalisch gekoppelte Gegenänderungen dürfen Teil derselben Transferoperation sein.
+
+Vorläufige Effect-Domänen:
+
+- mechanisch-kinematisch
+- mechanisch-strukturell
+- thermisch
+- elektrisch in Materie
+- kompositionell / transportbezogen
+- chemisch
+- phasenbezogen
+- nuklear
+
+Informationsoperationen werden als Query-/Analysis-Nodes modelliert. Biologische und kognitive Zauber sind keine elementaren Standardprimitive, sondern komplexe Makros über materiellen und informationsbezogenen Operationen.
+
+### 4.4 StateChangeRequest
+
+```text
+EffectNode
+→ StateChangeRequest
+→ Regel-, Kosten- und Erhaltungsprüfung
+→ SimulationCore
+```
+
+Der EffectNode verändert die Welt nicht unmittelbar. Er fordert eine prüfbare Zustandsänderung an.
+
+### 4.5 Kosten
+
+```text
+Gesamtarbeit =
+    physikalische Effektarbeit
+  + Zielerfassung und Zielbindung
+  + Steuer- und Präzisionsarbeit
+  + Kopplungsverluste
+  + Sicherheits- und Prüfoperationen
+  + kontinuierliche Laufzeitkosten
+  + Nebenproduktbehandlung
+```
+
+Kosten richten sich nach dem expandierten internen Graphen, nicht nach der sichtbaren Zahl der Editor-Knoten.
 
 ---
 
-### 2. Spell Editor als frühe Softwarekomponente konkretisieren
+## 5. Welt- und Simulationsmodell
 
-**Status:** Feature-Hypothese / früher Prototypkandidat.
+### 5.1 Grundansicht
 
-Der Spell Editor soll drei Eingabeformen verbinden:
+Der erste Prototyp verwendet eine 2D-Seitenansicht.
 
-- visuelle Graph-/Glyphenfläche,
-- textuelle Code-/IDE-Syntax,
-- Genie-Fenster für natürliche Sprache.
+Optional:
 
-Alle drei Formen sollen auf eine gemeinsame Zwischenstruktur zeigen:
+```text
+Hintergrund
+Hauptebene
+Vordergrund
+```
+
+als diskrete Tiefenebenen, nicht als kontinuierliche 3D-Achse.
+
+### 5.2 Getrennte Auflösungen
+
+```text
+WorldCell-Größe
+≠ Mindestmasse
+≠ Mindeststoffanteil
+≠ Mindestenergie
+≠ Positionsauflösung
+```
+
+Sub-Zell-Massen und Stofffraktionen bleiben erhalten. Ein Spurengas kann innerhalb einer Luftzelle existieren und über mehrere Zellen akkumuliert werden, ohne vorher ein sichtbares Pixel zu bilden.
+
+### 5.3 Bewegungsmodell
+
+```text
+starre Objekte:
+Sub-Zell-Position + kontinuierliche Geschwindigkeit + rasterisierte Belegung
+
+Granulate / Flüssigkeiten / Gase:
+zellbasierter Massen-, Impuls- und Energietransfer
+```
+
+### 5.4 Numerische Einheiten
+
+Semantische Größen bleiben SI-kompatibel.
+
+Bevorzugte Arbeits- und Anzeigeeinheiten:
+
+- Meter
+- Gramm
+- Sekunde
+- Kelvin
+- Joule
+- Newton
+- Watt
+
+Starke Implementationshypothese:
+
+```text
+Fixed-Point-Integer
++ interne Energiequanten kleiner als 1 J
++ erster Benchmark mit Millijoule
+```
+
+### 5.5 Kompositionsspeicherung
+
+Empfohlene technische Richtung:
+
+```text
+kleiner Inline-Komponentenspeicher
++ externer CompositionPool
++ Copy-on-Write für häufige Gemische
+```
+
+Es gibt kein semantisches Stofflimit pro Zelle. Die konkrete schnelle Inline-Kapazität, z. B. vier oder acht Komponenten, bleibt eine Benchmarkentscheidung.
+
+---
+
+## 6. Spell Editor
+
+Der Spell Editor bleibt ein früher Prototypkandidat und verbindet:
+
+- visuelle Graph-/Glyphenfläche
+- textuelle Code-/IDE-Syntax
+- Genie-Fenster für natürliche Sprache
 
 ```text
 Visual Canvas ↔ SpellIR ↔ Code Editor
@@ -140,160 +285,42 @@ Visual Canvas ↔ SpellIR ↔ Code Editor
              Genie Draft
 ```
 
+Die neuen TargetNode-, EffectNode- und StateChangeRequest-Verträge liefern erste konkrete Typen für `SpellIR`.
+
 Relevantes Dokument:
 
 - `docs/implementation/spell_editor_architecture.md`
 
-Offen:
-
-- konkrete Technologie,
-- Umfang des ersten Prototyps,
-- Verhältnis von SpellIR zu finaler Simulationsstruktur,
-- Grad automatischer Symmetrisierung/Stilisierung.
-
 ---
 
-### 3. Minimalen Prototyp konkretisieren
+## 7. Wichtigster nächster Arbeitsschritt
 
-Zu klären bzw. umzusetzen:
-
-- Weltzellen
-- Chunks
-- fallender Sand
-- Temperatur-Overlay
-- lokale Material-/Wärmeeffekte
-- erste thaumische Zustandswerte für Speicher und Quellen
-- später: einfache SpellIR-zu-Simulation-Kopplung
-
-Relevante Dokumente:
-
-- `docs/world_model/2d_world_simulation_model.md`
-- `docs/world_model/world_cell_and_chunk_model.md`
-- `docs/implementation/material_simulation_benchmark.md`
-- `docs/implementation/spell_editor_architecture.md`
-
----
-
-### 4. Zielauswahl formalisieren
-
-Zu klären:
-
-- Punkt
-- Radius
-- Objekt-ID
-- Materialklasse
-- Relation
-- Sichtlinie
-- Bibliotheksdefinition
-
-Relevante Dokumente:
-
-- `docs/spell_system/spell_syntax.md`
-- `docs/spell_system/spell_libraries_and_references.md`
-- `docs/world_model/material_world_model.md`
-
----
-
-### 5. Informationskomponenten begrenzen
-
-Zu klären:
-
-- Suchen
-- Filtern
-- Sortieren
-- Erkennen
-- Ausweichen
-
-Leitfrage:
+Der TargetNode-Vertrag ist definiert. Der nächste konkrete Schritt innerhalb von Issue #2 ist nun:
 
 ```text
-Wie verhindert das System allwissende Analyse-, Such- oder Zielzauber?
+Einen primitiven EffectNode vollständig gegentesten:
+TransferThermalEnergy
+am Beispiel
+„Erhitze eine definierte Wassermenge um 10 K.“
 ```
 
-Relevante Dokumente:
+Dabei zu klären:
 
-- `docs/spell_system/information_processing_spell_components.md`
-- `project/open_questions.md`
+1. Welche Zielrollen benötigt `TransferThermalEnergy`?
+2. Ist `delta_temperature` oder `energy_amount` der primäre Parameter?
+3. Wie werden Masse und Wärmekapazität aus dem TargetSet ermittelt?
+4. Woher kommt die Energie?
+5. Wie werden Kopplungsverluste und Abwärme behandelt?
+6. Wird die Gesamtenergie vorab reserviert oder kontinuierlich übertragen?
+7. Was geschieht bei unzureichender Energie: Abbruch, Teilwirkung oder proportionale Wirkung?
+8. Wie wird der resultierende `StateChangeRequest` strukturiert?
+9. Welche visuelle Glyphe und welche Code-Syntax repräsentieren diesen Knoten?
 
----
-
-### 6. Physische Zaubersyntax konkretisieren
-
-Zu klären:
-
-- Mindestbestandteile
-- Parsermodell
-- Glyphen-/Graphenstruktur
-- Start-Glyphe und Trigger-Marker
-- Modus-Ringe für One-Shot, Held, Toggle, autonom und Repeat
-- Beschädigung und Fehlerfälle
-- Kopplungswirkung der Geometrie nach DD-010 und DD-011
-
-Relevante Dokumente:
-
-- `docs/spell_system/visual_spell_language.md`
-- `docs/spell_system/spell_lifecycle_and_activation.md`
-- `docs/representation_and_material_coupling/spell_geometry_and_material_coupling.md`
-- `docs/mana_and_energy/mana_and_thaumic_field_model.md`
+Danach können mechanische und kompositionelle EffectNodes dagegen getestet werden.
 
 ---
 
-### 7. Thaumische Material- und Speicherwerte konkretisieren
-
-Zu klären:
-
-- `mana_capacity`
-- `mana_charge`
-- `thaumic_potential`
-- `mana_conductivity`
-- `mana_leakage`
-- `mana_conversion_efficiency`
-- `mana_discharge_rate`
-- `mana_overload_threshold`
-
-Leitfrage:
-
-```text
-Welche Mana-relevanten Materialattribute sind für den ersten Prototyp wirklich nötig?
-```
-
-Relevante Dokumente:
-
-- `docs/mana_and_energy/energy_costs_limits.md`
-- `docs/mana_and_energy/focus_media_and_artifacts.md`
-- `docs/mana_and_energy/mana_and_thaumic_field_model.md`
-- `docs/representation_and_material_coupling/spell_geometry_and_material_coupling.md`
-- `project/open_questions.md` OQ-025 bis OQ-027
-
----
-
-## 5. Nächster sinnvoller Einstieg
-
-Aus aktueller Sicht ist der nächste konkrete Arbeitsschritt innerhalb von Issue #2:
-
-```text
-Effect Node und Target Node definieren.
-```
-
-Leitfragen:
-
-1. Was ist die kleinste Einheit einer Wirkung?
-2. Wie bindet eine Wirkung ihr Ziel?
-3. Fließt Energie direkt in die Wirkung, in die Zielbindung oder in beide?
-4. Sind Zielauswahl und Wirkung getrennte Knoten oder ein kombiniertes Interventionsobjekt?
-5. Wie wird aus `Ziel + Wirkung + Struktur` ein simulierbarer Eingriff in WorldCells, Materialien oder Objekte?
-
-Begründung:
-
-- Die Start-/Stop-Logik ist als erstes Submodell dokumentiert.
-- Ohne Ziel- und Wirkungsmodell bleibt der Wirkungsgraph abstrakt.
-- Zielauswahl verbindet Zaubersyntax direkt mit Weltmodell, Materialkatalog und Informationskosten.
-
-Direkt danach sollten Informationskomponenten und die erste SpellIR-Skizze konkretisiert werden.
-
----
-
-## 6. Offener Arbeitsmodus
+## 8. Offener Arbeitsmodus
 
 Bei neuen Notizen weiterhin konsequent unterscheiden:
 

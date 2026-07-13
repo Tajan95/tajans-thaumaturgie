@@ -1,6 +1,6 @@
 # Tajan's Thaumaturgie
 
-**Stand:** 2026-07-09, Europe/Berlin  
+**Stand:** 2026-07-13, 18:18 Europe/Berlin  
 **Status:** Frühe Systemarchitektur / Theorie- und Prototypingphase
 
 **Tajan's Thaumaturgie** ist ein Projekt zur Entwicklung eines granularen, modularen und formal ableitbaren Magie-Systems.
@@ -37,6 +37,8 @@ Aktuell festgelegt:
 - Jeder ausführbare Zauber benötigt eine physische visuelle Repräsentation, z. B. Schriftrolle, Gravur, Zeichnung, Ritualkreis oder Tattoo.
 - Physische Zaubergeometrien sind reale Kopplungsstrukturen für thaumische Potentiale.
 - Zaubergeometrie kann additiv, subtraktiv oder hybrid realisiert werden; Material bestimmt die Kopplungsqualität.
+- Jeder ausführbare Zauber besitzt mindestens eine Start-Glyphe bzw. einen Aktivierungsknoten.
+- Ohne expliziten Start-Modifier gilt: `on_complete_execute_once`.
 - Ein LLM/Genie-System kann beim Übersetzen natürlicher Sprache in formale Zauberstruktur helfen, ist aber nicht die Regelautorität.
 - Makro-Zauber sind Komfortschichten; ihre Effizienz entsteht emergent aus ihrer Struktur.
 - Zauberbibliotheken verwenden ein Hybridmodell aus systemisch verfügbaren Grundprimitiven, memorisierten Makros und lokal/importierten Spezialdefinitionen.
@@ -60,6 +62,7 @@ Wichtige Einstiegspunkte:
 5. Entwicklung einer manipulierbaren materiellen Welt als Simulationsgrundlage.
 6. Vorbereitung einer digitalen Simulation, zunächst in 2D, später optional in 3D.
 7. Prüfung, ob ein LLM-gestützter Zauber-Compiler als Interface zwischen natürlicher Sprache und formaler Zaubersyntax dienen kann.
+8. Entwicklung eines Spell Editors, der visuelle Zauberstruktur, textuelle Syntax und Genie-Interface synchronisiert.
 
 ---
 
@@ -117,10 +120,19 @@ Neue Ideen werden nach Möglichkeit in diese Kategorien einsortiert:
 
 ## Aktueller nächster sinnvoller Einstieg
 
-Aus aktuellem Stand ist der beste nächste konkrete Arbeitsschritt:
+Issue #2 wird aktuell schrittweise bearbeitet.
+
+Bereits dokumentiert:
 
 ```text
-Issue #2 bearbeiten: Interne Form eines Zaubers bestimmen.
+Activation & Termination Model
+= Wie wird ein Zauber scharfgeschaltet, gestartet, gehalten und beendet?
 ```
 
-Diese Entscheidung beeinflusst Parser, visuelle Sprache, LLM-Compiler, Fehlerdiagnose und Simulation. Eine plausible Zwischenrichtung ist ein Hybridmodell aus Komponentenobjekt und Wirkungsgraph, muss aber noch sauber ausgearbeitet werden.
+Nächster granularer Schritt:
+
+```text
+Effect Node und Target Node definieren.
+```
+
+Diese Entscheidung klärt, was die kleinste Einheit einer Wirkung ist, wie Zielauswahl formal an Wirkung gekoppelt wird und wie daraus später ein simulierbarer Eingriff in WorldCells, Materialien oder Objekte entsteht.

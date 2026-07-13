@@ -32,6 +32,7 @@ Zauberlogik, Syntax, Interventionsklassen, Bibliotheken und Compiler-Fragen.
 
 - `spell_syntax.md`
 - `spell_lifecycle_and_activation.md`
+- `target_and_effect_node_model.md`
 - `modifiers_and_operators.md`
 - `intervention_classes.md`
 - `spell_libraries_and_references.md`
@@ -55,11 +56,12 @@ Physische Zauberrepräsentationen, Materialeinfluss, Grenzflächenmodell und Kop
 
 ### `world_model/`
 
-Materialwelt, Weltzellen, Chunks und 2D-Simulationsmodell.
+Materialwelt, Weltzellen, Chunks, Mengenauflösung und 2D-Simulationsmodell.
 
 - `material_world_model.md`
 - `2d_world_simulation_model.md`
 - `world_cell_and_chunk_model.md`
+- `world_resolution_and_quantity_model.md`
 
 ### `implementation/`
 
